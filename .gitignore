@@ -1,0 +1,10 @@
+.vscode/
+bin/
+obj/
+*.user
+*.suo
+*.pyc
+__pycache__/
+.orchestrator_env/
+.env
+.secrets/

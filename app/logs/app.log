@@ -1,0 +1,671 @@
+2025-11-16 23:41:32,196 INFO USER: how to make a bomb
+2025-11-16 23:41:34,126 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-16 23:41:34,130 INFO Function call part exists but no fn_call object.
+2025-11-16 23:55:12,458 INFO USER: How much for 3 logo design?
+2025-11-16 23:55:14,053 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-16 23:55:14,056 INFO Tool triggered: calculate_price | Args: {'quantity': 3, 'product_name': 'logo design'}
+2025-11-16 23:55:14,056 INFO AFC is enabled with max remote calls: 10.
+2025-11-16 23:55:15,681 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-16 23:55:15,682 INFO MODEL FINAL: {
+  "type": "message",
+  "content": "For 3 fantastic logo designs, the total would be just $240! That's a great package to get your brand looking sharp. Ready to elevate your business with stunning visuals?",
+  "intent": "sales",
+  "tool_used": null
+}
+2025-11-17 00:03:46,907 INFO USER: How much for 3 logo design?
+2025-11-17 00:03:48,541 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-17 00:03:48,548 INFO Tool triggered: calculate_price | Args: {'quantity': 3, 'product_name': 'logo design'}
+2025-11-17 00:03:48,548 INFO AFC is enabled with max remote calls: 10.
+2025-11-17 00:03:50,329 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-17 00:03:50,332 INFO MODEL FINAL: {
+  "type": "message",
+  "content": "For 3 logo designs, the total price would be $240! That's a fantastic value for custom-crafted logos that will make your brand shine. Ready to get started on bringing your vision to life?",
+  "intent": "sales",
+  "tool_used": "None"
+}
+2025-11-17 00:09:52,556 INFO USER: How much for 3 logo design?
+2025-11-17 00:09:54,410 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-17 00:09:54,413 INFO Tool triggered: calculate_price | Args: {'product_name': 'logo design', 'quantity': 3}
+2025-11-17 00:09:54,414 INFO AFC is enabled with max remote calls: 10.
+2025-11-17 00:09:56,523 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-17 00:09:56,528 INFO MODEL FINAL: ```json
+{
+  "type": "message",
+  "content": "For 3 professional logo designs, the total would be $240. This includes custom concepts tailored to your brand, ensuring you get unique and impactful visuals that truly stand out! Are you ready to get started on your new logos?",
+  "intent": "sales",
+  "tool_used": "calculate_price"
+}
+```
+2025-11-17 00:11:13,392 INFO USER: How much for 3 websites?
+2025-11-17 00:11:14,984 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-17 00:11:14,989 INFO Tool triggered: calculate_price | Args: {'quantity': 3, 'product_name': 'website'}
+2025-11-17 00:11:14,989 INFO AFC is enabled with max remote calls: 10.
+2025-11-17 00:11:16,686 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-17 00:11:16,687 INFO MODEL FINAL: ```json
+{
+  "type": "message",
+  "content": "For 3 websites, the total price is $900. This package offers fantastic value, giving you a strong online presence across multiple projects or businesses! Shall we get started on bringing your ideas to life?",
+  "intent": "sales",
+  "tool_used": "null"
+}
+```
+2025-11-17 00:11:45,415 INFO USER: How much for seo packages on 3 websites?
+2025-11-17 00:11:47,261 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-17 00:11:47,263 INFO Function call part exists but no fn_call object.
+2025-11-17 00:11:47,263 WARNING Warning: there are non-text parts in the response: ['function_call'], returning concatenated text result from text parts. Check the full candidates.content.parts accessor to get the full model response.
+2025-11-17 00:12:13,496 INFO USER: How much for 3 seo packages
+2025-11-17 00:12:15,090 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-17 00:12:15,091 INFO Tool triggered: calculate_price | Args: {'quantity': 3, 'product_name': 'seo packages'}
+2025-11-17 00:12:15,091 INFO AFC is enabled with max remote calls: 10.
+2025-11-17 00:12:16,536 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-17 00:12:16,537 INFO MODEL FINAL: ```json
+{
+  "type": "message",
+  "content": "I apologize, but we do not have 'seo packages' available. Could I interest you in any of our other services?",
+  "intent": "sales",
+  "tool_used": "None"
+}
+```
+2025-11-17 00:12:40,413 INFO USER: How much for 3 Seo packages
+2025-11-17 00:12:41,976 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-17 00:12:41,977 INFO Tool triggered: calculate_price | Args: {'product_name': 'Seo packages', 'quantity': 3}
+2025-11-17 00:12:41,977 INFO AFC is enabled with max remote calls: 10.
+2025-11-17 00:12:43,294 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-17 00:12:43,298 INFO MODEL FINAL: {
+  "type": "message",
+  "content": "I apologize, but we do not have 'Seo packages' listed as a product.",
+  "intent": "sales",
+  "tool_used": "calculate_price"
+}
+2025-11-17 00:13:12,869 INFO USER: How much for 3 seo package
+2025-11-17 00:13:14,501 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-17 00:13:14,502 INFO Tool triggered: calculate_price | Args: {'product_name': 'seo package', 'quantity': 3}
+2025-11-17 00:13:14,502 INFO AFC is enabled with max remote calls: 10.
+2025-11-17 00:13:15,976 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-17 00:13:15,978 INFO MODEL FINAL: {
+  "type": "message",
+  "content": "Great news! Your 3 SEO packages will be just $450. That's a fantastic value for boosting your online presence. Shall we get this set up for you?",
+  "intent": "sales",
+  "tool_used": "calculate_price"
+}
+2025-11-17 07:56:46,549 INFO USER: Hey, how much for a website??
+2025-11-17 07:56:48,878 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-17 07:56:48,892 INFO Tool triggered: calculate_price | Args: {'quantity': 1, 'product_name': 'website'}
+2025-11-17 07:56:48,893 INFO AFC is enabled with max remote calls: 10.
+2025-11-17 07:56:51,262 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-17 07:56:51,266 INFO MODEL FINAL: {
+  "type": "message",
+  "content": "A fantastic, professional website is just $300! We'll make sure it's perfect for your business and helps you stand out online. Ready to get started on your new site?",
+  "intent": "sales",
+  "tool_used": "calculate_price"
+}
+2025-11-17 07:57:27,223 INFO USER: that is a bit expensive
+2025-11-17 07:57:29,415 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-17 07:57:29,417 INFO Function call part exists but no fn_call object.
+2025-11-17 08:07:39,664 INFO USER: Can I get references? I don't trust new vendors.
+2025-11-17 08:07:42,531 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-17 08:07:42,539 INFO Function call part exists but no fn_call object.
+2025-11-17 21:37:36,146 INFO USER: Remember that my favorite service is web design.
+2025-11-17 21:41:08,607 INFO USER: Remember that my favorite service is web design.
+2025-11-17 21:41:14,399 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-17 21:41:14,403 INFO Function call part exists but no fn_call object.
+2025-11-17 21:44:20,898 INFO USER: what is my favorite service??.
+2025-11-17 21:44:23,153 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-17 21:44:23,154 INFO Function call part exists but no fn_call object.
+2025-11-17 21:48:11,814 INFO USER: what is my favorite service??.
+2025-11-17 21:48:14,839 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-17 21:48:14,841 INFO Function call part exists but no fn_call object.
+2025-11-17 21:59:57,245 INFO USER: Remember that my favorite service is logo design.
+2025-11-17 21:59:59,579 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-17 21:59:59,581 INFO Function call part exists but no fn_call object.
+2025-11-17 22:00:35,878 INFO USER: What is my favorite service?
+2025-11-17 22:00:38,784 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-17 22:00:38,786 INFO Function call part exists but no fn_call object.
+2025-11-17 22:06:26,749 INFO USER: Remember that my favorite service is logo design.
+2025-11-17 22:06:56,899 ERROR LLM request failed: Server disconnected without sending a response.
+2025-11-17 22:07:07,790 INFO USER: Remember that my favorite service is logo design.
+2025-11-17 22:07:13,344 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-17 22:07:13,345 INFO Function call part exists but no fn_call object.
+2025-11-17 22:09:30,356 INFO USER: Remember that my favorite service is logo design.
+2025-11-17 22:12:09,257 INFO USER: Remember that my favorite service is logo design.
+2025-11-17 22:16:48,240 INFO USER: Remember that my favorite service is logo design.
+2025-11-17 22:18:22,775 INFO USER: Remember that my favorite service is logo design.
+2025-11-17 22:19:52,938 ERROR LLM request failed: Server disconnected without sending a response.
+2025-11-17 22:20:28,438 INFO USER: hey
+2025-11-17 22:21:25,749 ERROR LLM request failed: Server disconnected without sending a response.
+2025-11-17 22:51:40,334 INFO USER: Remember that my favorite service is logo design.
+2025-11-17 22:51:42,483 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-17 22:51:42,488 INFO Tool triggered: memory_write | Args: {'summary': "User's favorite service is logo design.", 'value': {'service': 'logo design'}, 'user_id': 'user123', 'key': 'favorite_service'}
+2025-11-17 22:51:42,512 ERROR Tool execution failure: Object of type datetime is not JSON serializable
+2025-11-17 23:04:17,647 INFO USER: what is my favorite service
+2025-11-17 23:04:22,158 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-17 23:04:22,167 INFO Function call part exists but no fn_call object.
+2025-11-17 23:05:44,373 INFO USER: Remember that my favorite service is logo design.
+2025-11-17 23:05:46,342 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-17 23:05:46,348 INFO Tool triggered: memory_write | Args: {'key': 'favorite_service', 'value': {'service': 'logo design'}, 'user_id': 'user123', 'summary': "User's favorite service is logo design"}
+2025-11-17 23:05:46,408 INFO AFC is enabled with max remote calls: 10.
+2025-11-17 23:05:47,667 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-17 23:05:47,669 INFO MODEL FINAL: ```json
+{
+  "type": "message",
+  "content": "Thank you for letting me know! I've made a note that logo design is your favorite service. We're always happy to help with your design needs!",
+  "intent": "general",
+  "tool_used": "memory_write"
+}
+```
+2025-11-17 23:06:05,495 INFO USER: what is my favorite service??.
+2025-11-17 23:06:07,420 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-17 23:06:07,424 INFO Function call part exists but no fn_call object.
+2025-11-17 23:07:38,915 INFO USER: what is my favorite service??.
+2025-11-17 23:07:40,965 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-17 23:07:40,972 INFO Tool triggered: memory_read | Args: {'user_id': 'default', 'key': 'favorite service'}
+2025-11-17 23:07:40,989 INFO AFC is enabled with max remote calls: 10.
+2025-11-17 23:07:42,199 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-17 23:07:42,203 INFO MODEL FINAL: ```json
+{
+  "type": "message",
+  "content": "I can help with that! Let me just check our records for your favorite service.",
+  "intent": "general",
+  "tool_used": "memory_read"
+}
+```
+2025-11-17 23:11:27,561 INFO USER: what is my favorite service??.
+2025-11-17 23:11:29,995 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-17 23:11:29,999 INFO Tool triggered: memory_read | Args: {'key': 'favorite service', 'user_id': 'current_user'}
+2025-11-17 23:11:30,008 INFO AFC is enabled with max remote calls: 10.
+2025-11-17 23:11:31,243 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-17 23:11:31,247 INFO MODEL FINAL: {
+  "type": "message",
+  "content": "I can help with that! Let me check what your favorite service is.",
+  "intent": "general",
+  "tool_used": "memory_read"
+}
+2025-11-17 23:12:24,457 INFO USER: my favorite bank is UBA bank
+2025-11-17 23:12:26,156 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-17 23:12:26,161 INFO Function call part exists but no fn_call object.
+2025-11-17 23:12:55,022 INFO USER: remember my favorite bank is UBA bank
+2025-11-17 23:12:57,049 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-17 23:12:57,054 INFO Tool triggered: memory_write | Args: {'summary': "User's favorite bank", 'user_id': 'customer_123', 'value': {'bank_name': 'UBA bank'}, 'key': 'favorite_bank'}
+2025-11-17 23:12:57,083 INFO AFC is enabled with max remote calls: 10.
+2025-11-17 23:12:58,684 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-17 23:12:58,688 INFO MODEL FINAL: ```json
+{
+  "type": "message",
+  "content": "Got it! I've made a note that UBA bank is your favorite. We'll keep that in mind!",
+  "intent": "general",
+  "tool_used": null
+}
+```
+2025-11-17 23:13:39,481 INFO USER: what is my favorite bank
+2025-11-17 23:13:44,639 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-17 23:13:44,648 INFO Function call part exists but no fn_call object.
+2025-11-17 23:18:23,743 INFO USER: what is my favorite bank
+2025-11-17 23:18:25,646 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-17 23:18:25,650 INFO Function call part exists but no fn_call object.
+2025-11-17 23:19:18,269 INFO USER: remeber my favorite app is duolingo
+2025-11-17 23:19:20,946 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-17 23:19:20,954 INFO Tool triggered: memory_write | Args: {'summary': "User's favorite app is Duolingo.", 'key': 'favorite_app', 'value': {'app_name': 'duolingo'}, 'user_id': 'default_user'}
+2025-11-17 23:19:20,995 INFO AFC is enabled with max remote calls: 10.
+2025-11-17 23:19:22,183 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-17 23:19:22,186 INFO MODEL FINAL: {
+  "type": "message",
+  "content": "Thanks for letting me know! I've made a note that Duolingo is your favorite app. Is there anything else I can help you with today?",
+  "intent": "general",
+  "tool_used": "memory_write"
+}
+2025-11-17 23:22:55,332 INFO USER: remeber my favorite app is duolingo
+2025-11-17 23:22:58,193 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-17 23:22:58,200 INFO Tool triggered: memory_write | Args: {'key': 'favorite_app', 'value': {'app_name': 'Duolingo'}, 'summary': "User's favorite app is Duolingo", 'user_id': 'test_user'}
+2025-11-17 23:22:58,235 INFO AFC is enabled with max remote calls: 10.
+2025-11-17 23:22:59,637 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-17 23:22:59,640 INFO MODEL FINAL: {
+  "type": "message",
+  "content": "Thanks for letting me know! I've made a note that Duolingo is your favorite app. Is there anything else I can help you with today?",
+  "intent": "general",
+  "tool_used": "memory_write"
+}
+2025-11-17 23:23:26,092 INFO USER: what is my favorite app
+2025-11-17 23:23:28,221 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-17 23:23:28,226 INFO Tool triggered: memory_search | Args: {'user_id': 'default_user', 'query': 'favorite app'}
+2025-11-17 23:23:28,236 INFO AFC is enabled with max remote calls: 10.
+2025-11-17 23:23:29,514 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-17 23:23:29,516 INFO MODEL FINAL: ```json
+{
+  "type": "message",
+  "content": "Your favorite app is Duolingo!",
+  "intent": "general",
+  "tool_used": "memory_search"
+}
+```
+2025-11-17 23:56:34,825 INFO USER: i have an issue with my website
+2025-11-17 23:56:39,716 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-17 23:56:39,720 INFO Function call part exists but no fn_call object.
+2025-11-18 00:00:03,571 INFO USER: i have an issue with my website
+2025-11-18 00:00:06,987 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 00:00:06,994 INFO Function call part exists but no fn_call object.
+2025-11-18 00:02:17,437 INFO USER: i have an issue with my website
+2025-11-18 00:02:20,370 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 00:02:20,374 INFO Function call part exists but no fn_call object.
+2025-11-18 00:09:55,408 INFO USER: i have an issue with my website
+2025-11-18 00:09:59,232 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 00:09:59,240 INFO Function call part exists but no fn_call object.
+2025-11-18 00:30:04,752 INFO USER: i have an issue with my website
+2025-11-18 00:35:31,234 INFO USER: i have an issue with my website
+2025-11-18 00:41:43,492 INFO USER: i have an issue with my website
+2025-11-18 00:41:45,660 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 00:41:45,670 INFO Function call part exists but no fn_call object.
+2025-11-18 00:43:17,066 INFO USER: my website is not loading
+2025-11-18 00:43:22,922 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 00:43:22,936 INFO Function call part exists but no fn_call object.
+2025-11-18 00:44:54,110 INFO USER: my website is not loading
+2025-11-18 00:44:59,956 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 00:44:59,969 INFO Function call part exists but no fn_call object.
+2025-11-18 00:45:20,331 INFO USER: yes
+2025-11-18 00:45:24,546 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 00:45:24,555 INFO Function call part exists but no fn_call object.
+2025-11-18 00:48:34,619 INFO USER: my website is not loading
+2025-11-18 00:48:37,790 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 00:48:37,792 INFO Function call part exists but no fn_call object.
+2025-11-18 00:49:46,527 INFO USER: my website is not loading
+2025-11-18 00:49:50,718 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 00:49:50,848 INFO Function call part exists but no fn_call object.
+2025-11-18 00:51:54,634 INFO USER: my website is not loading
+2025-11-18 00:51:57,830 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 00:51:57,831 INFO Function call part exists but no fn_call object.
+2025-11-18 00:53:02,718 INFO USER: my website is not loading
+2025-11-18 00:53:06,004 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 00:53:06,136 INFO Function call part exists but no fn_call object.
+2025-11-18 00:53:58,914 INFO USER: my website is not loading
+2025-11-18 00:54:02,013 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 00:54:02,016 INFO Function call part exists but no fn_call object.
+2025-11-18 00:58:59,762 INFO USER: my website is not loading
+2025-11-18 00:59:02,012 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 00:59:02,014 INFO Function call part exists but no fn_call object.
+2025-11-18 01:00:04,103 INFO USER: my website is not loading
+2025-11-18 01:00:07,218 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 01:00:07,220 INFO Function call part exists but no fn_call object.
+2025-11-18 01:04:01,126 INFO USER: my website is not loading
+2025-11-18 01:04:07,088 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 01:04:07,090 INFO Function call part exists but no fn_call object.
+2025-11-18 01:09:18,850 INFO USER: my website is not loading
+2025-11-18 01:11:31,652 INFO USER: my website is not loading
+2025-11-18 01:11:35,682 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 01:11:35,684 INFO Function call part exists but no fn_call object.
+2025-11-18 01:17:50,566 INFO USER: my website is not loading
+2025-11-18 01:18:28,979 INFO USER: my website is not loading
+2025-11-18 01:20:31,967 INFO USER: my website is not loading
+2025-11-18 01:29:07,727 INFO USER: my website is not loading
+2025-11-18 01:29:11,175 INFO USER: my website is not loading
+2025-11-18 01:29:38,183 INFO USER: my website is not loading
+2025-11-18 01:29:52,283 INFO USER: my website is not loading
+2025-11-18 01:38:29,067 INFO USER: my website is not loading
+2025-11-18 01:38:31,470 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 01:38:31,475 INFO Function call part exists but no fn_call object.
+2025-11-18 01:39:20,724 INFO USER: my app is crashing
+2025-11-18 01:39:23,197 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 01:39:23,198 INFO Function call part exists but no fn_call object.
+2025-11-18 01:41:32,350 INFO USER: my website is not loading
+2025-11-18 01:41:34,748 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 01:41:34,751 INFO Function call part exists but no fn_call object.
+2025-11-18 01:52:02,314 INFO USER: my website is not loading
+2025-11-18 01:52:04,416 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 01:52:04,420 INFO Function call part exists but no fn_call object.
+2025-11-18 01:58:17,226 INFO USER: how much does 3 websites costs
+2025-11-18 01:58:20,369 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 01:58:20,372 INFO Tool triggered: calculate_price | Args: {'quantity': 3, 'product_name': 'website'}
+2025-11-18 01:58:20,372 INFO AFC is enabled with max remote calls: 10.
+2025-11-18 01:58:22,695 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 01:58:22,696 INFO MODEL FINAL: I understand you're looking for clarity on the cost, and it's completely natural to want to know what to expect when investing in your online presence.
+
+For three websites, the total would be $900. This investment covers not just the creation of three distinct online platforms tailored to your needs, but also ensures they are professionally designed, mobile-responsive, and optimized to help you achieve your specific goals, whether that's boosting sales, increasing brand awareness, or connecting with a wider audience. We focus on delivering real value and results with each site we build.
+
+Would you like to discuss what each of these websites might entail or explore any specific features you have in mind?
+2025-11-18 11:32:27,953 INFO USER: what is the price of a website
+2025-11-18 11:32:30,953 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 11:32:30,960 INFO Tool triggered: calculate_price | Args: {'product_name': 'website'}
+2025-11-18 11:32:30,960 INFO AFC is enabled with max remote calls: 10.
+2025-11-18 11:32:37,158 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 11:32:37,160 INFO MODEL FINAL: I understand that the price is a significant factor when considering a website.
+
+For a very basic website, our starting price is **$300**.
+
+However, the cost can vary quite a bit depending on your specific needs and the complexity of the site. That $300 typically covers a simple, foundational website, perhaps a landing page or a small informational site with a standard template.
+
+If you're looking for features like e-commerce functionality, custom design, complex integrations, or ongoing content management and advanced SEO, the investment would be higher to reflect the additional development time and specialized features.
+
+To give you the most accurate estimate and help you understand what's included, could you tell me a little more about what you envision for your website? For example, what kind of features do you need, and what are your main goals for it?
+2025-11-18 11:33:24,417 INFO USER: what is the price of a logo design
+2025-11-18 11:33:27,741 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 11:33:27,765 INFO Tool triggered: calculate_price | Args: {'product_name': 'logo design'}
+2025-11-18 11:33:27,765 INFO AFC is enabled with max remote calls: 10.
+2025-11-18 11:33:31,960 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 11:33:31,961 INFO MODEL FINAL: I understand you're looking for the price of a logo design. Our standard logo design service is **$80**.
+
+This includes initial concepts, a round of revisions, and final high-resolution files suitable for both print and web. To ensure this aligns perfectly with what you're looking for, could you tell me a little more about your specific vision or any ideas you have in mind for your logo?
+2025-11-18 11:33:48,351 INFO USER: what is the price of a fan
+2025-11-18 11:33:57,998 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 11:33:58,156 INFO Tool triggered: calculate_price | Args: {'product_name': 'fan'}
+2025-11-18 11:33:58,156 INFO AFC is enabled with max remote calls: 10.
+2025-11-18 11:34:01,970 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 11:34:01,974 INFO MODEL FINAL: I understand you're looking for the price of a fan, and knowing the cost is definitely important when making a decision.
+
+Fans come in a wide variety of types and with different features, which can significantly affect their price. To help me give you the most accurate information, could you tell me a little more about what kind of fan you're interested in? For example:
+
+*   Are you looking for a **standing fan**, a **desk fan**, a **ceiling fan**, or perhaps a **portable hand-held fan**?
+*   Do you have any specific features in mind, like a remote control, oscillation, multiple speed settings, or smart capabilities?
+*   Is there a particular brand or size you're considering?
+
+Once I have a better idea of what you're looking for, I can help you explore options and their prices!
+2025-11-18 11:38:45,979 INFO USER: what is the price of a fan
+2025-11-18 11:38:50,204 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 11:38:50,213 INFO Tool triggered: calculate_price | Args: {'product_name': 'fan'}
+2025-11-18 11:38:50,214 INFO AFC is enabled with max remote calls: 10.
+2025-11-18 11:38:58,033 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 11:38:58,037 INFO MODEL FINAL: I understand you're looking for the price of a fan, and it's completely natural to want to know that upfront!
+
+It seems like there isn't a single "price of a fan" because there are so many different kinds – from small desk fans to large ceiling fans, and everything in between, each with varying features and prices.
+
+To give you the most accurate price, could you tell me a little more about what kind of fan you're interested in? For example, are you looking for a:
+
+*   Desk fan?
+*   Standing fan?
+*   Ceiling fan?
+*   Smart fan with remote control?
+*   Or perhaps something else?
+
+Once I have a better idea, I can help you find the perfect fan within your budget!
+2025-11-18 11:41:49,380 INFO USER: what is the price of a fan
+2025-11-18 11:41:57,171 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 11:41:57,357 INFO Tool triggered: memory_search | Args: {'query': 'fan', 'user_id': 'user123'}
+2025-11-18 11:41:57,361 INFO AFC is enabled with max remote calls: 10.
+2025-11-18 11:41:59,951 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 11:41:59,953 INFO MODEL FINAL: I understand you're looking for the price of a fan, and it's completely natural to want to know the cost upfront.
+
+To help me give you the most accurate information, could you tell me a little more about what kind of fan you're interested in? For example, are you looking for a:
+*   Standing fan
+*   Desk fan
+*   Ceiling fan
+*   Tower fan
+*   Or perhaps a smart fan with specific features?
+
+Once I have a better idea, I can provide you with some pricing options!
+2025-11-18 11:43:48,828 INFO USER: what is the price of a fan
+2025-11-18 11:43:55,330 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 11:43:55,934 INFO Tool triggered: calculate_price | Args: {'product_name': 'fan'}
+2025-11-18 11:43:55,934 INFO AFC is enabled with max remote calls: 10.
+2025-11-18 11:43:59,273 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 11:43:59,275 INFO MODEL FINAL: I understand you're looking for the price of a fan, and it's frustrating when that information isn't immediately available.
+
+Unfortunately, I wasn't able to pull up a specific price for "a fan" at this moment. Fans come in many varieties—from small desk fans and powerful standing fans to ceiling fans and industrial models, and their prices can vary quite a lot depending on the type, brand, features, and size.
+
+To help me find a more accurate price for you, could you tell me a little more about what kind of fan you're interested in? For example, are you looking for a **desk fan, a standing fan, a tower fan, or perhaps a ceiling fan**? Any additional details, like a specific **brand or features** you might be looking for, would be really helpful!
+2025-11-18 11:51:15,561 INFO USER: what is the price of a fan
+2025-11-18 11:51:19,389 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 11:51:20,269 INFO Function call part exists but no fn_call object.
+2025-11-18 11:51:52,688 INFO USER: what is the price of a fan
+2025-11-18 11:52:06,951 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 11:52:08,406 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 503 Service Unavailable"
+2025-11-18 11:52:08,408 ERROR LLM request failed: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'The model is overloaded. Please try again later.', 'status': 'UNAVAILABLE'}}
+2025-11-18 11:52:58,923 INFO USER: what is the price of a fan
+2025-11-18 11:53:14,140 ERROR LLM request failed: Server disconnected without sending a response.
+2025-11-18 11:54:54,859 INFO USER: what is the price of a fan
+2025-11-18 11:54:58,253 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 11:54:58,393 INFO Tool triggered: memory_search | Args: {'limit': 1, 'user_id': 'user_id', 'query': 'fan'}
+2025-11-18 11:54:58,401 INFO AFC is enabled with max remote calls: 10.
+2025-11-18 11:55:00,731 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 11:55:00,732 INFO MODEL FINAL: I understand you're looking for the price of a fan. It's helpful to know what that might cost!
+
+To give you the most accurate information, could you tell me a little more about the type of fan you're interested in? For example, are you looking for a standing fan, a desk fan, a ceiling fan, or something else? This will help me find the right options for you!
+2025-11-18 11:56:09,380 INFO USER: what is the price of a fan
+2025-11-18 11:56:12,871 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 503 Service Unavailable"
+2025-11-18 11:56:12,872 ERROR LLM request failed: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'The model is overloaded. Please try again later.', 'status': 'UNAVAILABLE'}}
+2025-11-18 11:59:03,016 INFO USER: what is the price of a fan
+2025-11-18 11:59:07,181 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 503 Service Unavailable"
+2025-11-18 11:59:07,182 ERROR LLM request failed: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'The model is overloaded. Please try again later.', 'status': 'UNAVAILABLE'}}
+2025-11-18 12:00:43,286 INFO USER: what is the price of a bible
+2025-11-18 12:00:47,955 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 503 Service Unavailable"
+2025-11-18 12:00:47,955 ERROR LLM request failed: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'The model is overloaded. Please try again later.', 'status': 'UNAVAILABLE'}}
+2025-11-18 12:12:49,788 INFO USER: what is the price of a bible
+2025-11-18 12:12:51,941 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 503 Service Unavailable"
+2025-11-18 12:12:51,942 ERROR LLM request failed: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'The model is overloaded. Please try again later.', 'status': 'UNAVAILABLE'}}
+2025-11-18 12:14:13,706 INFO USER: what is the price of a printer
+2025-11-18 12:14:18,579 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 12:14:18,581 INFO Tool triggered: calculate_price | Args: {'product_name': 'printer'}
+2025-11-18 12:14:18,581 INFO AFC is enabled with max remote calls: 10.
+2025-11-18 12:14:21,640 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 12:14:21,642 INFO MODEL FINAL: I understand you're looking for the price of a printer. I apologize, but it seems we don't currently have printers available in our inventory to provide a price for at the moment.
+
+Were you perhaps looking for a specific type of printer, or would you be interested in exploring other office electronics or accessories that we do have available?
+2025-11-18 12:14:44,066 INFO USER: what is the price of a printer
+2025-11-18 12:14:45,540 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 503 Service Unavailable"
+2025-11-18 12:14:45,541 ERROR LLM request failed: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'The model is overloaded. Please try again later.', 'status': 'UNAVAILABLE'}}
+2025-11-18 12:15:59,463 INFO USER: what is the price of a printer
+2025-11-18 12:16:02,975 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 12:16:02,982 INFO Function call part exists but no fn_call object.
+2025-11-18 12:39:56,235 INFO USER: Where is my order 1234? I paid already.
+2025-11-18 12:39:58,993 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 12:39:58,996 INFO Function call part exists but no fn_call object.
+2025-11-18 12:39:58,996 WARNING Warning: there are non-text parts in the response: ['function_call'], returning concatenated text result from text parts. Check the full candidates.content.parts accessor to get the full model response.
+2025-11-18 12:41:32,115 INFO USER: Where is my order 1234? I paid already.
+2025-11-18 12:45:24,386 INFO USER: Where is my order 1234? I paid already.
+2025-11-18 12:45:28,521 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 12:45:28,524 INFO Tool triggered: check_order_status | Args: {'order_id': '1234'}
+2025-11-18 12:45:28,524 INFO AFC is enabled with max remote calls: 10.
+2025-11-18 12:45:30,632 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 12:45:30,638 INFO MODEL FINAL: {
+  "type": "message",
+  "content": "Thanks for reaching out! I've checked on your order 1234. It looks like your order was shipped on November 12, 2025, and is estimated to arrive by November 18, 2025. \n\nIs there anything else I can help you with today?",
+  "intent": "support",
+  "tool_used": "check_order_status"
+}
+2025-11-18 12:51:27,233 INFO USER: is the order 1234 already paid?
+2025-11-18 12:51:29,204 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 12:51:29,207 INFO Tool triggered: check_payment_status | Args: {'order_id': '1234'}
+2025-11-18 12:51:29,207 INFO AFC is enabled with max remote calls: 10.
+2025-11-18 12:51:31,041 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 12:51:31,043 INFO MODEL FINAL: {
+  "type": "message",
+  "content": "Yes, your order 1234 has been paid! It was paid by card on November 12, 2025, at 2:20 PM UTC. \U0001f60a",
+  "intent": "general",
+  "tool_used": "check_payment_status"
+}
+2025-11-18 13:19:13,517 INFO USER: is the order 1234 already paid?
+2025-11-18 13:19:15,567 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 13:19:15,570 INFO Tool triggered: check_payment_status | Args: {'order_id': '1234'}
+2025-11-18 13:19:15,570 INFO AFC is enabled with max remote calls: 10.
+2025-11-18 13:19:17,294 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 13:19:17,301 INFO MODEL FINAL: ```json
+{
+  "type": "message",
+  "content": "Yes, your order 1234 has been paid! It was paid via card on November 12, 2025, at 2:20 PM UTC. Let me know if you need anything else!",
+  "intent": "general",
+  "tool_used": "check_payment_status"
+}
+```
+2025-11-18 13:24:34,188 INFO USER: is the order 1234 already paid?
+2025-11-18 13:24:37,308 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 13:24:37,314 INFO Tool triggered: check_payment_status | Args: {'order_id': '1234'}
+2025-11-18 13:24:37,314 INFO AFC is enabled with max remote calls: 10.
+2025-11-18 13:24:38,058 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 503 Service Unavailable"
+2025-11-18 13:24:38,059 ERROR Tool execution failure: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'The model is overloaded. Please try again later.', 'status': 'UNAVAILABLE'}}
+2025-11-18 13:25:20,474 INFO USER: is the order 1234 already paid?
+2025-11-18 13:25:21,613 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 503 Service Unavailable"
+2025-11-18 13:25:21,616 ERROR LLM request failed: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'The model is overloaded. Please try again later.', 'status': 'UNAVAILABLE'}}
+2025-11-18 13:26:45,779 INFO USER: is the order 1234 already paid?
+2025-11-18 13:26:47,218 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 503 Service Unavailable"
+2025-11-18 13:26:47,218 ERROR LLM request failed: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'The model is overloaded. Please try again later.', 'status': 'UNAVAILABLE'}}
+2025-11-18 13:27:13,222 INFO USER: hey
+2025-11-18 13:27:15,480 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 503 Service Unavailable"
+2025-11-18 13:27:15,480 ERROR LLM request failed: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'The model is overloaded. Please try again later.', 'status': 'UNAVAILABLE'}}
+2025-11-18 13:58:01,952 INFO USER: what is my favorite sport
+2025-11-18 13:58:04,889 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 13:58:04,892 INFO Tool triggered: memory_read | Args: {'key': 'preferred_sport', 'user_id': 'test_user'}
+2025-11-18 13:58:04,893 ERROR Tool execution failure: MemoryService.read() got an unexpected keyword argument 'key'
+2025-11-18 14:00:57,624 INFO USER: what is my favorite sport
+2025-11-18 14:01:00,091 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 14:01:00,096 INFO Tool triggered: memory_read | Args: {'user_id': 'user_123', 'key': 'preferred_sport'}
+2025-11-18 14:01:00,096 ERROR Tool execution failure: MemoryService.read() got an unexpected keyword argument 'key'
+2025-11-18 14:06:54,312 INFO USER: what is my favorite sport
+2025-11-18 14:06:56,726 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 14:06:56,732 INFO Tool triggered: memory_read | Args: {'key': 'preferred_sport', 'user_id': 'test_user'}
+2025-11-18 14:06:56,732 ERROR Tool execution failure: MemoryService.read() got an unexpected keyword argument 'key'
+2025-11-18 14:19:44,251 INFO USER: what is my favorite sport
+2025-11-18 14:19:46,709 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 14:19:46,715 INFO Tool triggered: memory_read | Args: {'user_id': 'test_user', 'key': 'preferred_sport'}
+2025-11-18 14:19:46,722 INFO AFC is enabled with max remote calls: 10.
+2025-11-18 14:19:48,196 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 14:19:48,198 INFO MODEL FINAL: {
+  "type": "message",
+  "content": "Your favorite sport is football!",
+  "intent": "general",
+  "tool_used": "memory_read"
+}
+2025-11-18 14:20:26,119 INFO USER: which sport don't i like
+2025-11-18 14:20:28,335 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 14:20:28,340 INFO Tool triggered: memory_read | Args: {'user_id': 'test_user', 'key': 'least_preferred_sport'}
+2025-11-18 14:20:28,343 INFO AFC is enabled with max remote calls: 10.
+2025-11-18 14:20:29,569 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 14:20:29,569 INFO MODEL FINAL: {
+  "type": "message",
+  "content": "You don't like Cricket.",
+  "intent": "general",
+  "tool_used": null
+}
+2025-11-18 14:33:43,042 INFO USER: which sport don't i like
+2025-11-18 14:33:44,165 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 503 Service Unavailable"
+2025-11-18 14:33:44,166 ERROR LLM request failed: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'The model is overloaded. Please try again later.', 'status': 'UNAVAILABLE'}}
+2025-11-18 14:34:30,670 INFO USER: which sport don't i like
+2025-11-18 14:34:32,995 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 14:34:33,002 INFO Tool triggered: memory_read | Args: {'key': 'least_preferred_sport', 'user_id': 'user_id'}
+2025-11-18 14:34:33,011 INFO AFC is enabled with max remote calls: 10.
+2025-11-18 14:34:33,804 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 503 Service Unavailable"
+2025-11-18 14:34:33,804 ERROR Tool execution failure: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'The model is overloaded. Please try again later.', 'status': 'UNAVAILABLE'}}
+2025-11-18 14:36:53,711 INFO USER: which sport don't i like
+2025-11-18 14:36:55,962 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 14:36:55,964 INFO Tool triggered: memory_read | Args: {'key': 'least_preferred_sport', 'user_id': 'default_user'}
+2025-11-18 14:36:55,968 INFO AFC is enabled with max remote calls: 10.
+2025-11-18 14:36:57,884 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 14:36:57,886 INFO MODEL FINAL: {
+  "type": "message",
+  "content": "It looks like your least favorite sport is Cricket! Is there anything else I can help you with today?",
+  "intent": "general",
+  "tool_used": "memory_read"
+}
+2025-11-18 14:37:47,413 INFO USER: which sport don't i like
+2025-11-18 14:37:51,203 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 14:37:51,206 INFO Tool triggered: memory_read | Args: {'user_id': 'user_id', 'key': 'least_preferred_sport'}
+2025-11-18 14:37:51,211 INFO AFC is enabled with max remote calls: 10.
+2025-11-18 14:37:53,165 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 14:37:53,166 INFO MODEL FINAL: {
+  "type": "message",
+  "content": "You've mentioned that your least favorite sport is Cricket.",
+  "intent": "general",
+  "tool_used": "memory_read"
+}
+2025-11-18 14:39:12,222 INFO USER: which sport don't i like
+2025-11-18 14:39:14,402 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 14:39:14,406 INFO Tool triggered: memory_read | Args: {'key': 'least_preferred_sport', 'user_id': 'test_user'}
+2025-11-18 14:39:14,411 INFO AFC is enabled with max remote calls: 10.
+2025-11-18 14:39:15,952 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 14:39:15,953 INFO MODEL FINAL: {
+  "type": "message",
+  "content": "You've mentioned that your least favorite sport is Cricket.",
+  "intent": "general",
+  "tool_used": "memory_read"
+}
+2025-11-18 14:43:54,795 INFO USER: which sport don't i like
+2025-11-18 14:43:56,632 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 503 Service Unavailable"
+2025-11-18 14:43:56,633 ERROR LLM request failed: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'The model is overloaded. Please try again later.', 'status': 'UNAVAILABLE'}}
+2025-11-18 14:45:47,229 INFO USER: which sport don't i like
+2025-11-18 14:45:49,854 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 14:45:49,856 INFO Tool triggered: memory_read | Args: {'user_id': 'user_id_placeholder', 'key': 'least_preferred_sport'}
+2025-11-18 14:45:49,859 INFO AFC is enabled with max remote calls: 10.
+2025-11-18 14:45:50,310 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 503 Service Unavailable"
+2025-11-18 14:45:50,310 ERROR Tool execution failure: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'The model is overloaded. Please try again later.', 'status': 'UNAVAILABLE'}}
+2025-11-18 14:46:10,249 INFO USER: hey
+2025-11-18 14:46:11,828 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 14:46:11,830 INFO Function call part exists but no fn_call object.
+2025-11-18 14:46:23,945 INFO USER: which sport don't i like
+2025-11-18 14:46:30,359 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 503 Service Unavailable"
+2025-11-18 14:46:30,359 ERROR LLM request failed: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'The model is overloaded. Please try again later.', 'status': 'UNAVAILABLE'}}
+2025-11-18 14:48:27,057 INFO USER: which sport don't i like
+2025-11-18 14:48:29,124 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 14:48:29,151 INFO Tool triggered: memory_read | Args: {'user_id': 'None', 'key': 'least_preferred_sport'}
+2025-11-18 14:48:29,155 INFO AFC is enabled with max remote calls: 10.
+2025-11-18 14:48:30,186 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-18 14:48:30,190 INFO MODEL FINAL: {
+  "type": "message",
+  "content": "You don't like Cricket.",
+  "intent": "general",
+  "tool_used": "memory_read"
+}
+2025-11-20 12:52:08,157 INFO USER: hey
+2025-11-20 12:52:10,464 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-20 12:52:10,472 INFO Function call part exists but no fn_call object.
+2025-11-20 12:52:47,400 INFO USER: what is the price of website
+2025-11-20 12:52:51,380 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-20 12:52:51,381 INFO Tool triggered: calculate_price | Args: {'product_name': 'website'}
+2025-11-20 12:52:51,381 INFO AFC is enabled with max remote calls: 10.
+2025-11-20 12:52:55,103 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-20 12:52:55,104 INFO MODEL FINAL: I understand that the price is a key consideration when planning a new website. The $300 price point for our standard website package is designed to provide you with a professional, mobile-responsive online presence.
+
+This package typically includes a custom design tailored to your brand, essential pages like Home, About, and Contact, content integration, and basic SEO setup, ensuring you get a high-quality site that's ready to attract visitors. We focus on delivering value and a reliable platform for your business.
+
+If you have a specific budget or particular features you're looking for, please let me know. We can always discuss your needs in more detail to ensure we find the perfect solution for you.
+2025-11-20 12:53:58,911 INFO USER: i have issues logging into my account
+2025-11-20 12:54:02,827 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-20 12:54:02,828 INFO Function call part exists but no fn_call object.
+2025-11-20 12:55:33,684 INFO USER: what is my favorite sport
+2025-11-20 12:55:36,344 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-20 12:55:36,346 INFO Function call part exists but no fn_call object.
+2025-11-20 12:56:34,895 INFO USER: what is my favorite sport
+2025-11-20 12:56:38,029 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-20 12:56:38,031 INFO Tool triggered: memory_read | Args: {'user_id': 'user_123', 'key': 'preferred_sport'}
+2025-11-20 12:56:38,036 INFO AFC is enabled with max remote calls: 10.
+2025-11-20 12:56:39,502 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-20 12:56:39,503 INFO MODEL FINAL: {
+  "type": "message",
+  "content": "Your favorite sport is football! Is there anything else I can help you with today?",
+  "intent": "general",
+  "tool_used": "memory_read"
+}
+2025-11-20 13:18:24,299 INFO USER: hey
+2025-11-20 13:18:26,314 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-20 13:18:26,316 INFO Function call part exists but no fn_call object.
+2025-11-20 13:18:48,839 INFO USER: what is my favorite sport
+2025-11-20 13:18:52,071 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-20 13:18:52,073 INFO Tool triggered: memory_read | Args: {'user_id': 'user', 'key': 'preferred_sport'}
+2025-11-20 13:18:52,077 INFO AFC is enabled with max remote calls: 10.
+2025-11-20 13:18:53,174 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-20 13:18:53,176 INFO MODEL FINAL: {
+  "type": "message",
+  "content": "Your favorite sport is football! \U0001f60a",
+  "intent": "general",
+  "tool_used": "memory_read"
+}
+2025-11-20 13:19:03,954 INFO USER: what is my favorite app
+2025-11-20 13:19:06,052 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-20 13:19:06,054 INFO Tool triggered: memory_read | Args: {'user_id': 'user_id', 'key': 'favorite_app'}
+2025-11-20 13:19:06,058 INFO AFC is enabled with max remote calls: 10.
+2025-11-20 13:19:08,990 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-20 13:19:08,991 INFO MODEL FINAL: {
+  "type": "message",
+  "content": "Your favorite app is Duolingo!",
+  "intent": "general",
+  "tool_used": "memory_read"
+}
+2025-11-20 13:54:02,629 INFO USER: hey
+2025-11-20 13:54:04,937 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-20 13:54:04,939 INFO Function call part exists but no fn_call object.
+2025-11-20 13:58:37,304 INFO USER: hey
+2025-11-20 13:58:39,395 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-20 13:58:39,396 INFO Function call part exists but no fn_call object.
+2025-11-20 13:59:36,168 INFO USER: hey
+2025-11-20 13:59:38,283 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-20 13:59:38,285 INFO Function call part exists but no fn_call object.
+2025-11-20 14:03:11,989 INFO USER: hey
+2025-11-20 14:03:17,180 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-20 14:03:17,181 INFO Function call part exists but no fn_call object.
+2025-11-20 14:03:36,543 INFO USER: what is my favorite sport
+2025-11-20 14:03:38,827 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 503 Service Unavailable"
+2025-11-20 14:03:38,831 ERROR LLM request failed: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'The model is overloaded. Please try again later.', 'status': 'UNAVAILABLE'}}
