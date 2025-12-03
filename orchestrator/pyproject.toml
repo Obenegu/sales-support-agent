@@ -5,7 +5,15 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+    "beautifulsoup4>=4.14.2",
     "fastapi>=0.121.2",
     "google-genai>=1.50.1",
+    "nltk>=3.9.2",
+    "pdfplumber>=0.11.8",
+    "pgvector>=0.4.1",
+    "psycopg2>=2.9.11",
+    "pymupdf>=1.26.6",
+    "python-multipart>=0.0.20",
+    "sentence-transformers>=5.1.2",
     "uvicorn>=0.38.0",
 ]

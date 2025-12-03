@@ -16,9 +16,11 @@ from datetime import datetime
 from sqlalchemy.engine import Row
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, AsyncEngine
 from sqlalchemy import (
-    Table, Column, MetaData, BigInteger, Text, JSON, DateTime, select, insert, update, delete
+    Table, Column, MetaData, BigInteger, Text, JSON, DateTime, select, insert, update, delete, Integer
 )
 from sqlalchemy.orm import sessionmaker
+from pgvector.sqlalchemy import Vector
+
 
 # DATABASE_URL_DEFAULT = "postgresql+asyncpg://postgres:password@localhost:5432/sales_agent"
 
@@ -35,6 +37,18 @@ memories_table = Table(
     Column("created_at", DateTime(timezone=True), nullable=False),
     Column("updated_at", DateTime(timezone=True), nullable=False),
 )
+
+document_chunks_table = Table(
+    "document_chunks",
+    metadata,
+    Column("id", BigInteger, primary_key=True),
+    Column("business_id", Integer, nullable=False),
+    Column("filename", Text, nullable=True),
+    Column("chunk_index", Integer, nullable=True),
+    Column("text", Text, nullable=True),
+    Column("embedding", Vector(384), nullable=False),  # pgvector column
+)
+
 
 def clean_row(row: Row) -> Dict[str, Any]:
     return {
@@ -56,6 +70,17 @@ class MemoryService:
 
     async def init_db(self):
         async with self.engine.begin() as conn:
+            # In production use migrations (alembic). This is convenient for dev.
+            await conn.run_sync(metadata.create_all)
+
+    async def init_vector_db(self):
+        async with self.engine.begin() as conn:
+            # Ensure pgvector extension exists
+
+            await conn.run_sync(
+                lambda sync_conn: sync_conn.execute("CREATE EXTENSION IF NOT EXISTS vector;")
+            )
+
             # In production use migrations (alembic). This is convenient for dev.
             await conn.run_sync(metadata.create_all)
             
@@ -165,3 +190,5 @@ class MemoryService:
             res = await session.execute(stmt)
             await session.commit()
             return res.rowcount > 0
+
+    

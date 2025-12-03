@@ -5,6 +5,8 @@ from services.classify_objection import classify_objection
 from services.memory import MemoryService
 from services.support_classifier import classify_support_issue
 from services.support_engine import diagnose_support_issue
+from services.rag_retrieval import search_chunks, build_rag_prompt
+
 
 memory = MemoryService(db_url=db)
 
@@ -25,6 +27,20 @@ async def orchestrate(message: str, user_id: str):
     if not ok:
         logger.warning("Rejected user input: %s", meta)
         return "I’m sorry — I can’t help with that request. If this is a mistake, please rephrase."
+
+    # Try RAG retrieval first (if relevant docs exist)
+    retrieved = await search_chunks(message, business_id=1, limit=4)
+
+    if retrieved:
+        top_texts = [r["text"] for r in retrieved]
+
+        rag_prompt = build_rag_prompt(message, top_texts)
+
+        return {
+            "type": "rag_query",
+            "prompt": rag_prompt,
+            "chunks_used": len(top_texts)
+        }
 
     # -----------------------------------------------------------
     # 2. Intent detection

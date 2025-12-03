@@ -669,3 +669,332 @@ If you have a specific budget or particular features you're looking for, please 
 2025-11-20 14:03:36,543 INFO USER: what is my favorite sport
 2025-11-20 14:03:38,827 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 503 Service Unavailable"
 2025-11-20 14:03:38,831 ERROR LLM request failed: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'The model is overloaded. Please try again later.', 'status': 'UNAVAILABLE'}}
+2025-11-24 08:44:04,635 INFO USER: Hey chat
+2025-11-24 08:44:07,266 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-24 08:44:07,271 INFO Function call part exists but no fn_call object.
+2025-11-24 08:44:26,184 INFO USER: What is my favorite app
+2025-11-24 08:44:30,253 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-24 08:44:30,254 INFO Function call part exists but no fn_call object.
+2025-11-29 11:28:19,688 INFO Use pytorch device_name: cpu
+2025-11-29 11:28:19,689 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-29 11:28:43,664 WARNING Xet Storage is enabled for this repo, but the 'hf_xet' package is not installed. Falling back to regular HTTP download. For better performance, install the package with: `pip install huggingface_hub[hf_xet]` or `pip install hf_xet`
+2025-11-29 12:45:23,713 INFO Use pytorch device_name: cpu
+2025-11-29 12:45:23,714 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-29 12:55:01,950 INFO Use pytorch device_name: cpu
+2025-11-29 12:55:01,950 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-29 13:07:43,326 INFO Use pytorch device_name: cpu
+2025-11-29 13:07:43,327 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-29 13:18:20,510 INFO Use pytorch device_name: cpu
+2025-11-29 13:18:20,510 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-29 13:27:23,904 INFO Use pytorch device_name: cpu
+2025-11-29 13:27:23,904 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-29 13:28:06,092 INFO Use pytorch device_name: cpu
+2025-11-29 13:28:06,092 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-29 13:30:18,930 INFO Use pytorch device_name: cpu
+2025-11-29 13:30:18,931 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-29 13:37:30,594 INFO Use pytorch device_name: cpu
+2025-11-29 13:37:30,594 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-29 13:38:24,251 INFO Use pytorch device_name: cpu
+2025-11-29 13:38:24,251 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-29 13:41:22,326 INFO Use pytorch device_name: cpu
+2025-11-29 13:41:22,327 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 10:32:24,322 INFO Use pytorch device_name: cpu
+2025-11-30 10:32:24,323 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 10:34:29,145 INFO Use pytorch device_name: cpu
+2025-11-30 10:34:29,145 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 11:04:08,708 INFO Use pytorch device_name: cpu
+2025-11-30 11:04:08,709 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 11:04:14,771 INFO Use pytorch device_name: cpu
+2025-11-30 11:04:14,771 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 11:35:21,419 INFO Use pytorch device_name: cpu
+2025-11-30 11:35:21,419 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 11:35:26,875 INFO Use pytorch device_name: cpu
+2025-11-30 11:35:26,875 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 11:38:47,216 INFO USER: hey
+2025-11-30 11:48:15,264 INFO Use pytorch device_name: cpu
+2025-11-30 11:48:15,264 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 11:48:21,685 INFO Use pytorch device_name: cpu
+2025-11-30 11:48:21,685 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 11:48:42,278 INFO USER: hey
+2025-11-30 11:54:54,160 INFO Use pytorch device_name: cpu
+2025-11-30 11:54:54,160 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 11:55:16,351 INFO Use pytorch device_name: cpu
+2025-11-30 11:55:16,352 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 11:57:27,913 INFO Use pytorch device_name: cpu
+2025-11-30 11:57:27,913 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 11:57:34,689 INFO Use pytorch device_name: cpu
+2025-11-30 11:57:34,689 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 11:57:58,446 INFO Use pytorch device_name: cpu
+2025-11-30 11:57:58,446 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 11:58:04,070 INFO Use pytorch device_name: cpu
+2025-11-30 11:58:04,070 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 11:58:25,644 INFO Use pytorch device_name: cpu
+2025-11-30 11:58:25,644 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 12:03:02,562 INFO Use pytorch device_name: cpu
+2025-11-30 12:03:02,563 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 12:04:31,502 INFO Use pytorch device_name: cpu
+2025-11-30 12:04:31,502 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 12:07:47,649 INFO Use pytorch device_name: cpu
+2025-11-30 12:07:47,649 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 12:07:53,475 INFO Use pytorch device_name: cpu
+2025-11-30 12:07:53,475 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 12:08:15,573 INFO USER: hey
+2025-11-30 12:13:36,274 INFO Use pytorch device_name: cpu
+2025-11-30 12:13:36,274 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 12:13:42,622 INFO Use pytorch device_name: cpu
+2025-11-30 12:13:42,622 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 12:14:06,157 INFO Use pytorch device_name: cpu
+2025-11-30 12:14:06,157 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 12:14:11,719 INFO Use pytorch device_name: cpu
+2025-11-30 12:14:11,719 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 12:14:17,284 INFO USER: hey
+2025-11-30 12:14:17,286 INFO USER: hey
+2025-11-30 12:15:08,813 INFO Use pytorch device_name: cpu
+2025-11-30 12:15:08,814 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 12:15:14,231 INFO Use pytorch device_name: cpu
+2025-11-30 12:15:14,231 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 12:15:37,188 INFO USER: hey
+2025-11-30 12:17:25,845 INFO Use pytorch device_name: cpu
+2025-11-30 12:17:25,845 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 12:17:31,248 INFO Use pytorch device_name: cpu
+2025-11-30 12:17:31,248 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 12:17:55,602 INFO Use pytorch device_name: cpu
+2025-11-30 12:17:55,602 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 12:18:01,509 INFO Use pytorch device_name: cpu
+2025-11-30 12:18:01,509 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 12:21:02,940 INFO USER: how are you??
+2025-11-30 12:22:42,823 INFO Use pytorch device_name: cpu
+2025-11-30 12:22:42,823 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 12:22:48,537 INFO Use pytorch device_name: cpu
+2025-11-30 12:22:48,537 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 12:23:10,973 INFO Use pytorch device_name: cpu
+2025-11-30 12:23:10,973 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 12:23:16,225 INFO Use pytorch device_name: cpu
+2025-11-30 12:23:16,225 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 12:23:38,044 INFO Use pytorch device_name: cpu
+2025-11-30 12:23:38,044 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 12:23:43,163 INFO Use pytorch device_name: cpu
+2025-11-30 12:23:43,163 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 12:24:55,173 INFO Use pytorch device_name: cpu
+2025-11-30 12:24:55,173 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 12:25:00,672 INFO Use pytorch device_name: cpu
+2025-11-30 12:25:00,672 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 12:27:25,635 INFO USER: how are you?
+2025-11-30 12:30:47,239 INFO Use pytorch device_name: cpu
+2025-11-30 12:30:47,239 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 12:30:52,519 INFO Use pytorch device_name: cpu
+2025-11-30 12:30:52,520 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 12:31:13,153 INFO Use pytorch device_name: cpu
+2025-11-30 12:31:13,154 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 12:32:08,365 INFO Use pytorch device_name: cpu
+2025-11-30 12:32:08,365 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 12:32:13,963 INFO Use pytorch device_name: cpu
+2025-11-30 12:32:13,963 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 12:32:37,933 INFO USER: how are you
+2025-11-30 12:40:26,657 INFO Use pytorch device_name: cpu
+2025-11-30 12:40:26,657 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 12:40:31,788 INFO Use pytorch device_name: cpu
+2025-11-30 12:40:31,788 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 12:40:53,822 INFO USER: how are you
+2025-11-30 12:49:16,348 INFO Use pytorch device_name: cpu
+2025-11-30 12:49:16,349 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 12:49:22,571 INFO Use pytorch device_name: cpu
+2025-11-30 12:49:22,571 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 12:49:43,701 INFO Use pytorch device_name: cpu
+2025-11-30 12:49:43,702 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 12:49:49,454 INFO Use pytorch device_name: cpu
+2025-11-30 12:49:49,454 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 12:51:06,785 INFO Use pytorch device_name: cpu
+2025-11-30 12:51:06,785 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 12:51:12,482 INFO Use pytorch device_name: cpu
+2025-11-30 12:51:12,482 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 13:42:43,808 INFO Use pytorch device_name: cpu
+2025-11-30 13:42:43,808 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 13:44:24,093 INFO Use pytorch device_name: cpu
+2025-11-30 13:44:24,093 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 13:44:29,814 INFO Use pytorch device_name: cpu
+2025-11-30 13:44:29,814 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 13:44:58,932 INFO USER: how are you
+2025-11-30 13:49:38,311 INFO Use pytorch device_name: cpu
+2025-11-30 13:49:38,311 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 13:49:44,492 INFO Use pytorch device_name: cpu
+2025-11-30 13:49:44,492 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 13:50:07,519 INFO Use pytorch device_name: cpu
+2025-11-30 13:50:07,519 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 13:50:14,156 INFO Use pytorch device_name: cpu
+2025-11-30 13:50:14,156 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 13:51:11,864 INFO Use pytorch device_name: cpu
+2025-11-30 13:51:11,864 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 13:51:18,637 INFO Use pytorch device_name: cpu
+2025-11-30 13:51:18,637 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 13:51:42,139 INFO Use pytorch device_name: cpu
+2025-11-30 13:51:42,139 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 13:51:49,772 INFO Use pytorch device_name: cpu
+2025-11-30 13:51:49,772 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 13:57:05,826 INFO Use pytorch device_name: cpu
+2025-11-30 13:57:05,826 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 13:57:11,804 INFO Use pytorch device_name: cpu
+2025-11-30 13:57:11,804 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 20:08:10,657 INFO Use pytorch device_name: cpu
+2025-11-30 20:08:10,658 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 20:08:18,792 INFO Use pytorch device_name: cpu
+2025-11-30 20:08:18,793 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 20:09:37,107 INFO USER: how are you
+2025-11-30 20:09:44,025 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-30 20:09:44,029 INFO Function call part exists but no fn_call object.
+2025-11-30 20:11:10,617 INFO USER: how much does a website cost?
+2025-11-30 20:11:16,010 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-30 20:11:16,013 INFO Function call part exists but no fn_call object.
+2025-11-30 20:11:51,589 INFO USER: how much does a website cost?
+2025-11-30 20:12:00,195 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-30 20:12:00,264 INFO Tool triggered: calculate_price | Args: {'product_name': 'website'}
+2025-11-30 20:12:00,265 INFO AFC is enabled with max remote calls: 10.
+2025-11-30 20:12:07,154 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-30 20:12:07,156 INFO MODEL FINAL: I completely understand that price is a key consideration when planning a website. It's true that website costs can fluctuate a lot depending on features and complexity, so it's a very common question.
+
+Based on our basic package, the total price is: $300. This is our starting point for a professional, foundational website, which typically includes a modern template, essential pages like Home/About/Contact, and mobile responsiveness. It's a fantastic option for getting your business online quickly and efficiently.
+
+To ensure we're aligning with your exact needs and to provide the most accurate quote, could you share a bit more about what you envision for your website? For instance, are you looking for e-commerce functionality, a blog, a specific number of pages, or any unique features? Getting a better understanding of your vision will help us tailor the perfect solution for you.
+2025-11-30 20:13:08,878 INFO USER: what is my favorite app
+2025-11-30 20:13:12,076 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-30 20:13:12,081 INFO Function call part exists but no fn_call object.
+2025-11-30 20:16:27,125 INFO USER: remember my favorite app is duolingo
+2025-11-30 20:16:31,051 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-30 20:16:31,053 INFO Tool triggered: memory_write | Args: {'user_id': 'default_user', 'summary': "User's favorite app is Duolingo.", 'key': 'favorite_app', 'value': {'app_name': 'duolingo'}}
+2025-11-30 20:16:31,072 INFO AFC is enabled with max remote calls: 10.
+2025-11-30 20:16:33,348 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-30 20:16:33,350 INFO MODEL FINAL: {
+  "type": "message",
+  "content": "Thanks for letting us know! I've made a note that Duolingo is your favorite app. \U0001f60a",
+  "intent": "general",
+  "tool_used": "memory_write"
+}
+2025-11-30 20:17:06,594 INFO USER: what is my favorite app
+2025-11-30 20:17:15,132 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-30 20:17:15,134 INFO Function call part exists but no fn_call object.
+2025-11-30 20:24:24,346 INFO USER: how are you today
+2025-11-30 20:26:36,239 INFO USER: how are you today
+2025-11-30 20:28:35,923 INFO Use pytorch device_name: cpu
+2025-11-30 20:28:35,923 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 20:28:42,016 INFO Use pytorch device_name: cpu
+2025-11-30 20:28:42,016 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 20:28:58,523 INFO USER: what is my favorite app
+2025-11-30 20:29:02,438 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-30 20:29:02,441 INFO Tool triggered: memory_read | Args: {'key': 'favorite_app', 'user_id': 'test_user'}
+2025-11-30 20:29:02,447 INFO AFC is enabled with max remote calls: 10.
+2025-11-30 20:29:03,982 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-30 20:29:03,984 INFO MODEL FINAL: {
+  "type": "message",
+  "content": "Your favorite app is Duolingo! \u2728",
+  "intent": "general",
+  "tool_used": null
+}
+2025-11-30 20:29:36,383 INFO USER: what is my favorite app
+2025-11-30 20:29:39,179 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-30 20:29:39,181 INFO Tool triggered: memory_read | Args: {'key': 'favorite_app', 'user_id': 'user123'}
+2025-11-30 20:29:39,185 INFO AFC is enabled with max remote calls: 10.
+2025-11-30 20:29:41,046 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-30 20:29:41,048 INFO MODEL FINAL: ```json
+{
+  "type": "message",
+  "content": "Your favorite app is Duolingo!",
+  "intent": "general",
+  "tool_used": "memory_read"
+}
+```
+2025-11-30 20:30:21,474 INFO USER: how are you today
+2025-11-30 20:30:29,621 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-30 20:30:29,622 INFO Function call part exists but no fn_call object.
+2025-11-30 21:05:26,469 INFO Use pytorch device_name: cpu
+2025-11-30 21:05:26,469 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 21:05:33,039 INFO Use pytorch device_name: cpu
+2025-11-30 21:05:33,039 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 21:06:00,344 INFO Use pytorch device_name: cpu
+2025-11-30 21:06:00,344 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 21:06:07,321 INFO Use pytorch device_name: cpu
+2025-11-30 21:06:07,321 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 21:15:57,735 INFO Use pytorch device_name: cpu
+2025-11-30 21:15:57,736 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 21:16:02,309 INFO Use pytorch device_name: cpu
+2025-11-30 21:16:02,309 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 21:23:21,991 INFO Use pytorch device_name: cpu
+2025-11-30 21:23:21,992 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 21:23:26,640 INFO Use pytorch device_name: cpu
+2025-11-30 21:23:26,641 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 21:23:32,175 ERROR Form data requires "python-multipart" to be installed. 
+You can install "python-multipart" with: 
+
+pip install python-multipart
+
+2025-11-30 21:25:42,781 INFO Use pytorch device_name: cpu
+2025-11-30 21:25:42,781 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 21:25:48,928 INFO Use pytorch device_name: cpu
+2025-11-30 21:25:48,928 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 21:49:48,284 INFO Use pytorch device_name: cpu
+2025-11-30 21:49:48,284 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 21:49:53,912 INFO Use pytorch device_name: cpu
+2025-11-30 21:49:53,912 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 21:56:44,457 INFO Use pytorch device_name: cpu
+2025-11-30 21:56:44,457 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 21:56:48,904 INFO Use pytorch device_name: cpu
+2025-11-30 21:56:48,904 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 21:57:14,105 INFO Use pytorch device_name: cpu
+2025-11-30 21:57:14,105 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 21:57:25,513 INFO Use pytorch device_name: cpu
+2025-11-30 21:57:25,513 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 22:00:07,216 INFO Use pytorch device_name: cpu
+2025-11-30 22:00:07,216 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 22:00:13,767 INFO Use pytorch device_name: cpu
+2025-11-30 22:00:13,767 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 22:07:01,753 INFO Use pytorch device_name: cpu
+2025-11-30 22:07:01,753 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 22:07:06,197 INFO Use pytorch device_name: cpu
+2025-11-30 22:07:06,197 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 22:07:31,418 INFO Use pytorch device_name: cpu
+2025-11-30 22:07:31,418 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 22:07:35,896 INFO Use pytorch device_name: cpu
+2025-11-30 22:07:35,896 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 22:08:03,975 INFO Use pytorch device_name: cpu
+2025-11-30 22:08:03,975 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 22:08:12,951 INFO Use pytorch device_name: cpu
+2025-11-30 22:08:12,951 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 22:08:41,097 INFO Use pytorch device_name: cpu
+2025-11-30 22:08:41,097 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 22:08:46,370 INFO Use pytorch device_name: cpu
+2025-11-30 22:08:46,370 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 22:09:02,428 INFO AFC is enabled with max remote calls: 10.
+2025-11-30 22:09:08,408 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-30 22:12:25,413 INFO Use pytorch device_name: cpu
+2025-11-30 22:12:25,413 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 22:12:30,776 INFO Use pytorch device_name: cpu
+2025-11-30 22:12:30,776 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 22:12:56,236 INFO Use pytorch device_name: cpu
+2025-11-30 22:12:56,236 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 22:13:01,660 INFO Use pytorch device_name: cpu
+2025-11-30 22:13:01,660 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 22:14:09,843 INFO Use pytorch device_name: cpu
+2025-11-30 22:14:09,843 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 22:14:17,665 INFO Use pytorch device_name: cpu
+2025-11-30 22:14:17,665 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 22:14:53,652 INFO AFC is enabled with max remote calls: 10.
+2025-11-30 22:14:55,483 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-30 22:15:37,973 INFO AFC is enabled with max remote calls: 10.
+2025-11-30 22:15:39,364 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-11-30 22:21:51,907 INFO Use pytorch device_name: cpu
+2025-11-30 22:21:51,907 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 22:21:56,677 INFO Use pytorch device_name: cpu
+2025-11-30 22:21:56,677 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 22:22:18,990 INFO Use pytorch device_name: cpu
+2025-11-30 22:22:18,990 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 22:22:24,504 INFO Use pytorch device_name: cpu
+2025-11-30 22:22:24,505 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 22:23:25,573 INFO Use pytorch device_name: cpu
+2025-11-30 22:23:25,573 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 22:23:32,008 INFO Use pytorch device_name: cpu
+2025-11-30 22:23:32,009 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 22:26:46,032 INFO Use pytorch device_name: cpu
+2025-11-30 22:26:46,032 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 22:26:50,522 INFO Use pytorch device_name: cpu
+2025-11-30 22:26:50,522 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-11-30 22:28:15,926 INFO Use pytorch device_name: cpu
+2025-11-30 22:28:15,927 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2

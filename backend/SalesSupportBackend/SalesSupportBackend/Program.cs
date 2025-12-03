@@ -22,7 +22,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 //Authentication
 // JWT Settings
-var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"]);
+var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"]!);
 
 builder.Services.AddAuthentication(options =>
 {
@@ -73,6 +73,10 @@ builder.Services.AddSwaggerGen(option =>
 			new string[]{}
 		}
 	});
+
+	//File upload operation
+	option.OperationFilter<FileUploadOperation>();
+
 });
 
 // Add CORS policy

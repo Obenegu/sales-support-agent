@@ -1,7 +1,9 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from app.routes import router
 from contextlib import asynccontextmanager
 from app.orchestrator import init_services
+from fastapi.responses import JSONResponse
+from fastapi.exceptions import RequestValidationError
 
 
 @asynccontextmanager
@@ -20,6 +22,19 @@ app = FastAPI(
     lifespan=lifespan
 
 )
+
+# ←←← ADD THIS BLOCK (Bug 2 fix) ←←←
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request: Request, exc: RequestValidationError):
+    return JSONResponse(
+        status_code=422,
+        content={
+            "detail": exc.errors(),
+            "hint": "Check that you're sending multipart/form-data with 'file' and 'businessId' fields "
+                    "if you're uploading a document, or proper JSON for other endpoints."
+        }
+    )
+# ←←← END OF FIX ←←←
 
 app.get("/")
 

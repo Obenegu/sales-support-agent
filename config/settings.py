@@ -1,7 +1,9 @@
+import asyncpg
 import os
 from dotenv import load_dotenv
 from google import genai
 from app.tools.sales_tools import Sales_Tools
+from pgvector.asyncpg import register_vector
 
 load_dotenv()
 
@@ -10,6 +12,20 @@ api_key = os.environ.get("GEMINI_API_KEY")
 client = genai.Client(api_key=api_key)
 
 db = os.environ.get("DATABASE_URL")
+async_db = os.environ.get("ASYNC_DATABASE_URL")
+
+_pool = None
+
+async def get_pg_pool():
+    global _pool
+    if _pool is None:
+        _pool = await asyncpg.create_pool(async_db)
+   # Register pgvector support on a connection from the pool
+        async with _pool.acquire() as conn:
+            await register_vector(conn)
+    return _pool
+
+
 
 PRODUCTS = {
     "website": 300,

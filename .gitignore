@@ -8,3 +8,4 @@ __pycache__/
 .orchestrator_env/
 .env
 .secrets/
+pgvector/
