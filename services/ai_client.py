@@ -8,6 +8,8 @@ from app.tools.schema import sales_schema
 from app.logs.logging_helper import log_error, log_info
 from app.tools.support_schema import support_schema
 from app.tools import support_tool
+from app.orchestrator import memory
+import time
 
 
 class ChatResponse(BaseModel):
@@ -24,7 +26,8 @@ def normalize_output(raw_text, tool_used, intent):
         return {
             "response": raw_text,
             "intent": intent,
-            "tool_used": tool_used
+            "tool_used": tool_used,
+            "role": "assistant"
         }
 
     # Fix missing fields
@@ -40,7 +43,8 @@ def normalize_output(raw_text, tool_used, intent):
     return {
         "response": response_text,
         "intent": intent_value,
-        "tool_used": str(tool_value)
+        "tool_used": str(tool_value),
+        "role": "assistant"
     }
 
 
@@ -55,6 +59,26 @@ async def ai_chat(user_message, user_id):
     intent = classify_intent(user_message)
 
     orchestrated_message = await orchestrate(message=user_message, user_id=user_id)
+
+    # Save to memory
+    try:
+        memory_result = memory.mem0_add(
+        user_id=user_id,
+        namespace="business",
+        messages=[{"role": "user", "content": user_message}],
+        metadata={"ts": time.time()}
+        )
+
+        if memory_result is None:
+            log_error("Memory add failed.")
+        else:
+            log_info(f"Memory add succeeded: {user_message}")
+            print(memory_result)
+
+    except Exception as e:
+        log_error(f"Failed to save user message to memory: {e}")
+
+
 
     config = types.GenerateContentConfig(
         tools=[tools],
@@ -82,8 +106,9 @@ async def ai_chat(user_message, user_id):
             log_error(f"LLM request failed: {e}")
             return {
                 "response": "Sorry, something went wrong.",
-                "intent": {intent},
-                "tool_used": "none"
+                "intent": intent,
+                "tool_used": "none",
+                "role": "assistant"
             }
 
         candidate = response.candidates[0]
@@ -127,27 +152,27 @@ async def ai_chat(user_message, user_id):
                     tool_output = sales_tool.suggest_upsells(
                         product=args.get("product")
                     )
-                # Memory Tool
-                elif fn_name == "memory_write":
-                    # IMPORTANT: DO NOT allow user-supplied arbitrary user_id in prod — extract from JWT
-                    # user_id = args.get("user_id")
-                    # value should be parsed as a JSON object from the LLM args
-                    value = args.get("value") or {}
-                    summary = args.get("summary")
-                    mem_result = await memory.write(user_id=user_id, key=args["key"], value=value, summary=summary)
-                    tool_output = json.dumps(mem_result)
+                # # Memory Tool
+                # elif fn_name == "memory_write":
+                #     # IMPORTANT: DO NOT allow user-supplied arbitrary user_id in prod — extract from JWT
+                #     # user_id = args.get("user_id")
+                #     # value should be parsed as a JSON object from the LLM args
+                #     value = args.get("value") or {}
+                #     summary = args.get("summary")
+                #     mem_result = await memory.write(user_id=user_id, key=args["key"], value=value, summary=summary)
+                #     tool_output = json.dumps(mem_result)
 
-                elif fn_name == "memory_read":
-                    # user_id = args.get("user_id")
-                    mem = await memory.read(user_id=user_id, limit=10)
-                    tool_output = json.dumps(mem or {})
+                # elif fn_name == "memory_read":
+                #     # user_id = args.get("user_id")
+                #     mem = await memory.read(user_id=user_id, limit=10)
+                #     tool_output = json.dumps(mem or {})
 
-                elif fn_name == "memory_search":
-                    # user_id = args.get("user_id")
-                    # user_id = args.get("user_id")
-                    # found = await memory.search(user_id=user_id, query=args["query"], limit=int(args.get("limit", 5)))
-                    found = await memory.search(user_id=user_id, query=user_message, limit=10)
-                    tool_output = json.dumps(found)
+                # elif fn_name == "memory_search":
+                #     # user_id = args.get("user_id")
+                #     # user_id = args.get("user_id")
+                #     # found = await memory.search(user_id=user_id, query=args["query"], limit=int(args.get("limit", 5)))
+                #     found = await memory.search(user_id=user_id, query=user_message, limit=10)
+                #     tool_output = json.dumps(found)
 
                 # ---------- support handlers ----------
                 
@@ -170,6 +195,26 @@ async def ai_chat(user_message, user_id):
                 else:
                     tool_output = "Tool not recognized."
 
+                # Save to memory
+                try:
+                    memory_result = memory.mem0_add(
+                    user_id=user_id,
+                    namespace="business",
+                    messages=[{"role": "assistant", "content": f"{fn_name} = {tool_output}"}],
+                    metadata={"ts": time.time()}
+                    )
+
+                    if memory_result is None:
+                        log_error("Tool Memory add failed.")
+                    else:
+                        log_info(f"Tool Memory add succeeded\n: {fn_name}:  {tool_output}")
+                        print(memory_result)
+                
+                except Exception as e:
+                    log_error(f"Failed to save tool output to memory: {e}")
+
+                
+
                 # ----------------------------
                 # Second LLM call (polish reply)
                 # ----------------------------
@@ -185,14 +230,26 @@ async def ai_chat(user_message, user_id):
                 final_reply = followup.text
                 log_info(f"MODEL FINAL: {final_reply}")
 
+                # Save to memory
+                try:
+                    memory.mem0_add(
+                    user_id=user_id,
+                    namespace="business",
+                    messages=[{"role": "assistant", "content": final_reply}],
+                    metadata={"ts": time.time()}
+                    )
+                except Exception as e:
+                    log_error(f"Failed to save final reply to memory: {e}")
+
                 return normalize_output(final_reply, tool_used=fn_name, intent=intent)
 
             except Exception as e:
                 log_error(f"Tool execution failure: {e}")
                 return {
                     "response": "An internal tool error occurred.",
-                    "intent": {intent},
-                    "tool_used": {fn_name}
+                    "intent": intent,
+                    "tool_used": fn_name,
+                    "role": "assistant"
                 }
 
         # --------------------------------------------------------
@@ -202,4 +259,15 @@ async def ai_chat(user_message, user_id):
         # return normalize_output(response.text, tool_used=fn_name, intent=intent)
     
     log_info(f"MODEL RESPONSE: {response.text}")
+    # Save to memory
+    try:
+        memory.mem0_add(
+        user_id=user_id,
+        namespace="business",
+        messages=[{"role": "assistant", "content": response.text}],
+        metadata={"ts": time.time()}
+        )
+    except Exception as e:
+        log_error(f"Failed to save final response to memory: {e}")
+
     return normalize_output(response.text, tool_used=fn_name, intent=intent)

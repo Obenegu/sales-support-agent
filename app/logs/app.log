@@ -998,3 +998,657 @@ pip install python-multipart
 2025-11-30 22:26:50,522 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
 2025-11-30 22:28:15,926 INFO Use pytorch device_name: cpu
 2025-11-30 22:28:15,927 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 08:52:45,835 INFO Use pytorch device_name: cpu
+2025-12-04 08:52:45,836 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 08:54:55,281 INFO Use pytorch device_name: cpu
+2025-12-04 08:54:55,281 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 08:55:00,613 INFO Use pytorch device_name: cpu
+2025-12-04 08:55:00,613 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 08:59:35,305 INFO Use pytorch device_name: cpu
+2025-12-04 08:59:35,305 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 08:59:41,694 INFO Use pytorch device_name: cpu
+2025-12-04 08:59:41,694 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 09:01:56,600 INFO Use pytorch device_name: cpu
+2025-12-04 09:01:56,600 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 09:02:00,830 INFO Use pytorch device_name: cpu
+2025-12-04 09:02:00,830 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 09:02:57,785 INFO AFC is enabled with max remote calls: 10.
+2025-12-04 09:02:59,361 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-04 16:28:16,568 INFO Use pytorch device_name: cpu
+2025-12-04 16:28:16,569 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 16:28:20,953 INFO Use pytorch device_name: cpu
+2025-12-04 16:28:20,953 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 16:29:26,332 INFO USER: what is my favorite sport
+2025-12-04 16:29:28,516 INFO HTTP Request: POST https://api.mem0.ai/v2/memories/search/ "HTTP/1.1 200 OK"
+2025-12-04 16:32:40,543 INFO Use pytorch device_name: cpu
+2025-12-04 16:32:40,543 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 16:32:44,850 INFO Use pytorch device_name: cpu
+2025-12-04 16:32:44,850 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 16:33:18,843 INFO Use pytorch device_name: cpu
+2025-12-04 16:33:18,843 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 16:33:23,401 INFO Use pytorch device_name: cpu
+2025-12-04 16:33:23,401 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 16:33:51,097 INFO USER: what is my favorite sport
+2025-12-04 16:33:53,192 INFO HTTP Request: POST https://api.mem0.ai/v2/memories/search/ "HTTP/1.1 200 OK"
+2025-12-04 16:33:55,686 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-04 16:33:55,692 INFO Function call part exists but no fn_call object.
+2025-12-04 16:37:14,967 INFO Use pytorch device_name: cpu
+2025-12-04 16:37:14,967 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 16:37:19,826 INFO Use pytorch device_name: cpu
+2025-12-04 16:37:19,826 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 16:37:42,813 INFO Use pytorch device_name: cpu
+2025-12-04 16:37:42,814 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 16:37:47,593 INFO Use pytorch device_name: cpu
+2025-12-04 16:37:47,593 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 16:41:39,383 INFO Use pytorch device_name: cpu
+2025-12-04 16:41:39,383 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 16:41:44,059 INFO Use pytorch device_name: cpu
+2025-12-04 16:41:44,060 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 16:42:06,778 INFO Use pytorch device_name: cpu
+2025-12-04 16:42:06,778 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 16:42:12,000 INFO Use pytorch device_name: cpu
+2025-12-04 16:42:12,000 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 16:43:47,412 INFO USER: what is my favorite sport
+2025-12-04 16:43:49,498 INFO HTTP Request: POST https://api.mem0.ai/v2/memories/search/ "HTTP/1.1 200 OK"
+2025-12-04 16:45:01,671 INFO Use pytorch device_name: cpu
+2025-12-04 16:45:01,671 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 16:45:06,327 INFO Use pytorch device_name: cpu
+2025-12-04 16:45:06,328 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 16:45:30,576 INFO Use pytorch device_name: cpu
+2025-12-04 16:45:30,576 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 16:45:35,198 INFO Use pytorch device_name: cpu
+2025-12-04 16:45:35,198 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 16:47:07,449 INFO Use pytorch device_name: cpu
+2025-12-04 16:47:07,449 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 16:47:11,561 INFO Use pytorch device_name: cpu
+2025-12-04 16:47:11,561 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 16:47:16,111 INFO USER: what is my favorite sport
+2025-12-04 16:47:18,100 INFO HTTP Request: POST https://api.mem0.ai/v2/memories/search/ "HTTP/1.1 200 OK"
+2025-12-04 16:47:20,357 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-04 16:47:20,358 INFO Function call part exists but no fn_call object.
+2025-12-04 16:48:37,448 INFO Use pytorch device_name: cpu
+2025-12-04 16:48:37,449 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 16:48:41,665 INFO Use pytorch device_name: cpu
+2025-12-04 16:48:41,665 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 16:49:03,780 INFO Use pytorch device_name: cpu
+2025-12-04 16:49:03,780 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 16:49:08,195 INFO Use pytorch device_name: cpu
+2025-12-04 16:49:08,195 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 16:49:12,947 INFO USER: what is my favorite sport
+2025-12-04 16:49:14,661 INFO HTTP Request: POST https://api.mem0.ai/v2/memories/search/ "HTTP/1.1 200 OK"
+2025-12-04 16:49:16,536 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-04 16:49:16,540 INFO Function call part exists but no fn_call object.
+2025-12-04 16:52:46,613 INFO Use pytorch device_name: cpu
+2025-12-04 16:52:46,613 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 16:52:51,614 INFO Use pytorch device_name: cpu
+2025-12-04 16:52:51,615 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 16:53:13,866 INFO Use pytorch device_name: cpu
+2025-12-04 16:53:13,866 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 16:53:18,978 INFO Use pytorch device_name: cpu
+2025-12-04 16:53:18,978 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 16:57:22,758 INFO Use pytorch device_name: cpu
+2025-12-04 16:57:22,758 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 16:57:28,713 INFO Use pytorch device_name: cpu
+2025-12-04 16:57:28,713 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 16:57:46,697 INFO USER: what is my favorite sport
+2025-12-04 16:57:48,564 INFO HTTP Request: POST https://api.mem0.ai/v2/memories/search/ "HTTP/1.1 200 OK"
+2025-12-04 16:57:52,708 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-04 16:57:52,718 INFO Function call part exists but no fn_call object.
+2025-12-04 17:35:53,955 INFO Use pytorch device_name: cpu
+2025-12-04 17:35:53,956 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 17:36:05,294 INFO Use pytorch device_name: cpu
+2025-12-04 17:36:05,294 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 17:55:20,212 INFO Use pytorch device_name: cpu
+2025-12-04 17:55:20,212 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 17:55:25,153 INFO Use pytorch device_name: cpu
+2025-12-04 17:55:25,153 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 17:55:50,343 INFO USER: what is my favorite sport
+2025-12-04 17:55:52,276 INFO HTTP Request: POST https://api.mem0.ai/v2/memories/search/ "HTTP/1.1 200 OK"
+2025-12-04 17:55:52,982 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-04 17:55:56,539 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-04 17:55:56,544 INFO Tool triggered: memory_read | Args: {'key': 'favorite_sport', 'user_id': 'user123'}
+2025-12-04 17:55:57,083 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-04 17:55:57,105 INFO AFC is enabled with max remote calls: 10.
+2025-12-04 17:55:59,480 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-04 17:55:59,482 INFO MODEL FINAL: ```json
+{
+  "type": "message",
+  "content": "From what I recall, your favorite sport is football! \U0001f3c8",
+  "intent": "general",
+  "tool_used": ""
+}
+```
+2025-12-04 17:56:00,309 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-04 17:57:40,877 INFO USER: what is your email
+2025-12-04 17:57:42,483 INFO HTTP Request: POST https://api.mem0.ai/v2/memories/search/ "HTTP/1.1 200 OK"
+2025-12-04 17:57:43,091 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-04 17:57:45,193 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-04 17:57:45,195 INFO Function call part exists but no fn_call object.
+2025-12-04 18:02:07,891 INFO Use pytorch device_name: cpu
+2025-12-04 18:02:07,891 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 18:02:13,018 INFO Use pytorch device_name: cpu
+2025-12-04 18:02:13,018 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 18:02:37,466 INFO Use pytorch device_name: cpu
+2025-12-04 18:02:37,466 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 18:02:42,361 INFO Use pytorch device_name: cpu
+2025-12-04 18:02:42,361 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 18:04:22,676 INFO USER: what is my user id
+2025-12-04 18:04:24,980 INFO HTTP Request: POST https://api.mem0.ai/v2/memories/search/ "HTTP/1.1 200 OK"
+2025-12-04 18:04:25,596 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-04 18:06:04,142 INFO Use pytorch device_name: cpu
+2025-12-04 18:06:04,142 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 18:06:08,932 INFO Use pytorch device_name: cpu
+2025-12-04 18:06:08,932 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 18:06:32,372 INFO Use pytorch device_name: cpu
+2025-12-04 18:06:32,372 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 18:06:36,995 INFO Use pytorch device_name: cpu
+2025-12-04 18:06:36,995 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 18:12:45,604 INFO Use pytorch device_name: cpu
+2025-12-04 18:12:45,604 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 18:12:50,769 INFO Use pytorch device_name: cpu
+2025-12-04 18:12:50,769 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 18:20:09,431 INFO USER: what is my user id
+2025-12-04 18:20:11,318 INFO HTTP Request: POST https://api.mem0.ai/v2/memories/search/ "HTTP/1.1 200 OK"
+2025-12-04 18:20:11,941 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-04 18:20:11,962 INFO Memory add succeeded: what is my user id
+2025-12-04 18:20:14,625 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-04 18:20:14,628 INFO Function call part exists but no fn_call object.
+2025-12-04 18:30:34,852 INFO Use pytorch device_name: cpu
+2025-12-04 18:30:34,852 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 18:30:39,495 INFO Use pytorch device_name: cpu
+2025-12-04 18:30:39,495 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 18:31:02,699 INFO Use pytorch device_name: cpu
+2025-12-04 18:31:02,700 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 18:31:08,399 INFO Use pytorch device_name: cpu
+2025-12-04 18:31:08,399 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 18:31:30,206 INFO Use pytorch device_name: cpu
+2025-12-04 18:31:30,206 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 18:31:34,346 INFO Use pytorch device_name: cpu
+2025-12-04 18:31:34,346 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 18:32:49,526 INFO Use pytorch device_name: cpu
+2025-12-04 18:32:49,526 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 18:32:53,707 INFO Use pytorch device_name: cpu
+2025-12-04 18:32:53,707 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 18:33:25,061 INFO USER: what is my user id
+2025-12-04 18:33:26,993 INFO HTTP Request: POST https://api.mem0.ai/v2/memories/search/ "HTTP/1.1 200 OK"
+2025-12-04 18:33:27,549 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-04 18:33:27,573 INFO Memory add succeeded: what is my user id
+2025-12-04 18:33:30,192 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-04 18:33:30,196 INFO Function call part exists but no fn_call object.
+2025-12-04 18:37:11,472 INFO USER: i live in minesota USA
+2025-12-04 18:37:13,084 INFO HTTP Request: POST https://api.mem0.ai/v2/memories/search/ "HTTP/1.1 200 OK"
+2025-12-04 18:37:13,982 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-04 18:37:14,006 INFO Memory add succeeded: i live in minesota USA
+2025-12-04 18:37:17,949 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-04 18:37:17,950 INFO Function call part exists but no fn_call object.
+2025-12-04 18:38:57,328 INFO USER: where do i live
+2025-12-04 18:38:59,025 INFO HTTP Request: POST https://api.mem0.ai/v2/memories/search/ "HTTP/1.1 200 OK"
+2025-12-04 18:38:59,943 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-04 18:38:59,965 INFO Memory add succeeded: where do i live
+2025-12-04 18:39:02,543 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-04 18:39:02,544 INFO Function call part exists but no fn_call object.
+2025-12-04 18:40:10,725 INFO USER: i have an issue with my order
+2025-12-04 18:40:12,430 INFO HTTP Request: POST https://api.mem0.ai/v2/memories/search/ "HTTP/1.1 200 OK"
+2025-12-04 18:40:13,008 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-04 18:40:13,029 INFO Memory add succeeded: i have an issue with my order
+2025-12-04 18:40:15,351 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-04 18:40:15,352 INFO Function call part exists but no fn_call object.
+2025-12-04 18:44:29,630 INFO USER: 1234
+2025-12-04 18:44:31,176 INFO HTTP Request: POST https://api.mem0.ai/v2/memories/search/ "HTTP/1.1 200 OK"
+2025-12-04 18:44:31,941 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-04 18:44:31,963 INFO Memory add succeeded: 1234
+2025-12-04 18:44:36,478 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-04 18:44:36,480 INFO Tool triggered: check_order_status | Args: {'order_id': '1234'}
+2025-12-04 18:44:37,001 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-04 18:44:37,052 INFO AFC is enabled with max remote calls: 10.
+2025-12-04 18:44:39,016 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-04 18:44:39,020 INFO MODEL FINAL: {
+  "type": "message",
+  "content": "Thanks for reaching out! I've checked on your order #1234 for you.\n\nGood news! It was shipped on November 12, 2025, and is estimated to arrive by November 18, 2025.\n\nIs there anything else I can help you with regarding your order?",
+  "intent": "general",
+  "tool_used": "check_order_status"
+}
+2025-12-04 18:44:39,566 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-04 18:58:16,730 INFO Use pytorch device_name: cpu
+2025-12-04 18:58:16,730 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 18:58:23,306 INFO Use pytorch device_name: cpu
+2025-12-04 18:58:23,306 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 19:12:54,268 INFO Use pytorch device_name: cpu
+2025-12-04 19:12:54,268 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 19:13:00,701 INFO Use pytorch device_name: cpu
+2025-12-04 19:13:00,702 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 19:16:01,714 INFO Use pytorch device_name: cpu
+2025-12-04 19:16:01,714 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 19:16:10,781 INFO Use pytorch device_name: cpu
+2025-12-04 19:16:10,781 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 19:24:10,641 INFO Use pytorch device_name: cpu
+2025-12-04 19:24:10,641 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 19:24:17,239 INFO Use pytorch device_name: cpu
+2025-12-04 19:24:17,239 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 19:25:08,216 INFO Use pytorch device_name: cpu
+2025-12-04 19:25:08,216 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 19:25:16,000 INFO Use pytorch device_name: cpu
+2025-12-04 19:25:16,000 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 19:27:39,083 INFO Use pytorch device_name: cpu
+2025-12-04 19:27:39,084 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 19:27:43,717 INFO Use pytorch device_name: cpu
+2025-12-04 19:27:43,717 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 19:28:30,518 INFO USER: i have an issue i cn't log into my account
+2025-12-04 19:28:32,793 INFO HTTP Request: POST https://api.mem0.ai/v2/memories/search/ "HTTP/1.1 200 OK"
+2025-12-04 19:28:33,399 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-04 19:28:33,420 INFO Memory add succeeded: i have an issue i cn't log into my account
+2025-12-04 19:28:36,315 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-04 19:28:36,321 INFO Tool triggered: restart_user_session | Args: {'user_id': '1234'}
+2025-12-04 19:28:36,912 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-04 19:28:36,934 INFO AFC is enabled with max remote calls: 10.
+2025-12-04 19:28:40,440 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-04 19:28:40,444 INFO MODEL FINAL: ```json
+{
+  "type": "message",
+  "content": "No worries at all! I've gone ahead and restarted your account session for user ID 1234. Could you please try logging in again now? \n\nIf you're still having trouble, please let me know and we can try some other steps, like resetting your password.",
+  "intent": "support",
+  "tool_used": "restart_user_session"
+}
+```
+2025-12-04 19:28:41,020 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-04 19:29:49,032 INFO USER: 1234 was my order id not user id
+2025-12-04 19:29:51,145 INFO HTTP Request: POST https://api.mem0.ai/v2/memories/search/ "HTTP/1.1 200 OK"
+2025-12-04 19:29:51,764 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-04 19:29:51,787 INFO Memory add succeeded: 1234 was my order id not user id
+2025-12-04 19:29:54,328 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-04 19:29:54,332 INFO Tool triggered: check_order_status | Args: {'order_id': '1234'}
+2025-12-04 19:29:54,896 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-04 19:29:54,924 INFO AFC is enabled with max remote calls: 10.
+2025-12-04 19:29:56,927 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-04 19:29:56,928 INFO MODEL FINAL: {
+  "type": "message",
+  "content": "Thank you for clarifying that 1234 is your order ID! I've checked on that for you.\n\nYour order, 1234, has been shipped! It was sent out on November 12, 2025, and is estimated to arrive by November 18, 2025.\n\nIs there anything else I can help you with regarding your order?",
+  "intent": "support",
+  "tool_used": "check_order_status"
+}
+2025-12-04 19:29:57,506 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-04 19:36:39,216 INFO Use pytorch device_name: cpu
+2025-12-04 19:36:39,216 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 19:36:46,328 INFO Use pytorch device_name: cpu
+2025-12-04 19:36:46,328 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 19:37:45,857 INFO USER: i have an issue i cn't log into my account
+2025-12-04 19:37:47,945 INFO HTTP Request: POST https://api.mem0.ai/v2/memories/search/ "HTTP/1.1 200 OK"
+2025-12-04 19:37:48,512 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-04 19:37:48,533 INFO Memory add succeeded: i have an issue i cn't log into my account
+2025-12-04 19:37:51,361 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-04 19:37:51,363 INFO Tool triggered: restart_user_session | Args: {'user_id': '1234'}
+2025-12-04 19:37:51,906 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-04 19:37:51,927 INFO AFC is enabled with max remote calls: 10.
+2025-12-04 19:37:54,157 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-04 19:37:54,161 INFO MODEL FINAL: {
+  "type": "message",
+  "content": "Hi there! I understand you're having trouble logging into your account. I've just initiated a session restart for your user ID 1234 on our end.\n\nCould you please try logging in again now? Here are the steps:\n\n1.  **Close and reopen** your browser or app.\n2.  **Go to the login page** and try entering your credentials.\n\nIf you're still unable to log in, please let me know, and we can explore other solutions like password reset or account recovery. I'm here to help!",
+  "intent": "support",
+  "tool_used": "restart_user_session"
+}
+2025-12-04 19:37:54,746 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-04 19:39:40,065 INFO USER: i have an issue i forgot my password
+2025-12-04 19:39:40,066 WARNING Rejected user input: {'reason': 'denylist', 'word': 'password'}
+2025-12-04 19:39:41,676 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-04 19:39:41,703 INFO Memory add succeeded: i have an issue i forgot my password
+2025-12-04 19:39:44,124 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-04 19:39:44,125 INFO Tool triggered: calculate_price | Args: {'product_name': 'SEO'}
+2025-12-04 19:39:44,847 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-04 19:39:44,868 INFO AFC is enabled with max remote calls: 10.
+2025-12-04 19:39:47,777 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-04 19:39:47,778 INFO MODEL FINAL: It seems like "seo" is not available right now.
+
+How can I help you further? Would you like to try calculating the price for a different product, or is there something else I can assist you with?
+2025-12-04 19:39:48,519 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-04 19:40:13,758 INFO USER: i have an issue i forgot my account's password
+2025-12-04 19:40:13,758 WARNING Rejected user input: {'reason': 'denylist', 'word': 'password'}
+2025-12-04 19:40:15,208 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-04 19:40:15,229 INFO Memory add succeeded: i have an issue i forgot my account's password
+2025-12-04 19:40:17,717 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-04 19:40:17,720 INFO Function call part exists but no fn_call object.
+2025-12-04 19:41:43,183 INFO USER: i have a technical issue
+2025-12-04 19:41:45,411 INFO HTTP Request: POST https://api.mem0.ai/v2/memories/search/ "HTTP/1.1 200 OK"
+2025-12-04 19:41:46,016 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-04 19:41:46,038 INFO Memory add succeeded: i have a technical issue
+2025-12-04 19:41:48,988 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-04 19:41:48,991 INFO Function call part exists but no fn_call object.
+2025-12-04 20:10:40,018 INFO Use pytorch device_name: cpu
+2025-12-04 20:10:40,019 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 20:10:47,546 INFO Use pytorch device_name: cpu
+2025-12-04 20:10:47,546 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 20:11:13,375 INFO Use pytorch device_name: cpu
+2025-12-04 20:11:13,376 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 20:11:18,375 INFO Use pytorch device_name: cpu
+2025-12-04 20:11:18,375 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 20:11:40,237 INFO USER: i have a technical issue
+2025-12-04 20:11:42,390 INFO HTTP Request: POST https://api.mem0.ai/v2/memories/search/ "HTTP/1.1 200 OK"
+2025-12-04 20:11:43,001 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-04 20:11:43,024 INFO Memory add succeeded: i have a technical issue
+2025-12-04 20:11:48,066 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-04 20:11:48,070 INFO Function call part exists but no fn_call object.
+2025-12-04 20:13:17,782 INFO Use pytorch device_name: cpu
+2025-12-04 20:13:17,782 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 20:13:22,194 INFO Use pytorch device_name: cpu
+2025-12-04 20:13:22,194 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-04 20:13:35,692 INFO USER: i have a technical issue
+2025-12-04 20:13:37,619 INFO HTTP Request: POST https://api.mem0.ai/v2/memories/search/ "HTTP/1.1 200 OK"
+2025-12-04 20:13:38,200 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-04 20:13:38,221 INFO Memory add succeeded: i have a technical issue
+2025-12-04 20:13:40,705 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-04 20:13:40,710 INFO Function call part exists but no fn_call object.
+2025-12-07 10:11:51,688 INFO Use pytorch device_name: cpu
+2025-12-07 10:11:51,689 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-07 10:11:56,683 INFO Use pytorch device_name: cpu
+2025-12-07 10:11:56,683 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-07 10:12:40,753 INFO USER: i have forgotten my password
+2025-12-07 10:12:40,754 WARNING Rejected user input: {'reason': 'denylist', 'word': 'password'}
+2025-12-07 10:12:42,540 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-07 10:12:42,575 INFO Memory add succeeded: i have forgotten my password
+2025-12-07 10:12:45,130 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-07 10:12:45,134 INFO Function call part exists but no fn_call object.
+2025-12-07 10:16:32,023 INFO Use pytorch device_name: cpu
+2025-12-07 10:16:32,023 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-07 10:16:37,265 INFO Use pytorch device_name: cpu
+2025-12-07 10:16:37,265 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-07 10:17:02,494 INFO Use pytorch device_name: cpu
+2025-12-07 10:17:02,495 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-07 10:17:07,331 INFO Use pytorch device_name: cpu
+2025-12-07 10:17:07,331 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-07 10:22:29,908 INFO USER: i have forgotten my password
+2025-12-07 10:22:29,910 WARNING Rejected user input: {'reason': 'denylist', 'word': 'password'}
+2025-12-07 10:22:31,474 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-07 10:22:31,530 INFO Memory add succeeded: i have forgotten my password
+2025-12-07 10:22:33,661 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-07 10:22:33,664 INFO Tool triggered: calculate_price | Args: {'product_name': 'a'}
+2025-12-07 10:22:34,195 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-07 10:22:34,218 INFO AFC is enabled with max remote calls: 10.
+2025-12-07 10:22:42,292 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-07 10:22:42,294 INFO MODEL FINAL: It sounds like you've received an error message indicating that a request couldn't be fulfilled.
+
+Could you please tell me what the original request was that led to this message? I'll do my best to help you rephrase it or figure out an alternative solution.
+2025-12-07 10:22:43,804 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-07 10:26:29,549 INFO USER: i have forgotten my password
+2025-12-07 10:26:29,550 WARNING Rejected user input: {'reason': 'denylist', 'word': 'password'}
+2025-12-07 10:26:30,983 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-07 10:26:31,030 INFO Memory add succeeded: i have forgotten my password
+2025-12-07 10:26:32,983 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-07 10:26:32,986 INFO Function call part exists but no fn_call object.
+2025-12-07 10:29:28,608 INFO Use pytorch device_name: cpu
+2025-12-07 10:29:28,609 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-07 10:29:35,272 INFO Use pytorch device_name: cpu
+2025-12-07 10:29:35,272 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-07 10:35:59,939 INFO Use pytorch device_name: cpu
+2025-12-07 10:35:59,940 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-07 10:36:04,975 INFO Use pytorch device_name: cpu
+2025-12-07 10:36:04,975 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-07 10:36:20,952 INFO USER: i have forgotten my password
+2025-12-07 10:36:20,953 WARNING Rejected user input: {'reason': 'denylist', 'word': 'password'}
+2025-12-07 10:36:22,545 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-07 10:36:22,574 INFO Memory add succeeded: i have forgotten my password
+2025-12-07 10:36:25,202 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-07 10:36:25,207 INFO Tool triggered: memory_read | Args: {'key': 'SEO package', 'user_id': 'user_id'}
+2025-12-07 10:36:25,741 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-07 10:36:25,764 INFO AFC is enabled with max remote calls: 10.
+2025-12-07 10:36:34,028 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-07 10:36:34,029 INFO MODEL FINAL: It looks like the tool I tried to use wasn't recognized by your system.
+
+Regarding your initial message, "I’m sorry — I can’t help with that request. If this is a mistake, please rephrase," could you please clarify what you were referring to, or what you need assistance with? I don't have the context for that request.
+2025-12-07 10:36:35,481 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-07 10:44:11,259 INFO Use pytorch device_name: cpu
+2025-12-07 10:44:11,260 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-07 10:44:15,875 INFO Use pytorch device_name: cpu
+2025-12-07 10:44:15,875 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-07 10:46:47,288 INFO Use pytorch device_name: cpu
+2025-12-07 10:46:47,288 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-07 10:46:51,731 INFO Use pytorch device_name: cpu
+2025-12-07 10:46:51,731 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-07 10:47:33,583 INFO USER: how much does a website costs?
+2025-12-07 10:47:36,075 INFO HTTP Request: POST https://api.mem0.ai/v2/memories/search/ "HTTP/1.1 200 OK"
+2025-12-07 10:47:36,654 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-07 10:47:36,680 INFO Memory add succeeded: how much does a website costs?
+2025-12-07 10:47:38,642 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-07 10:47:38,644 INFO Tool triggered: calculate_price | Args: {'product_name': 'website'}
+2025-12-07 10:47:39,167 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-07 10:47:39,192 INFO Tool Memory add succeeded: The total price is: $300
+2025-12-07 10:47:39,192 INFO AFC is enabled with max remote calls: 10.
+2025-12-07 10:47:43,404 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-07 10:47:43,406 INFO MODEL FINAL: I completely understand! The cost is definitely one of the first things people want to know when thinking about a new website, and it's a very valid question.
+
+Our basic website package, which includes a professional, responsive single-page site perfect for showcasing your business or personal brand, starts at just $300. This covers essential design, setup, and getting you online quickly.
+
+However, website costs can vary quite a bit depending on what you're looking for – think of it like buying a car; a basic sedan is different from a luxury SUV. To give you the most accurate quote and ensure we're aligning with your vision, could you tell me a little more about what you're hoping your website will do? For example, do you need multiple pages, e-commerce functionality, a blog, or something else?
+
+Once I have a better idea of your specific needs, I can provide a more tailored estimate.
+2025-12-07 10:47:43,956 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-07 10:54:21,978 INFO Use pytorch device_name: cpu
+2025-12-07 10:54:21,978 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-07 10:54:26,642 INFO Use pytorch device_name: cpu
+2025-12-07 10:54:26,642 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-07 10:56:14,213 INFO USER: how much will 3 logo designs cost me?
+2025-12-07 10:56:16,771 INFO HTTP Request: POST https://api.mem0.ai/v2/memories/search/ "HTTP/1.1 200 OK"
+2025-12-07 10:56:17,369 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-07 10:56:17,393 INFO Memory add succeeded: how much will 3 logo designs cost me?
+2025-12-07 10:56:19,716 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-07 10:56:19,717 INFO Tool triggered: calculate_price | Args: {'product_name': 'logo design', 'quantity': 3}
+2025-12-07 10:56:20,266 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-07 10:56:20,292 INFO Tool Memory add succeeded
+: calculate_price:  The total price is: $240
+2025-12-07 10:56:20,293 INFO AFC is enabled with max remote calls: 10.
+2025-12-07 10:56:22,568 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-07 10:56:22,570 INFO MODEL FINAL: I understand you're looking to get a clear picture of the investment for your logo designs. That's a very practical question to ask!
+
+For three custom logo designs, the total would be **$240**. This price includes initial concepts, revisions to ensure you're delighted, and final files in all the formats you'll need for web and print.
+
+How does that sound to you, and are there any specific features or details you'd like to discuss about your logos?
+2025-12-07 10:56:23,155 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-07 10:59:45,581 INFO Use pytorch device_name: cpu
+2025-12-07 10:59:45,581 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-07 10:59:50,082 INFO Use pytorch device_name: cpu
+2025-12-07 10:59:50,082 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-07 11:08:19,131 INFO Use pytorch device_name: cpu
+2025-12-07 11:08:19,131 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-07 11:08:24,360 INFO Use pytorch device_name: cpu
+2025-12-07 11:08:24,360 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-07 11:08:46,654 INFO USER: how much will 3 logo designs cost me?
+2025-12-07 11:08:48,738 INFO HTTP Request: POST https://api.mem0.ai/v2/memories/search/ "HTTP/1.1 200 OK"
+2025-12-07 11:08:49,326 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-07 11:08:49,354 INFO Memory add succeeded: how much will 3 logo designs cost me?
+2025-12-07 11:08:51,847 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-07 11:08:51,849 INFO Tool triggered: calculate_price | Args: {'quantity': 3, 'product_name': 'logo design'}
+2025-12-07 11:08:52,473 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-07 11:08:52,505 INFO Tool Memory add succeeded
+: calculate_price:  The total price is: $240
+2025-12-07 11:08:52,505 INFO AFC is enabled with max remote calls: 10.
+2025-12-07 11:08:55,969 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-07 11:08:55,970 INFO MODEL FINAL: I completely understand you want to get a clear picture of the investment for your logo designs – that's a very smart question to ask upfront.
+
+For 3 custom logo designs, the total investment would be **$240**. This price reflects our commitment to creating unique, professional designs tailored to your vision, including initial concepts, revisions to ensure you absolutely love the final product, and delivery in versatile file formats for all your needs.
+
+Does that sound like what you were looking for, or would you like to discuss what's included in more detail?
+2025-12-07 11:08:56,524 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-07 11:10:13,589 INFO Use pytorch device_name: cpu
+2025-12-07 11:10:13,589 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-07 11:10:18,254 INFO Use pytorch device_name: cpu
+2025-12-07 11:10:18,254 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-07 11:18:49,451 INFO Use pytorch device_name: cpu
+2025-12-07 11:18:49,452 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-07 11:18:54,243 INFO Use pytorch device_name: cpu
+2025-12-07 11:18:54,243 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-07 11:20:06,712 INFO USER: how much will 2 mobile apps cost me?
+2025-12-07 11:20:08,895 INFO HTTP Request: POST https://api.mem0.ai/v2/memories/search/ "HTTP/1.1 200 OK"
+2025-12-07 11:20:09,327 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 400 Bad Request"
+2025-12-07 11:20:09,327 ERROR HTTP error occurred: Client error '400 Bad Request' for url 'https://api.mem0.ai/v1/memories/'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400
+2025-12-07 11:20:09,328 ERROR Memory add failed.
+2025-12-07 11:20:13,268 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-07 11:20:13,275 INFO Tool triggered: calculate_price | Args: {'product_name': 'mobile apps', 'quantity': 2}
+2025-12-07 11:20:13,634 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 400 Bad Request"
+2025-12-07 11:20:13,635 ERROR HTTP error occurred: Client error '400 Bad Request' for url 'https://api.mem0.ai/v1/memories/'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400
+2025-12-07 11:20:13,635 ERROR Tool Memory add failed.
+2025-12-07 11:20:13,636 INFO AFC is enabled with max remote calls: 10.
+2025-12-07 11:20:18,070 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-07 11:20:18,072 INFO MODEL FINAL: I completely understand that you're looking for a clear idea of the cost for two mobile apps. It's a really important question when planning any project, and getting a good estimate upfront can help immensely.
+
+The challenge with mobile app development is that the price can vary significantly depending on the complexity, features, design, and platform (iOS, Android, or both). A simple app might cost much less than one with advanced functionalities like real-time data, complex integrations, or custom AI.
+
+To give you a more accurate estimate, could you tell me a little more about what you envision for these two apps? For example:
+
+*   What kind of functionality or features are you hoping for in each app?
+*   Who is the target audience, and what problem will the apps solve for them?
+*   Do you have a preference for iOS, Android, or both platforms?
+*   Do you need custom design work, or will a more standard template approach work?
+
+Once I have a better understanding of your specific needs, I can provide a more tailored estimate and discuss options that align with your budget and goals.
+2025-12-07 11:20:18,438 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 400 Bad Request"
+2025-12-07 11:20:18,439 ERROR HTTP error occurred: Client error '400 Bad Request' for url 'https://api.mem0.ai/v1/memories/'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400
+2025-12-07 11:23:08,454 INFO Use pytorch device_name: cpu
+2025-12-07 11:23:08,455 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-07 11:23:13,833 INFO Use pytorch device_name: cpu
+2025-12-07 11:23:13,833 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-07 11:24:48,149 INFO Use pytorch device_name: cpu
+2025-12-07 11:24:48,150 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-07 11:24:52,410 INFO Use pytorch device_name: cpu
+2025-12-07 11:24:52,410 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-09 00:21:09,285 INFO Use pytorch device_name: cpu
+2025-12-09 00:21:09,286 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-09 00:21:13,458 INFO Use pytorch device_name: cpu
+2025-12-09 00:21:13,458 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-09 00:22:40,015 INFO USER: hey, how are you today??
+2025-12-09 00:22:42,389 INFO HTTP Request: POST https://api.mem0.ai/v2/memories/search/ "HTTP/1.1 200 OK"
+2025-12-09 00:22:43,011 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-09 00:22:43,038 INFO Memory add succeeded: hey, how are you today??
+2025-12-09 00:22:45,352 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-09 00:22:45,356 INFO Function call part exists but no fn_call object.
+2025-12-09 00:27:19,243 INFO Use pytorch device_name: cpu
+2025-12-09 00:27:19,243 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-09 00:27:23,658 INFO Use pytorch device_name: cpu
+2025-12-09 00:27:23,658 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-09 00:27:34,718 INFO USER: hey, how are you today??
+2025-12-09 00:27:36,664 INFO HTTP Request: POST https://api.mem0.ai/v2/memories/search/ "HTTP/1.1 200 OK"
+2025-12-09 00:27:37,238 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-09 00:27:37,261 INFO Memory add succeeded: hey, how are you today??
+2025-12-09 00:27:39,400 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-09 00:27:39,404 INFO Function call part exists but no fn_call object.
+2025-12-09 00:30:28,506 INFO Use pytorch device_name: cpu
+2025-12-09 00:30:28,506 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-09 00:30:33,062 INFO Use pytorch device_name: cpu
+2025-12-09 00:30:33,062 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-09 00:30:51,817 INFO USER: hello
+2025-12-09 00:30:53,834 INFO HTTP Request: POST https://api.mem0.ai/v2/memories/search/ "HTTP/1.1 200 OK"
+2025-12-09 00:30:54,395 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-09 00:30:54,418 INFO Memory add succeeded: hello
+2025-12-09 00:30:58,043 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-09 00:30:58,044 INFO Function call part exists but no fn_call object.
+2025-12-09 00:40:09,036 INFO Use pytorch device_name: cpu
+2025-12-09 00:40:09,037 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-09 00:40:13,241 INFO Use pytorch device_name: cpu
+2025-12-09 00:40:13,241 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-09 00:47:48,300 INFO Use pytorch device_name: cpu
+2025-12-09 00:47:48,301 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-09 00:47:56,159 INFO Use pytorch device_name: cpu
+2025-12-09 00:47:56,160 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-09 00:48:06,153 WARNING '(ReadTimeoutError("HTTPSConnectionPool(host='huggingface.co', port=443): Read timed out. (read timeout=10)"), '(Request ID: 287f5959-cf2d-4c28-aa00-8b48e6acf717)')' thrown while requesting HEAD https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/resolve/main/./modules.json
+2025-12-09 00:48:06,153 WARNING Retrying in 1s [Retry 1/5].
+2025-12-09 00:51:11,210 INFO USER: hey
+2025-12-09 00:51:13,626 INFO HTTP Request: POST https://api.mem0.ai/v2/memories/search/ "HTTP/1.1 200 OK"
+2025-12-09 00:51:14,188 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-09 00:51:14,212 INFO Memory add succeeded: hey
+2025-12-09 00:51:16,575 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-09 00:51:16,579 INFO Function call part exists but no fn_call object.
+2025-12-09 00:52:07,917 INFO USER: which services do you offer??
+2025-12-09 00:52:09,270 INFO HTTP Request: POST https://api.mem0.ai/v2/memories/search/ "HTTP/1.1 200 OK"
+2025-12-09 00:52:09,844 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-09 00:52:09,867 INFO Memory add succeeded: which services do you offer??
+2025-12-09 00:52:16,265 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-09 00:52:16,273 INFO Function call part exists but no fn_call object.
+2025-12-09 00:53:05,327 INFO USER:  i would like to enquire about your websites
+2025-12-09 00:53:06,815 INFO HTTP Request: POST https://api.mem0.ai/v2/memories/search/ "HTTP/1.1 200 OK"
+2025-12-09 00:53:07,432 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-09 00:53:07,455 INFO Memory add succeeded:  i would like to enquire about your websites
+2025-12-09 00:53:10,305 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-09 00:53:10,309 INFO Function call part exists but no fn_call object.
+2025-12-09 00:53:52,067 INFO USER: how much does 3 websites costs
+2025-12-09 00:53:53,507 INFO HTTP Request: POST https://api.mem0.ai/v2/memories/search/ "HTTP/1.1 200 OK"
+2025-12-09 00:53:54,099 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-09 00:53:54,125 INFO Memory add succeeded: how much does 3 websites costs
+2025-12-09 00:53:57,616 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-09 00:53:57,621 INFO Tool triggered: calculate_price | Args: {'product_name': 'website', 'quantity': 3}
+2025-12-09 00:53:58,187 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-09 00:53:58,213 INFO Tool Memory add succeeded
+: calculate_price:  The total price is: $900
+2025-12-09 00:53:58,213 INFO AFC is enabled with max remote calls: 10.
+2025-12-09 00:54:01,550 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-09 00:54:01,554 INFO MODEL FINAL: I understand you're looking for clarity on the cost, and it's definitely important to know what to expect.
+
+For three websites, the total would be **$900**. This price reflects our commitment to delivering professional, high-quality websites, each custom-designed to suit your specific needs, mobile-responsive, and optimized for performance. We focus on creating effective online presences that help you achieve your business goals.
+
+Would you like to explore what specific features you're looking for in each website, or discuss a detailed breakdown of what's included in that package?
+2025-12-09 00:54:03,238 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-09 00:55:12,869 INFO USER: i have an issue with my account
+2025-12-09 00:55:14,407 INFO HTTP Request: POST https://api.mem0.ai/v2/memories/search/ "HTTP/1.1 200 OK"
+2025-12-09 00:55:15,033 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-09 00:55:15,071 INFO Memory add succeeded: i have an issue with my account
+2025-12-09 00:55:19,194 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-09 00:55:19,198 INFO Function call part exists but no fn_call object.
+2025-12-09 00:55:45,607 INFO USER: i can't login
+2025-12-09 00:55:46,956 INFO HTTP Request: POST https://api.mem0.ai/v2/memories/search/ "HTTP/1.1 200 OK"
+2025-12-09 00:55:47,527 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-09 00:55:47,561 INFO Memory add succeeded: i can't login
+2025-12-09 00:55:57,751 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-09 00:55:57,754 INFO Function call part exists but no fn_call object.
+2025-12-09 11:14:45,382 INFO Use pytorch device_name: cpu
+2025-12-09 11:14:45,383 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-09 11:14:50,507 INFO Use pytorch device_name: cpu
+2025-12-09 11:14:50,507 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-10 11:36:35,250 INFO Use pytorch device_name: cpu
+2025-12-10 11:36:35,251 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-10 11:36:47,641 INFO Use pytorch device_name: cpu
+2025-12-10 11:36:47,641 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-10 11:38:33,219 INFO Use pytorch device_name: cpu
+2025-12-10 11:38:33,219 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-10 11:38:57,118 INFO Use pytorch device_name: cpu
+2025-12-10 11:38:57,118 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-10 11:44:07,104 INFO USER: hey
+2025-12-10 11:44:09,625 INFO HTTP Request: POST https://api.mem0.ai/v2/memories/search/ "HTTP/1.1 200 OK"
+2025-12-10 11:44:10,262 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-10 11:44:10,286 INFO Memory add succeeded: hey
+2025-12-10 11:44:12,831 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-10 11:44:12,834 INFO Function call part exists but no fn_call object.
+2025-12-10 11:49:57,750 INFO USER: how are you doing
+2025-12-10 11:52:16,249 INFO USER: hey
+2025-12-10 11:57:07,186 INFO USER: how are you doing?
+2025-12-10 11:57:47,109 INFO Use pytorch device_name: cpu
+2025-12-10 11:57:47,109 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-10 11:57:56,045 INFO Use pytorch device_name: cpu
+2025-12-10 11:57:56,045 INFO Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-12-10 11:58:43,046 INFO USER: hey
+2025-12-10 11:58:44,981 INFO HTTP Request: POST https://api.mem0.ai/v2/memories/search/ "HTTP/1.1 200 OK"
+2025-12-10 11:58:45,586 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-10 11:58:45,609 INFO Memory add succeeded: hey
+2025-12-10 11:58:47,611 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-10 11:58:47,614 INFO Function call part exists but no fn_call object.
+2025-12-10 12:01:11,928 INFO USER: how are you doing?
+2025-12-10 12:01:13,485 INFO HTTP Request: POST https://api.mem0.ai/v2/memories/search/ "HTTP/1.1 200 OK"
+2025-12-10 12:01:14,203 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-10 12:01:14,229 INFO Memory add succeeded: how are you doing?
+2025-12-10 12:01:16,524 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-10 12:01:16,525 INFO Function call part exists but no fn_call object.
+2025-12-10 12:02:45,598 INFO USER: how much does 3 websites costs?
+2025-12-10 12:02:47,216 INFO HTTP Request: POST https://api.mem0.ai/v2/memories/search/ "HTTP/1.1 200 OK"
+2025-12-10 12:02:47,884 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-10 12:02:47,912 INFO Memory add succeeded: how much does 3 websites costs?
+2025-12-10 12:02:51,059 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-10 12:02:51,061 INFO Tool triggered: calculate_price | Args: {'product_name': 'website', 'quantity': 3}
+2025-12-10 12:02:51,585 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"
+2025-12-10 12:02:51,614 INFO Tool Memory add succeeded
+: calculate_price:  The total price is: $900
+2025-12-10 12:02:51,615 INFO AFC is enabled with max remote calls: 10.
+2025-12-10 12:02:55,055 INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-10 12:02:55,056 INFO MODEL FINAL: I understand that understanding the cost upfront is really important when planning your online presence.
+
+The total price for three websites would be $900. While that might seem like an investment, this covers three professionally designed, mobile-responsive websites tailored to your specific needs. Each site will be built with SEO best practices in mind, include a user-friendly content management system, and be optimized to help you achieve your online goals, ensuring you get significant value and impact for your business.
+
+Would you like to discuss the specific features included for each site, or perhaps explore a detailed breakdown of what that investment provides?
+2025-12-10 12:02:55,612 INFO HTTP Request: POST https://api.mem0.ai/v1/memories/ "HTTP/1.1 200 OK"

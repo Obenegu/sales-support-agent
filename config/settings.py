@@ -4,12 +4,16 @@ from dotenv import load_dotenv
 from google import genai
 from app.tools.sales_tools import Sales_Tools
 from pgvector.asyncpg import register_vector
+from mem0 import MemoryClient
 
 load_dotenv()
 
 api_key = os.environ.get("GEMINI_API_KEY")
+mem0_api_key = os.environ.get("MEM0_API_KEY")
 
 client = genai.Client(api_key=api_key)
+mem0 = MemoryClient(api_key=mem0_api_key)
+
 
 db = os.environ.get("DATABASE_URL")
 async_db = os.environ.get("ASYNC_DATABASE_URL")
@@ -58,7 +62,7 @@ Important: your response is always supppose to be short, precise and straight to
 Important: you should always check your memory
 
 Rules:
-- Always be polite, helpful, and concise.
+- Always be polite, helpful, concise, short and precise. Do not over explain or use context that has not been provided to you by the user or system.
 - Never hallucinate product names. Only use products in the PRODUCTS list.
 - If a tool can answer the question better, ALWAYS call the tool.
 - If a pricing/quote/upsell question is asked → ALWAYS call a tool.
@@ -77,11 +81,15 @@ Safety rules:
 2) Do not output user PII. If user provided PII, redact before using tools.
 3) When returning JSON, never include extra fields beyond the agreed schema.
 
+You MUST output ONLY valid JSON. Do NOT wrap in markdown or codeblocks.
+The `response` field must contain ONLY plain text (no JSON inside it).
+
 JSON FORMAT (required):
 {
-  "response": "<final polished message to the user>",
+  "response": "<final polished message to the user and it should be palin text, short and precise>",
   "intent": "<sales | support | general>",
-  "tool_used": "<name of tool or none>"
+  "tool_used": "<name of tool or none>",
+  "role": "assistant"
 }
 
 When analyzing a user message, classify it into one of these intents:
@@ -121,6 +129,8 @@ The user is asking how to use the product or resolve an issue.
 Examples:
 - “Where do I upload my files?”
 - “My payment isn’t going through.”
+- “i have forgotten my password”
+- “i have issues logging in”
 
 6. GENERAL CHAT
 Anything unrelated to sales or support.

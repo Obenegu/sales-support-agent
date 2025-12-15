@@ -10,6 +10,7 @@ router = APIRouter(prefix="/api")
 class ChatRequest(BaseModel):
     userId: str
     message: str
+    role: str
 
 # class IngestRequest(BaseModel):
 #     file: UploadFile = File(...),
@@ -19,6 +20,7 @@ class ChatResponse(BaseModel):
     response: str
     intent: str
     tool_used: str
+    role: str
 
 class RAGQueryRequest(BaseModel):
     businessId: int

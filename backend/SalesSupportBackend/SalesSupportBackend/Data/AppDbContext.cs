@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SalesSupportBackend.Models;
+using System.Reflection.Emit;
 
 namespace SalesSupportBackend.Data
 {
@@ -15,6 +16,8 @@ namespace SalesSupportBackend.Data
 
 		protected override void OnModelCreating(ModelBuilder builder)
 		{
+			builder.Entity<ChatLog>().HasIndex(m => new { m.BusinessId, m.CreatedAt });
+		
 			base.OnModelCreating(builder);
 
 			builder.Entity<Business>()
