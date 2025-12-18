@@ -1,5 +1,5 @@
 # services/support_engine.py
-from services.support_template import SUPPORT_TEMPLATES, SYMPTOM_DIAGNOSIS_MAP, SYMPTOM_KEYWORDS_MAP
+from services.support.support_template import SUPPORT_TEMPLATES, SYMPTOM_DIAGNOSIS_MAP, SYMPTOM_KEYWORDS_MAP
 from app.safety import sanitize_text
 from rapidfuzz import fuzz
 

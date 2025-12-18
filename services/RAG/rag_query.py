@@ -1,5 +1,3 @@
-# orchestrator/routes/rag_query.py
-
 from fastapi import APIRouter, Form
 import psycopg2
 import os
@@ -35,46 +33,15 @@ async def rag_query(payload: RAGQueryRequest):
     print(f"Received query: {query}")
     print(f"Business ID: {business_id}")
 
+    result = get_info_from_pdf(query, business_id)
+    if "answer" in result:
+        return result
 
-    # Step 1: Embed query
-    query_vec = model.encode([query])[0]
-    print(f"Query embedding (first 10 dims): {query_vec[:10]}")
-
-    cur = pg.cursor()
-    cur.execute(
-        """
-        SELECT text,
-        1 - (embedding <=> %s::vector) AS similarity
-        FROM document_chunks
-        WHERE business_id = %s
-        ORDER BY embedding <=> %s::vector
-        LIMIT 5
-        """,
-        (query_vec.tolist(), business_id, query_vec.tolist())
-    )
-
-    results = cur.fetchall()
-    print(f"Raw DB results: {results}")
-
-
-    if not results:
-        return {"answer": "I don’t have information about that."}
-
-    # Get best match
-    best_text, best_similarity = results[0]
-
-    # Step 2: Strict check — reject if similarity is too low
-    if float(best_similarity) < SIMILARITY_THRESHOLD:
-        return {"answer": "I don’t have information about that."}
-
-    # Step 3: Build final response strictly from chunks
-    combined_context = " ".join([r[0] for r in results])
-
-    answer = generate_strict_answer(query, combined_context)
+    answer = generate_strict_answer(query, result["combined_context"])
 
     return {
         "answer": answer,
-        "similarity": best_similarity
+        "similarity": result["similarity"]
     }
 
 
@@ -107,4 +74,52 @@ Answer using ONLY the document text:
     # this uses your orchestrator’s LLM call
     return call_llm_strict(prompt)
 
+def get_info_from_pdf(query: str, business_id: int) -> dict:
+    """
+    Fetch relevant info from ingested PDF documents for the given business.
+    """
+    # Step 1: Embed query
+    query_vec = model.encode([query])[0]
+    print(f"Query embedding (first 10 dims): {query_vec[:10]}")
+
+    cur = pg.cursor()
+    cur.execute(
+        """
+        SELECT text,
+        1 - (embedding <=> %s::vector) AS similarity
+        FROM document_chunks
+        WHERE business_id = %s
+        ORDER BY embedding <=> %s::vector
+        LIMIT 5
+        """,
+        (query_vec.tolist(), business_id, query_vec.tolist())
+    )
+
+    results = cur.fetchall()
+    print(f"Raw DB results: {results}")
+
+
+    if not results:
+         return {
+        "answer": "I don’t have information about that.",
+        "similarity": 0.0
+    }
+
+    # Get best match
+    best_text, best_similarity = results[0]
+
+    # Step 2: Strict check — reject if similarity is too low
+    if float(best_similarity) < SIMILARITY_THRESHOLD:
+        return {
+        "answer": "I don’t have information about that.",
+        "similarity": float(best_similarity)
+    }
+
+    # Step 3: Build final response strictly from chunks
+    combined_context = " ".join([r[0] for r in results])
+
+    return {
+        "combined_context": combined_context,
+        "similarity": float(best_similarity)
+    }
 

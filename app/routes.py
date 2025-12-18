@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Request
 from pydantic import BaseModel
 from services.ai_client import ai_chat
-from services.ingest_pdf import ingest_document
-from services.rag_query import rag_query
+from services.RAG.ingest_pdf import ingest_document
+from services.RAG.rag_query import rag_query
 from fastapi import APIRouter, UploadFile, Form, File
 
 router = APIRouter(prefix="/api")

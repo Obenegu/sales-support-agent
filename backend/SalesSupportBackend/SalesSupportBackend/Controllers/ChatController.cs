@@ -98,7 +98,7 @@ namespace SalesSupportBackend.Controllers
 			// Fetch chat history for the user from the database
 			// For simplicity, assuming userId maps directly to BusinessId
 
-			var userId = "string";
+			var userId = "junior";
 
 			var chatLogs = await _context.ChatLogs
 				.Where(c => c.userId == userId)

@@ -7,7 +7,7 @@ import psycopg2
 import os
 from config.settings import db
 from sentence_transformers import SentenceTransformer
-from services.memory import MemoryService
+from services.memory.db_memory import MemoryService
 
 memory = MemoryService(db_url=db)
 

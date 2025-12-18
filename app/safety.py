@@ -5,7 +5,7 @@ from typing import Tuple
 logger = logging.getLogger("orchestrator.safety")
 
 # Simple denylist (add entries as you discover abuse vectors)
-DENYLIST = ["bomb", "kill", "attack", "terrorist", "explosive", "ssn", "password"]
+DENYLIST = ["bomb", "kill", "attack", "terrorist", "explosive", "ssn"]
 
 # PII regex examples - tune them to your region
 EMAIL_RE = re.compile(r"[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+")

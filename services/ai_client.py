@@ -3,20 +3,20 @@ from pydantic import BaseModel
 from services.classify_intent import classify_intent
 from google.genai import types
 from config.settings import client, sales_tool, SYSTEM_PROMPT, db
-from app.orchestrator import orchestrate, memory
-from app.tools.schema import sales_schema
+from app.orchestrator import orchestrate
+from services.memory.mem0_memory import Mem0MemoryManager
+from app.schema.sales_schema import sales_schema
 from app.logs.logging_helper import log_error, log_info
-from app.tools.support_schema import support_schema
-from app.tools import support_tool
-from app.orchestrator import memory
+from app.schema.support_schema import support_schema
+from app.schema.memory_schema import memory_schema
 import time
-
+from services.RAG.rag_query import get_info_from_pdf
+from app.tools.execute_tools import execute_tools
 
 class ChatResponse(BaseModel):
     response: str
     intent: str
     tool_used: str
-
 
 def normalize_output(raw_text, tool_used, intent):
     """Ensures the model output ALWAYS has the correct schema."""
@@ -48,21 +48,20 @@ def normalize_output(raw_text, tool_used, intent):
     }
 
 
+mem0_memory = Mem0MemoryManager()
+
 async def ai_chat(user_message, user_id):
 
-    log_info(f"USER: {user_message}")
-
-    combined_schema = sales_schema + support_schema
-
-    tools = types.Tool(function_declarations=combined_schema)
 
     intent = classify_intent(user_message)
 
     orchestrated_message = await orchestrate(message=user_message, user_id=user_id)
 
+    log_info(f"USER: {orchestrated_message}")
+
     # Save to memory
     try:
-        memory_result = memory.mem0_add(
+        memory_result = mem0_memory.mem0_add(
         user_id=user_id,
         namespace="business",
         messages=[{"role": "user", "content": user_message}],
@@ -79,6 +78,9 @@ async def ai_chat(user_message, user_id):
         log_error(f"Failed to save user message to memory: {e}")
 
 
+    combined_schema = sales_schema + support_schema + memory_schema
+
+    tools = types.Tool(function_declarations=combined_schema)
 
     config = types.GenerateContentConfig(
         tools=[tools],
@@ -86,188 +88,119 @@ async def ai_chat(user_message, user_id):
         max_output_tokens=4096
     )
 
-    contents = types.Content(role="user", parts=[
-        types.Part(text=SYSTEM_PROMPT + "\n\n" + orchestrated_message)
-    ])
 
+    contents = [
+    types.Content(
+        role="user",
+        parts=[types.Part(text=SYSTEM_PROMPT)]  # Assume SYSTEM_PROMPT includes ReAct instructions
+    ),
+    types.Content(
+        role="model",
+        parts=[types.Part(text="Understood. I am ready to assist using tools when needed.")]
+    ),
+    types.Content(
+        role="user",
+        parts=[types.Part(text=f"Current user query:\n{user_message}")]
+    )
+]
+
+    all_tools_used = []
     max_itrs = 20
-    for i in range(0, max_itrs):
+    for i in range(max_itrs):
 
+        log_info(f"Agent step {i + 1}")
     # ----------------------------
     # First LLM call
     # ----------------------------
         try:
             response = client.models.generate_content(
-                model="gemini-2.5-flash",
-                contents=[contents],
+                model="gemini-2.5-flash", # gemini-1.5-pro for stronger reasoning
+                contents=contents,
                 config=config
             )
         except Exception as e:
             log_error(f"LLM request failed: {e}")
-            return {
-                "response": "Sorry, something went wrong.",
-                "intent": intent,
-                "tool_used": "none",
-                "role": "assistant"
-            }
+            return normalize_output("Sorry, something went wrong.", "none", intent)
 
         candidate = response.candidates[0]
         parts = candidate.content.parts if candidate.content else []
 
+
+        # Append model's raw output to history
+        contents.append(types.Content(role="model", parts=parts))
+
+        # Check for function calls (can be multiple)
+        function_calls = [p.function_call for p in parts if p.function_call is not None]
+
+        if not function_calls:
+            log_info("No valid function calls detected this turn.")
+        else:
+            log_info(f"Detected {len(function_calls)} function call(s): {[fc.name for fc in function_calls]}")
+
         # ----------------------------------------
         # If LLM triggered a tool
         # ----------------------------------------
-        if parts and hasattr(parts[0], "function_call"):
+        if function_calls:
+            tool_names, tool_outputs = await execute_tools(function_calls, user_id, orchestrated_message)
+            all_tools_used.extend(tool_names)
 
-            fn_call = parts[0].function_call
+            log_info(f"All Tool used: {all_tools_used}")
 
-            if fn_call is None:
-                # Should not happen, but safe fallback
-                log_info("Function call part exists but no fn_call object.")
-                normalized = normalize_output(response.text, tool_used="none", intent=intent)
-                return normalized
+            # Feed all observations back (one per tool, in order)
+            observation_texts = [
+                f"Observation from {name}: {output}"
+                for name, output in zip(tool_names, tool_outputs)
+            ]
 
-            fn_name = fn_call.name
-            args = fn_call.args
+            observation_content = "\n\n".join(observation_texts)
 
-            log_info(f"Tool triggered: {fn_name} | Args: {args}")
+            log_info(f"Observations per tool call: {observation_content}")
 
-            try:
-                # Execute tool
-                if fn_name == "calculate_price":
-                    result = sales_tool.calculate_price(
-                        product_name=args.get("product_name"),
-                        quantity=args.get("quantity", 1),
-                    )
-                    tool_output = f"The total price is: ${result}"
-
-                elif fn_name == "generate_quote":
-                    tool_output = sales_tool.generate_quote(
-                        customer_name=args.get("customer_name"),
-                        product=args.get("product"),
-                        quantity=args.get("quantity", 1),
-                    )
-
-                elif fn_name == "suggest_upsells":
-                    tool_output = sales_tool.suggest_upsells(
-                        product=args.get("product")
-                    )
-                # # Memory Tool
-                # elif fn_name == "memory_write":
-                #     # IMPORTANT: DO NOT allow user-supplied arbitrary user_id in prod — extract from JWT
-                #     # user_id = args.get("user_id")
-                #     # value should be parsed as a JSON object from the LLM args
-                #     value = args.get("value") or {}
-                #     summary = args.get("summary")
-                #     mem_result = await memory.write(user_id=user_id, key=args["key"], value=value, summary=summary)
-                #     tool_output = json.dumps(mem_result)
-
-                # elif fn_name == "memory_read":
-                #     # user_id = args.get("user_id")
-                #     mem = await memory.read(user_id=user_id, limit=10)
-                #     tool_output = json.dumps(mem or {})
-
-                # elif fn_name == "memory_search":
-                #     # user_id = args.get("user_id")
-                #     # user_id = args.get("user_id")
-                #     # found = await memory.search(user_id=user_id, query=args["query"], limit=int(args.get("limit", 5)))
-                #     found = await memory.search(user_id=user_id, query=user_message, limit=10)
-                #     tool_output = json.dumps(found)
-
-                # ---------- support handlers ----------
-                
-                elif fn_name == "check_order_status":
-                    result = support_tool.check_order_status(args.get("order_id"))
-                    tool_output = json.dumps(result)
-
-                elif fn_name == "check_payment_status":
-                    result = support_tool.check_payment_status(args.get("order_id"))
-                    tool_output = json.dumps(result)
-
-                elif fn_name == "restart_user_session":
-                    result = support_tool.restart_user_session(args.get("user_id"))
-                    tool_output = json.dumps(result)
-
-                elif fn_name == "check_subscription":
-                    result = support_tool.check_subscription(args.get("user_id"))
-                    tool_output = json.dumps(result)
-
-                else:
-                    tool_output = "Tool not recognized."
-
-                # Save to memory
-                try:
-                    memory_result = memory.mem0_add(
-                    user_id=user_id,
-                    namespace="business",
-                    messages=[{"role": "assistant", "content": f"{fn_name} = {tool_output}"}],
-                    metadata={"ts": time.time()}
-                    )
-
-                    if memory_result is None:
-                        log_error("Tool Memory add failed.")
-                    else:
-                        log_info(f"Tool Memory add succeeded\n: {fn_name}:  {tool_output}")
-                        print(memory_result)
-                
-                except Exception as e:
-                    log_error(f"Failed to save tool output to memory: {e}")
-
-                
-
-                # ----------------------------
-                # Second LLM call (polish reply)
-                # ----------------------------
-                followup = client.models.generate_content(
-                    model="gemini-2.5-flash",
-                    contents=[
-                        types.Content(role="user", parts=[types.Part(text=orchestrated_message)]),
-                        types.Content(role="model", parts=[parts[0]]),
-                        types.Content(role="user", parts=[types.Part(text=json.dumps(tool_output))]),
-                    ],
+            contents.append(
+                types.Content(
+                    role="user",
+                    parts=[types.Part(text=observation_content)]
                 )
+            )
+            # Continue the loop
+            continue
 
-                final_reply = followup.text
-                log_info(f"MODEL FINAL: {final_reply}")
+        # No function calls → this should be the final response
+        final_reply = response.text.strip()
 
-                # Save to memory
-                try:
-                    memory.mem0_add(
-                    user_id=user_id,
-                    namespace="business",
-                    messages=[{"role": "assistant", "content": final_reply}],
-                    metadata={"ts": time.time()}
-                    )
-                except Exception as e:
-                    log_error(f"Failed to save final reply to memory: {e}")
+        # Extract the actual response if it used "Action: respond"
+        # Optional: strip any lingering reasoning prefixes if your SYSTEM_PROMPT forces ReAct format
+        if final_reply.startswith("Thought:") or final_reply.startswith("Action:"):
+            # Take everything after the last "Action: respond" or fallback to full text
+            if "Action: respond" in final_reply:
+                final_reply = final_reply.split("Action: respond", 1)[-1].strip()
+            else:
+                final_reply = final_reply.split("Thought:", 1)[-1].strip()
 
-                return normalize_output(final_reply, tool_used=fn_name, intent=intent)
+        # final_reply = followup.text
+        log_info(f"MODEL FINAL: {final_reply}")
 
-            except Exception as e:
-                log_error(f"Tool execution failure: {e}")
-                return {
-                    "response": "An internal tool error occurred.",
-                    "intent": intent,
-                    "tool_used": fn_name,
-                    "role": "assistant"
-                }
+        # Save to memory
+        try:
+            mem0_memory.mem0_add(
+            user_id=user_id,
+            namespace="business",
+            messages=[{"role": "assistant", "content": final_reply}],
+            metadata={"ts": time.time()}
+            )
+        except Exception as e:
+            log_error(f"Failed to save final reply to memory: {e}")
 
-        # --------------------------------------------------------
-        # NO TOOL CALL — Just return the model output normally
-        # --------------------------------------------------------
-        # log_info(f"MODEL RESPONSE: {response.text}")
-        # return normalize_output(response.text, tool_used=fn_name, intent=intent)
-    
+        tools_str = ",".join(all_tools_used) if all_tools_used else "none"
+
+        return normalize_output(final_reply, tool_used=tools_str, intent=intent)
+
     log_info(f"MODEL RESPONSE: {response.text}")
-    # Save to memory
-    try:
-        memory.mem0_add(
-        user_id=user_id,
-        namespace="business",
-        messages=[{"role": "assistant", "content": response.text}],
-        metadata={"ts": time.time()}
-        )
-    except Exception as e:
-        log_error(f"Failed to save final response to memory: {e}")
-
-    return normalize_output(response.text, tool_used=fn_name, intent=intent)
+    
+    # Fallback if max steps reached
+    tools_str = ",".join(all_tools_used) if all_tools_used else "none"
+    return normalize_output(
+        "I got stuck in a loop and couldn't complete the task. Please try rephrasing.",
+        tools_str,
+        intent
+    )
