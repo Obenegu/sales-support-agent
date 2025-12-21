@@ -177,7 +177,7 @@ async def ai_chat(user_message, user_id):
             else:
                 final_reply = final_reply.split("Thought:", 1)[-1].strip()
 
-        # final_reply = followup.text
+        
         log_info(f"MODEL FINAL: {final_reply}")
 
         # Save to memory
