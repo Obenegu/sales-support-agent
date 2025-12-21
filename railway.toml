@@ -1,6 +1,6 @@
 [build]
 builder = "nixpacks"
-buildCommand = "dotnet publish backend/YourProject.csproj -c Release -o out"
+buildCommand = "dotnet publish backend/SalesSupportBackend.csproj -c Release -o out"
 
 [deploy]
-startCommand = "dotnet out/YourProject.dll"
+startCommand = "dotnet out/SalesSupportBackend.dll"
