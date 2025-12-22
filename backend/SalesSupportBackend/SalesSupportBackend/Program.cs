@@ -33,10 +33,7 @@ var jwtKeyBase64 = builder.Configuration["Jwt:Key"]
 if (string.IsNullOrWhiteSpace(jwtKeyBase64))
     throw new InvalidOperationException("JWT key is empty.");
 
-byte[] keyBytes = Convert.FromBase64String(jwtKeyBase64);
-
-if (keyBytes.Length < 32)
-    throw new InvalidOperationException($"JWT key too weak: {keyBytes.Length} bytes. Minimum 32 bytes (256 bits) required.");
+var key = Encoding.ASCII.GetBytes(jwtKeyBase64);
 
 builder.Services.AddAuthentication(options =>
 {
@@ -50,7 +47,7 @@ builder.Services.AddAuthentication(options =>
 	options.TokenValidationParameters = new TokenValidationParameters
 	{
 		ValidateIssuerSigningKey = true,
-		IssuerSigningKey = new SymmetricSecurityKey(keyBytes),
+		IssuerSigningKey = new SymmetricSecurityKey(key),
 		ValidateIssuer = false,
 		ValidateAudience = false
 	};
