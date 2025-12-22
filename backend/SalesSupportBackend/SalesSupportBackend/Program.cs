@@ -24,8 +24,19 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 //Authentication
 // JWT Settings
-var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"]!);
+//var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"]!);
 //var key = Encoding.ASCII.GetBytes("YOUR_VERY_SECRET_KEY_HERE");
+
+var jwtKeyBase64 = builder.Configuration["Jwt:Key"]
+    ?? throw new InvalidOperationException("JWT key is missing. Set Jwt:Key in configuration (as Base64 string).");
+
+if (string.IsNullOrWhiteSpace(jwtKeyBase64))
+    throw new InvalidOperationException("JWT key is empty.");
+
+byte[] keyBytes = Convert.FromBase64String(jwtKeyBase64);
+
+if (keyBytes.Length < 32)
+    throw new InvalidOperationException($"JWT key too weak: {keyBytes.Length} bytes. Minimum 32 bytes (256 bits) required.");
 
 builder.Services.AddAuthentication(options =>
 {
@@ -39,7 +50,7 @@ builder.Services.AddAuthentication(options =>
 	options.TokenValidationParameters = new TokenValidationParameters
 	{
 		ValidateIssuerSigningKey = true,
-		IssuerSigningKey = new SymmetricSecurityKey(key),
+		IssuerSigningKey = new SymmetricSecurityKey(keyBytes),
 		ValidateIssuer = false,
 		ValidateAudience = false
 	};
