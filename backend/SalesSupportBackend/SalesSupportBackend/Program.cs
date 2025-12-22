@@ -24,7 +24,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 //Authentication
 // JWT Settings
-var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"]!);
+//var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"]!);
+var key = Encoding.ASCII.GetBytes("YOUR_VERY_SECRET_KEY_HERE");
 
 builder.Services.AddAuthentication(options =>
 {
