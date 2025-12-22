@@ -1,5 +1,5 @@
 [phases.setup]
-nixPkgs = ["dotnet-sdk_6"]
+nixPkgs = ["dotnet-sdk_8"]
 
 [phases.install]
 cmds = ["dotnet restore backend/SalesSupportBackend/SalesSupportBackend/SalesSupportBackend.csproj"]
