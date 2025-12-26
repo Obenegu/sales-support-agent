@@ -27,39 +27,39 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 //var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"]!);
 //var key = Encoding.ASCII.GetBytes("YOUR_VERY_SECRET_KEY_HERE");
 
-var jwtKeyBase64 = builder.Configuration["Jwt:Key"]
-    ?? throw new InvalidOperationException("JWT key is missing. Set Jwt:Key in configuration (as Base64 string).");
+//var jwtKeyBase64 = builder.Configuration["Jwt:Key"]
+//    ?? throw new InvalidOperationException("JWT key is missing. Set Jwt:Key in configuration (as Base64 string).");
 
-if (string.IsNullOrWhiteSpace(jwtKeyBase64))
-    throw new InvalidOperationException("JWT key is empty.");
+//if (string.IsNullOrWhiteSpace(jwtKeyBase64))
+//    throw new InvalidOperationException("JWT key is empty.");
 
-// THIS IS THE ONLY CORRECT WAY
-byte[] keyBytes = Convert.FromBase64String(jwtKeyBase64);
+//// THIS IS THE ONLY CORRECT WAY
+//byte[] keyBytes = Convert.FromBase64String(jwtKeyBase64);
 
-if (keyBytes.Length < 32)
-    throw new InvalidOperationException($"JWT key too weak: only {keyBytes.Length} bytes (need ≥32).");
+//if (keyBytes.Length < 32)
+//    throw new InvalidOperationException($"JWT key too weak: only {keyBytes.Length} bytes (need ≥32).");
 
-builder.Services.AddAuthentication(options =>
-{
-	options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-	options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-.AddJwtBearer(options =>
-{
-	options.RequireHttpsMetadata = false; // set true in production
-	options.SaveToken = true;
-	options.TokenValidationParameters = new TokenValidationParameters
-	{
-		ValidateIssuerSigningKey = true,
-		IssuerSigningKey = new SymmetricSecurityKey(keyBytes),
-		ValidateIssuer = false,
-		ValidateAudience = false
-	};
-});
+//builder.Services.AddAuthentication(options =>
+//{
+//	options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+//	options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+//})
+//.AddJwtBearer(options =>
+//{
+//	options.RequireHttpsMetadata = false; // set true in production
+//	options.SaveToken = true;
+//	options.TokenValidationParameters = new TokenValidationParameters
+//	{
+//		ValidateIssuerSigningKey = true,
+//		IssuerSigningKey = new SymmetricSecurityKey(keyBytes),
+//		ValidateIssuer = false,
+//		ValidateAudience = false
+//	};
+//});
 
 builder.Services.AddControllers();
 builder.Services.AddHttpClient();
-builder.Services.AddAuthorization();
+//builder.Services.AddAuthorization();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(option =>
@@ -109,7 +109,7 @@ builder.Services.AddCors(options =>
 });
 
 
-builder.Services.AddScoped<JwtService>();
+//builder.Services.AddScoped<JwtService>();
 
 
 var app = builder.Build();

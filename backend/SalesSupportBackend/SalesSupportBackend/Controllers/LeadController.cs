@@ -8,7 +8,6 @@ namespace SalesSupportBackend.Controllers
 
 	[ApiController]
 	[Route("api/[controller]")]
-	[Authorize]
 	public class LeadController : ControllerBase
 	{
 		private readonly AppDbContext _db;

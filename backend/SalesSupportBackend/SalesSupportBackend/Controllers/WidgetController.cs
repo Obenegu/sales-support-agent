@@ -6,7 +6,6 @@ namespace SalesSupportBackend.Controllers
 
 	[ApiController]
 	[Route("api/[controller]")]
-	[Authorize]
 	public class WidgetController : ControllerBase
 	{
 		[HttpGet("config")]
