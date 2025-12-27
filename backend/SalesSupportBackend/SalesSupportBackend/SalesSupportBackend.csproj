@@ -4,6 +4,12 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+
+ <!-- ADD THESE LINES -->
+  <SelfContained>true</SelfContained>
+  <PublishTrimmed>false</PublishTrimmed>
+  <RuntimeIdentifier>linux-x64</RuntimeIdentifier>
+
   </PropertyGroup>
 
   <ItemGroup>
