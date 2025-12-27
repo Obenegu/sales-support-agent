@@ -26,6 +26,13 @@ if (string.IsNullOrWhiteSpace(connectionString))
 	throw new InvalidOperationException("Database connection string is missing.");
 }
 
+// Remove channel_binding entirely (safest for Npgsql)
+	connectionString = System.Text.RegularExpressions.Regex.Replace(
+		connectionString,
+		@"[?&]channel_binding=[^&]*",
+		string.Empty
+	);
+
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
 	options.UseNpgsql(connectionString);
