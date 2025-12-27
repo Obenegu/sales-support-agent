@@ -17,21 +17,31 @@ builder.WebHost.UseUrls($"http://0.0.0.0:{Environment.GetEnvironmentVariable("PO
 // Add services to the container.
 
 //Database
-var connectionString =
-	builder.Configuration.GetConnectionString("DefaultConnection")
-	?? Environment.GetEnvironmentVariable("DATABASE_URL");
 
-if (string.IsNullOrWhiteSpace(connectionString))
-{
-	throw new InvalidOperationException("Database connection string is missing.");
-}
+// Hardcoded direct connection to Neon (bypasses channel_binding issue)
+var connectionString = "Host=ep-withered-cake-ahzv21ck.us-east-1.aws.neon.tech;" +
+                       "Port=5432;" +  // optional, default anyway
+                       "Database=neondb;" +
+                       "Username=neondb_owner;" +
+                       "Password=npg_Cp5WHyA3OQTJ;" +
+                       "Ssl Mode=Require;" +
+                       "Trust Server Certificate=true;";
+
+//var connectionString =
+	//builder.Configuration.GetConnectionString("DefaultConnection")
+	//?? Environment.GetEnvironmentVariable("DATABASE_URL");
+
+//if (string.IsNullOrWhiteSpace(connectionString))
+//{
+	//throw new InvalidOperationException("Database connection string is missing.");
+//}
 
 // Remove channel_binding entirely (safest for Npgsql)
-	connectionString = System.Text.RegularExpressions.Regex.Replace(
-		connectionString,
-		@"[?&]channel_binding=[^&]*",
-		string.Empty
-	);
+	//connectionString = System.Text.RegularExpressions.Regex.Replace(
+		//connectionString,
+		//@"[?&]channel_binding=[^&]*",
+		//string.Empty
+	//);
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
