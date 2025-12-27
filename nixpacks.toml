@@ -1,4 +1,6 @@
+
 [phases.setup]
+aptPkgs = ["libicu-dev"]  # Installs ICU system library
 nixPkgs = ["dotnet-sdk_8"]
 
 [phases.install]
