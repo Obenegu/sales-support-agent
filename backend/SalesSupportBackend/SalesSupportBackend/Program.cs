@@ -7,6 +7,7 @@ using SalesSupportBackend.MiddleWare;
 using SalesSupportBackend.Services;
 using System.Text;
 
+AppContext.SetSwitch("System.Globalization.Invariant", true);  // <-- ADD THIS FIRST
 
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
