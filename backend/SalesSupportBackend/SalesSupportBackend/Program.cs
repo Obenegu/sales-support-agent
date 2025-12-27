@@ -43,10 +43,10 @@ var connectionString = "Host=ep-withered-cake-ahzv21ck.us-east-1.aws.neon.tech;"
 		//string.Empty
 	//);
 
-builder.Services.AddDbContext<AppDbContext>(options =>
-{
-	options.UseNpgsql(connectionString);
-});
+//builder.Services.AddDbContext<AppDbContext>(options =>
+//{
+	//options.UseNpgsql(connectionString);
+//});
 
 //Authentication
 // JWT Settings
