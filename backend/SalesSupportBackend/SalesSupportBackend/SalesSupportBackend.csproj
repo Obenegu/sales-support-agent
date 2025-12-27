@@ -5,11 +5,10 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
 
- <!-- ADD THESE LINES -->
+  <!-- ADD THESE LINES -->
   <SelfContained>true</SelfContained>
   <PublishTrimmed>false</PublishTrimmed>
   <RuntimeIdentifier>linux-x64</RuntimeIdentifier>
-  <InvariantGlobalization>true</InvariantGlobalization>
 
   </PropertyGroup>
 
