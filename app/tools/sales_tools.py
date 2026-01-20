@@ -1,4 +1,5 @@
-from typing import Optional
+from typing import Dict, Optional, Any
+import requests
 
 
 # -------------------------------------------
@@ -13,13 +14,100 @@ class Sales_Tools():
         self.upsells = upsells
 
 
-    def calculate_price(self, product_name: str, quantity: int = 1) -> Optional[float]:
-        product_name = product_name.lower()
+    # -------------------------------------------
+    # PAYMENT TOOL  ✅
+    # -------------------------------------------
 
-        if product_name not in self.products:
-            return f"Sorry We do not have '{product_name}' at the moment"
+    def process_payment(self, order: Dict[str, Any], amount: float) -> Dict[str, Any]:
+        """
+        Tool that calls the payment API.
+        """
 
-        return self.products[product_name] * quantity
+        endpoint = f"https://localhost:7106/api/order/process-payment"
+
+        try:
+            response = requests.post(
+                endpoint,
+                params={"amount": amount},
+                json=order,
+                timeout=8
+            )
+            response.raise_for_status()
+
+            return {
+                "success": True,
+                "data": response.json()
+            }
+
+        except requests.exceptions.RequestException as e:
+            return {
+                "success": False,
+                "error": "Payment service unavailable.",
+                "details": str(e)
+            }
+
+
+    # -------------------------------------------
+    # PRODUCT SEARCH VIA API (NAME ONLY) ✅
+    # -------------------------------------------
+
+    def search_product(self, name: str) -> Dict[str, Any]:
+        """
+        Tool used to search for products by name.
+        """
+
+        endpoint = f"https://localhost:7106/api/Product/search"
+
+        params = {
+            "name": name
+        }
+
+        try:
+            response = requests.get(endpoint, params=params, timeout=5, verify=False)
+            response.raise_for_status()
+
+            return {
+                "success": True,
+                "data": response.json()
+            }
+
+        except requests.exceptions.RequestException as e:
+            return {
+                "success": False,
+                "error": "Unable to fetch product information.",
+                "details": str(e)
+            }
+
+
+    def calculate_total_product_cost(self, product_id: str, quantity: int = 1) -> Optional[float]:
+        # product_name = product_name.lower()
+
+        """
+        Tool used to calculate the total cost of a product.
+        """
+
+        endpoint = f"https://localhost:7106/api/Product/{product_id}"
+
+        params = {
+            "id": product_id
+        }
+
+        try:
+            response = requests.get(endpoint, params=params, timeout=5, verify=False)
+            response.raise_for_status()
+
+            price_per_unit = response.json()
+
+            return price_per_unit * quantity
+
+        except requests.exceptions.RequestException as e:
+            return {
+                "success": False,
+                "error": "Unable to fetch product information.",
+                "details": str(e)
+            }
+        
+
 
 
     # -------------------------------------------
@@ -84,6 +172,28 @@ class Sales_Tools():
 
         return {"message": "Sorry, I couldn’t find that product."}
     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     # -------------------------------------------
     #  SALES PERSONA

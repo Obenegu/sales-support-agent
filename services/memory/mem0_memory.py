@@ -24,7 +24,7 @@ class Mem0MemoryManager:
             # Build required filters: Wrap user_id in AND for single-condition structure
             filters = {
                 "AND": [  # Top-level logical operator (required for simple filters)
-                    {"user_id": user_id}  # Direct field match (implicit equality)
+                    {"user_id": user_id} # Direct field match (implicit equality)
                 ]
             }
             # Ignore namespace since it's not a supported filter field
@@ -39,6 +39,30 @@ class Mem0MemoryManager:
             print(f"Mem0 search error: {e}")
             return []
 
+    def mem0_delete(self, user_id: str):
+        if not self.mem0:
+            return False
+        try:
+            self.mem0.delete_users(user_id=user_id)
+            return "Memory Deleted"
+        except Exception as e:
+            print(f"Mem0 delete error: {e}")
+            return "Memory Not Deleted"
+    
+    def mem0_get_user(self, user_id: str) -> List[Dict[str, Any]]:
+        if not self.mem0:
+            return []
+        try:
+            filters = {
+                "AND": [  # Top-level logical operator (required for simple filters)
+                    {"user_id": user_id} # Direct field match (implicit equality)
+                ]
+            }
+
+            return self.mem0.get_all(user_id=user_id, filters=filters)
+        except Exception as e:
+            print(f"Mem0 get_user error: {e}")
+            return "error getting memories"
     # ----------------------------
     # Convenience: extract conversation memories and add to mem0
     # ----------------------------

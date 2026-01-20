@@ -1,6 +1,6 @@
 import json
 from pydantic import BaseModel
-from services.classify_intent import classify_intent
+from services.classify_intent import classify_intent, is_task_complete
 from google.genai import types
 from config.settings import client, sales_tool, SYSTEM_PROMPT, db
 from app.orchestrator import orchestrate
@@ -12,6 +12,8 @@ from app.schema.memory_schema import memory_schema
 import time
 from services.RAG.rag_query import get_info_from_pdf
 from app.tools.execute_tools import execute_tools
+from services.memory.working_memory import WorkingMemory
+from app.safety import sanitize_text, validate_input, logger
 
 class ChatResponse(BaseModel):
     response: str
@@ -50,14 +52,31 @@ def normalize_output(raw_text, tool_used, intent):
 
 mem0_memory = Mem0MemoryManager()
 
-async def ai_chat(user_message, user_id):
+working_mem = WorkingMemory()
 
+async def ai_chat(user_message, user_id, session_id):
 
-    intent = classify_intent(user_message)
+    # Sanitize the user message
+    raw = sanitize_text(user_message)
+    ok, meta = validate_input(raw)
+    if not ok:
+        logger.warning("Rejected user input: %s", meta)
+        return "I’m sorry — I can’t help with that request. If this is a mistake, please rephrase."
+    # Sanitize the user message
 
-    orchestrated_message = await orchestrate(message=user_message, user_id=user_id)
+    #get user info from mem0
+    past_messages = working_mem.loadWorkingMemory( session_id="sess456", user_id="user123" )
+    if past_messages:
+        past_messages = past_messages
+    else:
+        past_messages = "No past messages found."
+    #get user_info from mem0
 
-    log_info(f"USER: {orchestrated_message}")
+    intent = classify_intent(user_message, past_messages)
+
+    working_memory = await orchestrate(user_id, session_id)
+
+    log_info(f"USER: {user_message}")
 
     # Save to memory
     try:
@@ -85,7 +104,7 @@ async def ai_chat(user_message, user_id):
     config = types.GenerateContentConfig(
         tools=[tools],
         temperature=0.6,
-        max_output_tokens=4096
+        max_output_tokens=2096
     )
 
 
@@ -96,16 +115,19 @@ async def ai_chat(user_message, user_id):
     ),
     types.Content(
         role="model",
-        parts=[types.Part(text="Understood. I am ready to assist using tools when needed.")]
+        parts=[types.Part(text="Understood. I am ready to assist using tools when needed.\n" + working_memory)]
     ),
     types.Content(
         role="user",
-        parts=[types.Part(text=f"Current user query:\n{user_message}")]
+        parts=[types.Part(text=f"Current user query:\n{user_message}" + f"\nUser current intent: {intent}")]
     )
 ]
 
     all_tools_used = []
     max_itrs = 20
+
+    observation_texts= []
+    
     for i in range(max_itrs):
 
         log_info(f"Agent step {i + 1}")
@@ -141,7 +163,8 @@ async def ai_chat(user_message, user_id):
         # If LLM triggered a tool
         # ----------------------------------------
         if function_calls:
-            tool_names, tool_outputs = await execute_tools(function_calls, user_id, orchestrated_message)
+
+            tool_names, tool_outputs = await execute_tools(function_calls, user_id, user_message)
             all_tools_used.extend(tool_names)
 
             log_info(f"All Tool used: {all_tools_used}")
@@ -158,7 +181,7 @@ async def ai_chat(user_message, user_id):
 
             contents.append(
                 types.Content(
-                    role="user",
+                    role="model",
                     parts=[types.Part(text=observation_content)]
                 )
             )
@@ -167,6 +190,29 @@ async def ai_chat(user_message, user_id):
 
         # No function calls → this should be the final response
         final_reply = response.text.strip()
+
+        if not observation_texts:
+            observation_content = "No Observations"
+
+        print(observation_content)
+
+
+        if not is_task_complete(final_reply, observation_content):
+            log_error("Model stopped before completing task — forcing continuation")
+
+            contents.append(
+                types.Content(
+                    role="user",
+                    parts=[types.Part(
+                        text=(
+                            "The task is not complete yet. "
+                            "You must perform the remaining required actions using tools. "
+                            "Do NOT respond with text until the task is complete."
+                        )
+                    )]
+                )
+            )
+            continue  # 🔁 loop again
 
         # Extract the actual response if it used "Action: respond"
         # Optional: strip any lingering reasoning prefixes if your SYSTEM_PROMPT forces ReAct format

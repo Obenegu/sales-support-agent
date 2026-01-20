@@ -13,6 +13,9 @@ namespace SalesSupportBackend.Data
 		public DbSet<Lead> Leads { get; set; }
 		public DbSet<ChatLog> ChatLogs { get; set; }
 		public DbSet<Document> Documents { get; set; }
+		public DbSet<Payment> Payments { get; set; }
+		public DbSet<Cart> Order { get; set; }
+		public DbSet<Product> Products { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder builder)
 		{

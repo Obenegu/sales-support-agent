@@ -4,9 +4,11 @@ import time
 from config.settings import sales_tool
 from services.RAG.rag_query import get_info_from_pdf
 from services.memory.mem0_memory import Mem0MemoryManager
+from services.memory.working_memory import WorkingMemory
 import json
 
 mem0_memory = Mem0MemoryManager()
+working_mem = WorkingMemory()
 
 async def execute_tools(function_calls, user_id, orchestrated_message):
     results = []
@@ -18,12 +20,38 @@ async def execute_tools(function_calls, user_id, orchestrated_message):
         tool_names.append(fn_name)
 
         try:
-            if fn_name == "calculate_price":
-                result = sales_tool.calculate_price(
-                    product_name=args.get("product_name"),
+            if fn_name == "calculate_total_product_cost":
+                output = sales_tool.calculate_total_product_cost(
+                    product_id=args.get("product_id"),
                     quantity=args.get("quantity", 1),
                 )
-                output = f"The total price is: ${result}"
+
+            elif fn_name == "search_product":
+                output = sales_tool.search_product(name=args.get("name"))
+
+            elif fn_name == "process_payment":
+                output = sales_tool.process_payment(order=args.get("order"), amount=args.get("amount"))
+
+            elif fn_name == "generate_quote":
+                output = sales_tool.generate_quote(
+                    customer_name=args.get("customer_name"),
+                    product=args.get("product"),
+                    quantity=args.get("quantity", 1),
+                )
+
+            elif fn_name == "add_item_to_order":
+                # print("Adding item to order with args:", args)
+                output = working_mem.add_item_to_order(
+                    user_id=args.get("user_id"),
+                    session_id=args.get("session_id"),
+                    item=args.get("item")
+                )
+            elif fn_name == "remove_item_from_order":
+                output = working_mem.remove_item_from_order(
+                    user_id=args.get("user_id"),
+                    session_id=args.get("session_id"),
+                    item_name=args.get("item_name")
+                )
 
             elif fn_name == "generate_quote":
                 output = sales_tool.generate_quote(

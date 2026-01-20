@@ -6,10 +6,10 @@
     <ImplicitUsings>enable</ImplicitUsings>
 
   <!-- ADD THESE LINES -->
-  <SelfContained>true</SelfContained>
+  <!--<SelfContained>true</SelfContained>
   <PublishTrimmed>false</PublishTrimmed>
   <RuntimeIdentifier>linux-x64</RuntimeIdentifier>
-  <InvariantGlobalization>true</InvariantGlobalization>
+  <InvariantGlobalization>true</InvariantGlobalization>-->
 
   </PropertyGroup>
 
