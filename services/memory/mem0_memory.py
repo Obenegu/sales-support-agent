@@ -1,4 +1,5 @@
 import os
+import time
 from config.settings import mem0
 from typing import Any, Dict, List, Optional
 
@@ -38,6 +39,28 @@ class Mem0MemoryManager:
         except Exception as e:
             print(f"Mem0 search error: {e}")
             return []
+    
+    def mem0_get(self, user_id: str, query: str, limit: int = 5):
+        if not self.mem0:
+            return []
+        try:
+            # Build required filters: Wrap user_id in AND for single-condition structure
+            filters = {
+                "AND": [  # Top-level logical operator (required for simple filters)
+                    {"user_id": user_id} # Direct field match (implicit equality)
+                ]
+            }
+            # Ignore namespace since it's not a supported filter field
+            
+            # Pass query first (positional), then kwargs
+            return self.mem0.search(
+                query,  # Positional first
+                filters=filters,
+                limit=limit  # Maps to top_k
+            )
+        except Exception as e:
+            print(f"Mem0 search error: {e}")
+            return []
 
     def mem0_delete(self, user_id: str):
         if not self.mem0:
@@ -49,7 +72,7 @@ class Mem0MemoryManager:
             print(f"Mem0 delete error: {e}")
             return "Memory Not Deleted"
     
-    def mem0_get_user(self, user_id: str) -> List[Dict[str, Any]]:
+    def mem0_get_user(self, user_id: str, limit: int = 10) -> List[Dict[str, Any]]:
         if not self.mem0:
             return []
         try:
@@ -59,7 +82,7 @@ class Mem0MemoryManager:
                 ]
             }
 
-            return self.mem0.get_all(user_id=user_id, filters=filters)
+            return self.mem0.get_all(user_id=user_id, filters=filters, limit=limit)
         except Exception as e:
             print(f"Mem0 get_user error: {e}")
             return "error getting memories"
@@ -89,3 +112,31 @@ class Mem0MemoryManager:
         # normalize
         return [item.get("memory") or item for item in raw]
     
+
+    def add_conversation_turn(self, user_id: str, user_msg: str, agent_response: str):
+
+        if not self.mem0:
+            return None
+        
+        narrative_text = f"User asked: '{user_msg}'. Agent responded: '{agent_response}'"
+    
+        # We create a conversation payload
+        messages = [
+            {"role": "user", "content": user_msg},
+            {"role": "assistant", "content": agent_response}
+        ]
+        
+        try:
+            # metadata is great for your analytics requirement!
+            return self.mem0.add(
+                narrative_text, 
+                user_id=user_id,
+                metadata={
+                    "type": "conversation_turn",
+                    "agent_id": "test-v1",
+                    "ts": time.time()
+                }
+            )
+        except Exception as e:
+            print(f"Error adding to Mem0: {e}")
+            return None

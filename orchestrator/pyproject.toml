@@ -3,7 +3,6 @@ name = "orchestrator"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.13"
 requires-python = ">=3.10,<3.13"
 dependencies = [
     "beautifulsoup4>=4.14.2",
@@ -13,9 +12,26 @@ dependencies = [
     "nltk>=3.9.2",
     "pdfplumber>=0.11.8",
     "pgvector>=0.4.1",
-    "psycopg2>=2.9.11",
+    "psycopg2-binary>=2.9.11",
     "pymupdf>=1.26.6",
+    "python-dotenv>=1.0.1",
     "python-multipart>=0.0.20",
-    "sentence-transformers>=5.1.2",
+    "torch>=2.2.0",
+    "sentence-transformers>=3.0.0",
     "uvicorn>=0.38.0",
+    "sqlalchemy>=2.0.0",
+    "sympy>=1.13.0",
+    "rapidfuzz>=3.9.0",
+    "pydantic>=2.7.0",
+    "redis>=5.0.0",
+    "asyncpg>=0.31.0",
 ]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[tool.uv.sources]
+torch = { index = "pytorch-cpu" }
+torchvision = { index = "pytorch-cpu" }

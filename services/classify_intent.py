@@ -1,4 +1,4 @@
-from typing import Literal
+from typing import Any, Literal
 from config.settings import client
 from google.genai import types
 from app.logs.logging_helper import log_error, log_info
@@ -98,7 +98,61 @@ def is_task_complete(response_text: str, outputs) -> bool:
         return True
     
 
-    
+def is_context_sufficient(question: str, context: str, past_messages: str) -> dict:
+    """
+    Returns dict with context_sufficient (bool) and search_query (str or None).
+    """
+    contents = [
+        types.Content(
+            role="user",
+            parts=[types.Part(text=memory_retrieval_judge)]
+        ),
+        types.Content(
+            role="model",
+            parts=[types.Part(text="Understood. I am the MEMORY RETRIEVAL JUDGE. I will evaluate context sufficiency and respond only with valid JSON.")]
+        ),
+        types.Content(
+            role="user",
+            parts=[types.Part(text=f"""
+User's current question:
+{question}
+
+Retrieved PDF context:
+{context if context else "No PDF context retrieved."}
+
+Last 10 conversation exchanges:
+{past_messages}
+""")]
+        ),
+    ]
+
+    config = types.GenerateContentConfig(
+        temperature=0.0,
+        max_output_tokens=150,
+        top_p=1.0,
+        top_k=1
+    )
+
+    try:
+        response = client.models.generate_content(
+            model="gemini-2.5-flash-lite",
+            contents=contents,
+            config=config
+        )
+        raw_text = response.candidates[0].content.parts[0].text.strip()
+        # Strip markdown code fences if model adds them
+        raw_text = raw_text.replace("```json", "").replace("```", "").strip()
+        data = json.loads(raw_text)
+        return {
+            "context_sufficient": bool(data.get("context_sufficient", False)),
+            "search_query": data.get("search_query", None),
+            "reason": data.get("reason", "")
+        }
+    except Exception as e:
+        log_error(f"Judge failed: {e}")
+        # Fail-safe: treat as sufficient to avoid infinite loops
+        return {"context_sufficient": True, "search_query": None, "reason": "judge failed"}
+
 
 intent_system_prompt = """
 You are an intent classification model.
@@ -125,6 +179,92 @@ OR
 support
 OR
 general
+
+"""
+
+memory_retrieval_judge = """
+You are a MEMORY RETRIEVAL JUDGE.
+
+Your ONLY responsibility is to determine whether the provided
+conversation history contains SUFFICIENT CONTEXT to answer
+the user's current question accurately.
+
+You do NOT answer the question.
+You do NOT call tools.
+You do NOT suggest what the answer might be.
+You ONLY evaluate whether enough context exists.
+
+────────────────────────────────────────
+INPUT YOU WILL RECEIVE
+────────────────────────────────────────
+You will be given:
+1. The user's current message
+2. The last 10 conversation exchanges (user message + agent response pairs)
+3. A piece of information retrieved from the company's files or past interactions that is relevant to the user's question
+
+The conversation exchanges are the SOURCE OF TRUTH.
+Do NOT assume knowledge that is not present in them.
+
+────────────────────────────────────────
+HOW TO DECIDE SUFFICIENCY
+────────────────────────────────────────
+Context is SUFFICIENT if and ONLY if:
+
+1. The user's question can be answered directly
+   from the provided exchanges
+
+AND
+
+2. No critical background information is missing
+   that would change or invalidate the answer
+
+AND
+
+3. The question does NOT reference a past event,
+   issue, or interaction that is absent from the exchanges
+
+If ANY condition is missing,
+context is INSUFFICIENT.
+
+────────────────────────────────────────
+CRITICAL RULES
+────────────────────────────────────────
+- NEVER assume facts not present in the exchanges
+- NEVER guess what a previous interaction might have contained
+- NEVER treat a partial match as sufficient
+- NEVER allow a vague or incomplete answer to pass as sufficient
+- If the user references "last time", "previously", "the issue I had",
+  or any past event — verify it exists in the exchanges before marking sufficient
+
+If the exchanges do not clearly satisfy the informational
+needs of the user's question, context is INSUFFICIENT.
+
+────────────────────────────────────────
+OUTPUT FORMAT (STRICT)
+────────────────────────────────────────
+You MUST respond with ONLY valid JSON.
+No markdown. No explanations. No preamble.
+
+Schema:
+{
+  "context_sufficient": true | false,
+  "search_query": "<specific query to search memory — ONLY if context_sufficient is false, else null>",
+  "reason": "<short, precise reason>"
+}
+
+Examples of valid reasons:
+- "User references a past delivery issue not found in the last 10 exchanges"
+- "No prior mention of this product in the conversation history"
+- "All relevant context for this question is present in the exchanges"
+- "User says 'last time' but no matching prior exchange exists"
+
+────────────────────────────────────────
+FINAL REMINDER
+────────────────────────────────────────
+You are the GATE before the agent speaks.
+If you mark context as sufficient when it is not,
+the agent will give an incomplete or incorrect answer.
+Be strict.
 
 """
 

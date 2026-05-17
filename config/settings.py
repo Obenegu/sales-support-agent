@@ -6,6 +6,8 @@ from app.tools.sales_tools import Sales_Tools
 from pgvector.asyncpg import register_vector
 from mem0 import MemoryClient
 
+from services.memory.db_memory import MemoryService
+
 load_dotenv()
 
 api_key = os.environ.get("GEMINI_API_KEY")
@@ -17,35 +19,40 @@ mem0 = MemoryClient(api_key=mem0_api_key)
 
 db = os.environ.get("DATABASE_URL")
 async_db = os.environ.get("ASYNC_DATABASE_URL")
+memory = MemoryService(db_url=async_db)
+
+# asyncpg doesn't understand the "+asyncpg" prefix, strip it
+asyncpg_url = async_db.replace("postgresql+asyncpg://", "postgresql://")
 
 _pool = None
 
 async def get_pg_pool():
     global _pool
     if _pool is None:
-        _pool = await asyncpg.create_pool(async_db)
+        _pool = await asyncpg.create_pool(asyncpg_url, init=register_vector)
    # Register pgvector support on a connection from the pool
-        async with _pool.acquire() as conn:
-            await register_vector(conn)
+      #   async with _pool.acquire() as conn:
+      #       await register_vector(conn)
     return _pool
 
 
 
-PRODUCTS = {
-    "": 300,
-    "bag": 1200,
-    "chair": 80,
-    "ruler": 150,
-    "watch": 200,
-}
+# PRODUCTS = {
+#     "": 300,
+#     "bag": 1200,
+#     "chair": 80,
+#     "ruler": 150,
+#     "watch": 200,
+# }
 
-UPSELLS = {
-    "website": ["SEO package", "Logo design"],
-    "mobile app": ["Website", "Social media management"],
-    "logo design": ["Branding kit", "Website"],
-}
+# UPSELLS = {
+#     "website": ["SEO package", "Logo design"],
+#     "mobile app": ["Website", "Social media management"],
+#     "logo design": ["Branding kit", "Website"],
+# }
 
-sales_tool = Sales_Tools(products=PRODUCTS, upsells=UPSELLS)
+# sales_tool = Sales_Tools(products=PRODUCTS, upsells=UPSELLS)
+sales_tool = Sales_Tools()
 
 
 

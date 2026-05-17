@@ -2,8 +2,8 @@ import json
 from pydantic import BaseModel
 from services.classify_intent import classify_intent, is_task_complete
 from google.genai import types
-from config.settings import client, sales_tool, SYSTEM_PROMPT, db
-from app.orchestrator import orchestrate
+from config.settings import client, sales_tool, SYSTEM_PROMPT, db, memory
+from app.orchestrator import orchestrate, maybe_summarize
 from services.memory.mem0_memory import Mem0MemoryManager
 from app.schema.sales_schema import sales_schema
 from app.logs.logging_helper import log_error, log_info
@@ -49,10 +49,40 @@ def normalize_output(raw_text, tool_used, intent):
         "role": "assistant"
     }
 
+def build_model_preamble(memory: dict) -> str:
+    """
+    Build the model's grounding turn from all three memory layers.
+    Injected as the first assistant message so the agent is always
+    oriented before reading any conversation history.
+    """
+    parts = ["Understood. I am ready to assist.\n"]
+
+    if memory.get("preferences"):
+        parts.append(f"[CUSTOMER PROFILE - long-term memory]\n{memory['preferences']}\n")
+
+    if memory.get("summary"):
+        parts.append(f"[CONVERSATION SUMMARY - mid-term]\n{memory['summary']}\n")
+
+    if memory.get("session_state"):
+        state = memory["session_state"]
+        cart  = state.get("cart", [])
+        if cart:
+            cart_lines = "\n".join(
+                [f"  - {i['name']} x{i['quantity']} @ {i['price']}" for i in cart]
+            )
+            parts.append(f"[CURRENT CART]\n{cart_lines}\n")
+        intent = state.get("current_intent")
+        if intent:
+            parts.append(f"[CURRENT INTENT] {intent}\n")
+
+    return "\n".join(parts)
+
 
 mem0_memory = Mem0MemoryManager()
 
 working_mem = WorkingMemory()
+
+observation_content = "No observations"
 
 async def ai_chat(user_message, user_id, session_id):
 
@@ -64,37 +94,77 @@ async def ai_chat(user_message, user_id, session_id):
         return "I’m sorry — I can’t help with that request. If this is a mistake, please rephrase."
     # Sanitize the user message
 
-    #get user info from mem0
-    past_messages = working_mem.loadWorkingMemory( session_id="sess456", user_id="user123" )
-    if past_messages:
-        past_messages = past_messages
-    else:
-        past_messages = "No past messages found."
-    #get user_info from mem0
-
-    intent = classify_intent(user_message, past_messages)
-
-    working_memory = await orchestrate(user_id, session_id)
-
     log_info(f"USER: {user_message}")
 
-    # Save to memory
+    # ── Save user message to Redis history ───────────────────────────────────
+    working_mem.add_message(session_id, user_id, "user", user_message)
+
+    # ── Trigger summarization if history is getting long ─────────────────────
+    # Note: maybe_summarize also persists to PostgreSQL when it fires
+    await maybe_summarize(session_id, user_id)
+
+    # ── Intent classification ─────────────────────────────────────────────────
+    recent_for_intent = working_mem.load_history(session_id, user_id, last_n=6)
+    intent = classify_intent(user_message, recent_for_intent)
+
+    # Save user message to mem0 (long-term preferences)
     try:
-        memory_result = mem0_memory.mem0_add(
+        mem0_memory.mem0_add(
         user_id=user_id,
         namespace="business",
         messages=[{"role": "user", "content": user_message}],
         metadata={"ts": time.time()}
         )
-
-        if memory_result is None:
-            log_error("Memory add failed.")
-        else:
-            log_info(f"Memory add succeeded: {user_message}")
-            print(memory_result)
-
     except Exception as e:
         log_error(f"Failed to save user message to memory: {e}")
+
+    # ── Orchestrate: assemble three-layer memory ──────────────────────────────
+    agent_full_memory = await orchestrate(user_id, session_id)
+
+    # ── Build contents array ──────────────────────────────────────────────────
+    #
+    # Layout:
+    #   [0]   user  → SYSTEM_PROMPT
+    #   [1]   model → preamble (preferences + summary + cart state)
+    #   [2..N] alternating user/model → recent conversation history
+    #   [N+1] user  → current message + detected intent
+    #
+    preamble = build_model_preamble(agent_full_memory)
+
+    contents = [
+        types.Content(
+            role="user",
+            parts=[types.Part(text=SYSTEM_PROMPT)]
+        ),
+        types.Content(
+            role="model",
+            parts=[types.Part(text=preamble)]
+        ),
+    ]
+
+    # Inject recent messages as proper conversation turns.
+    # We skip the very last entry (the user message we just saved)
+    # to avoid duplicating it — it's added below as the current query.
+    recent = agent_full_memory["recent_messages"]
+    history_to_inject = recent[:-1] if recent else []
+
+    for msg in history_to_inject:
+        contents.append(
+            types.Content(
+                role=msg["role"],
+                parts=[types.Part(text=msg["content"])]
+            )
+        )
+
+    # Current user query
+    contents.append(
+        types.Content(
+            role="user",
+            parts=[types.Part(
+                text=f"Current query: {user_message}\nDetected intent: {intent}"
+            )]
+        )
+    )
 
 
     combined_schema = sales_schema + support_schema + memory_schema
@@ -108,24 +178,23 @@ async def ai_chat(user_message, user_id, session_id):
     )
 
 
-    contents = [
-    types.Content(
-        role="user",
-        parts=[types.Part(text=SYSTEM_PROMPT)]  # Assume SYSTEM_PROMPT includes ReAct instructions
-    ),
-    types.Content(
-        role="model",
-        parts=[types.Part(text="Understood. I am ready to assist using tools when needed.\n" + working_memory)]
-    ),
-    types.Content(
-        role="user",
-        parts=[types.Part(text=f"Current user query:\n{user_message}" + f"\nUser current intent: {intent}")]
-    )
-]
+#     contents = [
+#     types.Content(
+#         role="user",
+#         parts=[types.Part(text=SYSTEM_PROMPT)]  # Assume SYSTEM_PROMPT includes ReAct instructions
+#     ),
+#     types.Content(
+#         role="model",
+#         parts=[types.Part(text="Understood. I am ready to assist using tools when needed.\n" + working_memory)]
+#     ),
+#     types.Content(
+#         role="user",
+#         parts=[types.Part(text=f"Current user query:\n{user_message}" + f"\nUser current intent: {intent}")]
+#     )
+# ]
 
     all_tools_used = []
     max_itrs = 20
-
     observation_texts= []
     
     for i in range(max_itrs):
@@ -226,7 +295,26 @@ async def ai_chat(user_message, user_id, session_id):
         
         log_info(f"MODEL FINAL: {final_reply}")
 
-        # Save to memory
+        # ── Save assistant reply to Redis ─────────────────────────────────────
+        working_mem.add_message(session_id, user_id, "assistant", final_reply)
+
+        # ── Persist full session to PostgreSQL ────────────────────────────────
+        # This runs after every reply so returning users are never lost
+        try:
+            all_messages = working_mem.load_full_history(session_id, user_id)
+            current_summary = working_mem.load_summary(session_id, user_id)
+
+            await memory.write(
+                user_id=user_id,
+                key=f"session:{session_id}:history",
+                value={"messages": all_messages},
+                summary=current_summary
+            )
+            log_info(f"Session persisted to PostgreSQL for user {user_id}")
+        except Exception as e:
+            log_error(f"Failed to persist session to PostgreSQL: {e}")
+
+        # Save assistant reply to mem0
         try:
             mem0_memory.mem0_add(
             user_id=user_id,
@@ -240,10 +328,9 @@ async def ai_chat(user_message, user_id, session_id):
         tools_str = ",".join(all_tools_used) if all_tools_used else "none"
 
         return normalize_output(final_reply, tool_used=tools_str, intent=intent)
-
-    log_info(f"MODEL RESPONSE: {response.text}")
     
     # Fallback if max steps reached
+    log_info(f"Max iterations reached. Last response: {response.text}")
     tools_str = ",".join(all_tools_used) if all_tools_used else "none"
     return normalize_output(
         "I got stuck in a loop and couldn't complete the task. Please try rephrasing.",

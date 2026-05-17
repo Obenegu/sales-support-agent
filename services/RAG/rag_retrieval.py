@@ -2,7 +2,7 @@ import numpy as np
 from sentence_transformers import SentenceTransformer
 from config.settings import get_pg_pool
 
-embedder = SentenceTransformer("all-MiniLM-L6-v2")
+embedder = SentenceTransformer("all-MiniLM-L6-v2", device="cpu")
 
 async def search_chunks(query: str, business_id: int, limit: int = 5):
     """

@@ -51,24 +51,24 @@ namespace SalesSupportBackend.Controllers
 			//	client.DefaultRequestHeaders.Add("Authorization", (string)authHeader);
 			//}
 
-			var orchestratorUrl = Environment.GetEnvironmentVariable("ORCHESTRATOR_URL") ?? "http://127.0.0.1:8000/api/ingest";
-			using var ms = new MemoryStream();
-			using (var fs = System.IO.File.OpenRead(filePath))
-			{
-				await fs.CopyToAsync(ms);
-			}
-			ms.Seek(0, SeekOrigin.Begin);
+			//var orchestratorUrl = Environment.GetEnvironmentVariable("ORCHESTRATOR_URL") ?? "http://127.0.0.1:8000/api/ingest";
+			//using var ms = new MemoryStream();
+			//using (var fs = System.IO.File.OpenRead(filePath))
+			//{
+			//	await fs.CopyToAsync(ms);
+			//}
+			//ms.Seek(0, SeekOrigin.Begin);
 
-			var content = new MultipartFormDataContent();
-			content.Add(new StreamContent(ms), "file", fileName);
-			content.Add(new StringContent(businessId.ToString()), "businessId");
+			//var content = new MultipartFormDataContent();
+			//content.Add(new StreamContent(ms), "file", fileName);
+			//content.Add(new StringContent(businessId.ToString()), "businessId");
 
-			var res = await client.PostAsync(orchestratorUrl, content);
-			if (!res.IsSuccessStatusCode)
-			{
-				_logger.LogError("Orchestrator ingest failed: {Status} {Body}", res.StatusCode, await res.Content.ReadAsStringAsync());
-				return StatusCode(500, "Ingestion failed.");
-			}
+			//var res = await client.PostAsync(orchestratorUrl, content);
+			//if (!res.IsSuccessStatusCode)
+			//{
+			//	_logger.LogError("Orchestrator ingest failed: {Status} {Body}", res.StatusCode, await res.Content.ReadAsStringAsync());
+			//	return StatusCode(500, "Ingestion failed.");
+			//}
 
 			return Ok(new { message = "Uploaded and queued for ingestion." });
 		}

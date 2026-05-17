@@ -2,13 +2,14 @@ from config.settings import client
 from google.genai import types
 
 
-def call_llm_strict(prompt: str) -> str:
+def call_llm_strict(prompt: str) -> dict:
     """Call the LLM with strict constraints to avoid hallucinations."""
 
     config = types.GenerateContentConfig(
             # tools=[tools],
-            temperature=0.6,
-            max_output_tokens=1024
+            temperature=0.2,  # No randomness
+            max_output_tokens=2024,
+            response_mime_type="application/json" # forces clean JSON output
         )
 
     contents = types.Content(role="user", parts=[

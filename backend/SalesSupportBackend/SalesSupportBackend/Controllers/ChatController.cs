@@ -37,7 +37,8 @@ namespace SalesSupportBackend.Controllers
 				userId = userId,
 				message = request.Message,
 				role = "user",
-			};
+                sessionId =	request.SessionId
+            };
 
 			var content = new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, "application/json");
 

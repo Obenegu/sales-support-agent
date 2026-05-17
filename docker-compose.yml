@@ -1,0 +1,38 @@
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=tabot
+      - POSTGRES_PASSWORD=hello
+      - POSTGRES_DB=agent_memory
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tabot -d agent_memory"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:latest
+
+  orchestrator:
+    build: 
+      context: .
+      dockerfile: ./orchestrator/Dockerfile
+    env_file: .env
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    ports:
+      - "8000:8000"
+
+  # backend:
+  #   build: 
+  #     context: ./backend/SalesSupportBackend
+  #   depends_on:
+  #     - orchestrator
+  #   ports:
+  #     - "5000:8080"

@@ -25,6 +25,7 @@ class ChatResponse(BaseModel):
 
 class RAGQueryRequest(BaseModel):
     businessId: int
+    userId: str
     question: str
     
 

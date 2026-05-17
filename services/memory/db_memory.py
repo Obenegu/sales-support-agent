@@ -6,8 +6,6 @@ Usage:
     memory = MemoryService(os.getenv("DATABASE_URL"))
     await memory.init_db()
 """
-import asyncio
-import os
 import json
 from rapidfuzz import fuzz
 from typing import Any, Dict, List, Optional
@@ -15,10 +13,18 @@ from datetime import datetime
 from sqlalchemy.engine import Row
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, AsyncEngine
 from sqlalchemy import (
-    Table, Column, MetaData, BigInteger, Text, JSON, DateTime, select, insert, update, delete, Integer
+    Table, Column, MetaData, BigInteger, Text, JSON, DateTime, select, insert, update, delete, Integer, text
 )
 from sqlalchemy.orm import sessionmaker
 from pgvector.sqlalchemy import Vector
+from pgvector.asyncpg import register_vector
+# from pgvector.sqlalchemy import register_vector
+from datetime import datetime, timezone
+from sqlalchemy import event
+import asyncpg
+
+
+from sympy import limit
 
 
 metadata = MetaData()
@@ -35,16 +41,31 @@ memories_table = Table(
     Column("updated_at", DateTime(timezone=True), nullable=False),
 )
 
+# document_chunks_table = Table(
+#     "document_chunks",
+#     metadata,
+#     Column("id", BigInteger, primary_key=True),
+#     Column("business_id", Integer, nullable=False),
+#     Column("filename", Text, nullable=True),
+#     Column("chunk_index", Integer, nullable=True),
+#     Column("text", Text, nullable=True),
+#     Column("embedding", Vector(384), nullable=False),  # pgvector column
+# )
+
 document_chunks_table = Table(
     "document_chunks",
     metadata,
     Column("id", BigInteger, primary_key=True),
+    Column("document_id", Text, nullable=False),   # parent document
     Column("business_id", Integer, nullable=False),
     Column("filename", Text, nullable=True),
-    Column("chunk_index", Integer, nullable=True),
-    Column("text", Text, nullable=True),
-    Column("embedding", Vector(384), nullable=False),  # pgvector column
+    Column("file_type", Text, nullable=True),
+    Column("chunk_index", Integer, nullable=False),
+    Column("text", Text, nullable=False),
+    Column("embedding", Vector(384), nullable=False),
+    Column("created_at", DateTime(timezone=True), nullable=False),
 )
+
 
 
 def clean_row(row: Row) -> Dict[str, Any]:
@@ -62,29 +83,75 @@ def clean_row(row: Row) -> Dict[str, Any]:
 class MemoryService:
     def __init__(self, db_url: Optional[str] = None, echo: bool = False):
         self.db_url = db_url
-        self.engine: AsyncEngine = create_async_engine(self.db_url, echo=echo, future=True)
-        self.async_session = sessionmaker(self.engine, expire_on_commit=False, class_=AsyncSession)
+        # self.engine: AsyncEngine = create_async_engine(self.db_url, echo=echo, future=True)
+        self.asyncpg_url = db_url.replace("postgresql+asyncpg://", "postgresql://")
+        self.engine = None  # created after extension is ensured
+        self.async_session = None
+
+         # ✅ Register vector type on every new connection from the pool
+        # @event.listens_for(self.engine.sync_engine, "connect")
+        # def on_connect(dbapi_conn, connection_record):
+        #     dbapi_conn.run_async(register_vector)
+
+        # self.async_session = sessionmaker(self.engine, expire_on_commit=False, class_=AsyncSession)
 
     async def init_db(self):
         async with self.engine.begin() as conn:
             # In production use migrations (alembic). This is convenient for dev.
             await conn.run_sync(metadata.create_all)
 
-    async def init_vector_db(self):
-        async with self.engine.begin() as conn:
-            # Ensure pgvector extension exists
-
-            await conn.run_sync(
-                lambda sync_conn: sync_conn.execute("CREATE EXTENSION IF NOT EXISTS vector;")
-            )
-
-            # In production use migrations (alembic). This is convenient for dev.
-            await conn.run_sync(metadata.create_all)
+    # async def init_vector_db(self):
+    #     # 1. First, ensure the extension exists
+    #     async with self.engine.begin() as conn:
+    #         await conn.execute(text("CREATE EXTENSION IF NOT EXISTS vector;"))
+        
+    #     # 2. Register the vector type on the underlying connection
+    #     async with self.engine.connect() as conn:
+    #         # Get the SQLAlchemy wrapper
+    #         raw_wrapper = await conn.get_raw_connection()
             
+    #         # Access the ACTUAL asyncpg connection object
+    #         # This is where 'set_type_codec' lives
+    #         actual_asyncpg_conn = raw_wrapper.driver_connection
+            
+    #         await register_vector(actual_asyncpg_conn)
+
+    #     # 3. Create tables
+    #     async with self.engine.begin() as conn:
+    #         await conn.run_sync(metadata.create_all)
+
+    #     print("Database initialized with pgvector!")
+
+
+    async def init_vector_db(self):
+        # Step 1: ensure extension exists using a raw asyncpg connection
+        # Must happen BEFORE the SQLAlchemy engine is created
+        conn = await asyncpg.connect(self.asyncpg_url)
+        try:
+            await conn.execute("CREATE EXTENSION IF NOT EXISTS vector;")
+        finally:
+            await conn.close()
+
+        # Step 2: now create the engine — pool connections will find the type
+        self.engine = create_async_engine(self.db_url, echo=False, future=True)
+
+        @event.listens_for(self.engine.sync_engine, "connect")
+        def on_connect(dbapi_conn, connection_record):
+            dbapi_conn.run_async(register_vector)
+
+        self.async_session = sessionmaker(
+            self.engine, expire_on_commit=False, class_=AsyncSession
+        )
+
+        # Step 3: create tables
+        async with self.engine.begin() as conn:
+            await conn.run_sync(metadata.create_all)
+
+        print("Database initialized with pgvector!")
 
     async def write(self, user_id: str, key: str, value: Dict[str, Any], summary: Optional[str] = None) -> Dict[str, Any]:
         """Create or update a memory item for a user and key (upsert-like behaviour)."""
-        now = datetime.utcnow()
+        now = datetime.now(timezone.utc)
         async with self.async_session() as session:
             # check existing
             stmt = select(memories_table).where(memories_table.c.user_id == user_id, memories_table.c.key == key)
@@ -160,23 +227,47 @@ class MemoryService:
                 print("key score:", fuzz.token_set_ratio(q, key))
                 print("value score:", fuzz.token_set_ratio(q, value_text))
 
+                score = [
+                    fuzz.token_set_ratio(q, summary),
+                    fuzz.token_set_ratio(q, key),
+                    fuzz.token_set_ratio(q, value_text)
+                ]
+
+                max_score = max(score)
+
                 # if q in summary or q in key or q in value_text:
-                if (
-                        fuzz.token_set_ratio(q, summary) > 70 or
-                        fuzz.token_set_ratio(q, key) > 70 or
-                        fuzz.token_set_ratio(q, value_text) > 70
-                    ):
+                if (max_score > 50):
                     matched.append({
-                        "id": r.id,
-                        "user_id": str(r.user_id),
-                        "key": r.key,
-                        "value": r.value,
-                        "summary": r.summary,
+                        # "id": r.id,
+                        # "user_id": str(r.user_id),
+                        # "key": r.key,
+                        # "value": r.value,
+                        # "summary": r.summary,
+                        "similarity": max_score / 100,
+                        "text": f"Memory Key: {r.key} | Content: {json.dumps(r.value)} | Summary: {r.summary if r.summary else 'no summary available'}",
                         "created_at": r.created_at.isoformat() if r.created_at else None,
                         "updated_at": r.updated_at.isoformat() if r.updated_at else None,
                     })
-                    if len(matched) >= limit:
-                        break
+
+                if len(matched) == 0:
+                    if (max_score > 10):
+                        matched.append({
+                        # "id": r.id,
+                        # "user_id": str(r.user_id),
+                        # "key": r.key,
+                        # "value": r.value,
+                        # "summary": r.summary,
+                        "similarity": max_score / 100,
+                        "text": f"Memory Key: {r.key} | Content: {json.dumps(r.value)} | Summary: {r.summary if r.summary else 'no summary available'}",
+                        "created_at": r.created_at.isoformat() if r.created_at else None,
+                        "updated_at": r.updated_at.isoformat() if r.updated_at else None,
+                    })
+
+
+                if len(matched) >= limit:
+                    break
+
+
             print(f"Matched searched memories: {len(matched)}")
             return matched
 
@@ -186,5 +277,100 @@ class MemoryService:
             res = await session.execute(stmt)
             await session.commit()
             return res.rowcount > 0
+
+
+
+    async def vector_search_documents(self, business_id: int, query_embedding: List[float], limit: int = 5):
+        async with self.async_session() as session:
+            stmt = text("""
+                SELECT
+                    id,
+                    document_id,
+                    filename,
+                    chunk_index,
+                    text,
+                    embedding <-> :query_embedding AS distance
+                FROM document_chunks
+                WHERE business_id = :business_id
+                ORDER BY embedding <-> :query_embedding
+                LIMIT :limit
+            """)
+
+            result = await session.execute(
+                stmt,
+                {
+                    "query_embedding": query_embedding,
+                    "business_id": business_id,
+                    "limit": limit
+                }
+            )
+
+            rows = result.fetchall()
+            return [
+                {
+                    "id": r.id,
+                    "document_id": r.document_id,
+                    "filename": r.filename,
+                    "chunk_index": r.chunk_index,
+                    "text": r.text,
+                    "distance": r.distance,
+                }
+                for r in rows
+            ]
+        
+    async def keyword_search_documents(self,business_id: int, query: str, limit: int = 5):
+        async with self.async_session() as session:
+            stmt = text("""
+                SELECT
+                    id,
+                    document_id,
+                    filename,
+                    chunk_index,
+                    text
+                FROM document_chunks
+                WHERE business_id = :business_id
+                AND text ILIKE :q
+                LIMIT :limit
+            """)
+
+            result = await session.execute(
+                stmt,
+                {
+                    "business_id": business_id,
+                    "q": f"%{query}%"
+                }
+            )
+
+            rows = result.fetchall()
+            return [
+                {
+                    "id": r.id,
+                    "document_id": r.document_id,
+                    "filename": r.filename,
+                    "chunk_index": r.chunk_index,
+                    "text": r.text,
+                }
+                for r in rows
+            ]
+        
+    async def hybrid_search(self, business_id: int, query: str, query_embedding: List[float], limit: int = 5):
+        vector_results = await self.vector_search_documents(
+            business_id=business_id,
+            query_embedding=query_embedding,
+            limit=limit * 2
+        )
+
+        keyword_results = await self.keyword_search_documents(
+            business_id=business_id,
+            query=query,
+            limit=limit * 2
+        )
+
+        # Deduplicate by chunk id
+        merged = {r["id"]: r for r in vector_results}
+        for r in keyword_results:
+            merged[r["id"]] = r
+
+        return list(merged.values())[:limit]
 
     

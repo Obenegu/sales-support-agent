@@ -12,6 +12,7 @@ using System.Text;
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 var builder = WebApplication.CreateBuilder(args);
+builder.WebHost.UseUrls("http://0.0.0.0:5132");
 
 //builder.WebHost.UseUrls($"http://0.0.0.0:{Environment.GetEnvironmentVariable("PORT") ?? "8080"}");
 
@@ -128,8 +129,8 @@ builder.Services.AddCors(options =>
 		builder =>
 		{
 			builder
-				.WithOrigins("http://localhost:5173", "http://localhost:3000")
-				.AllowAnyHeader()
+				.WithOrigins("http://localhost:5173", "http://localhost:3000", "http://127.0.0.1:8000", "http://host.docker.internal")
+                .AllowAnyHeader()
 				.AllowAnyMethod()
 				.AllowCredentials(); // If using cookies or authorization headers
 		});
@@ -154,7 +155,11 @@ if (app.Environment.IsDevelopment())
 
 app.UseMiddleware<SanitizationMiddleware>();
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
 
 app.UseCors("AllowFrontend");
 

@@ -2,6 +2,7 @@ from typing import Dict, Optional, Any
 import requests
 
 
+# BACKEND_BASE_URL = "http://host.docker.internal:5132"
 # -------------------------------------------
 # 1. CALCULATE PRICING
 # -------------------------------------------
@@ -9,21 +10,21 @@ import requests
 
 
 class Sales_Tools():
-    def __init__(self, products, upsells):
-        self.products = products
-        self.upsells = upsells
+    # def __init__(self):
+    #     self.products = products
+    #     self.upsells = upsells
 
 
     # -------------------------------------------
     # PAYMENT TOOL  ✅
     # -------------------------------------------
-
+    
     def process_payment(self, order: Dict[str, Any], amount: float) -> Dict[str, Any]:
         """
         Tool that calls the payment API.
         """
 
-        endpoint = f"https://localhost:7106/api/order/process-payment"
+        endpoint = f"http://host.docker.internal:5132/api/order/process-payment"
 
         try:
             response = requests.post(
@@ -56,7 +57,7 @@ class Sales_Tools():
         Tool used to search for products by name.
         """
 
-        endpoint = f"https://localhost:7106/api/Product/search"
+        endpoint = f"http://host.docker.internal:5132/api/Product/search"
 
         params = {
             "name": name
@@ -86,7 +87,7 @@ class Sales_Tools():
         Tool used to calculate the total cost of a product.
         """
 
-        endpoint = f"https://localhost:7106/api/Product/{product_id}"
+        endpoint = f"http://host.docker.internal:5132/api/Product/{product_id}"
 
         params = {
             "id": product_id
@@ -136,14 +137,14 @@ class Sales_Tools():
    
 
 
-    def suggest_upsells(self, product: str) -> str:
-        product = product.lower()
+    # def suggest_upsells(self, product: str) -> str:
+    #     product = product.lower()
 
-        if product in self.upsells:
-            items = ", ".join(self.upsells[product])
-            return f"Customers who buy a {product} also consider: {items}."
+    #     if product in self.upsells:
+    #         items = ", ".join(self.upsells[product])
+    #         return f"Customers who buy a {product} also consider: {items}."
 
-        return "No upsells available."
+    #     return "No upsells available."
     
 
     # -------------------------------------------

@@ -8,7 +8,9 @@ from datetime import datetime, timezone
 from models.cart_item import CartItem  
 
 
-r = redis.Redis(host="localhost", port=6379, decode_responses=True)
+r = redis.Redis(host="redis", port=6379, decode_responses=True)
+r.set('status', 'redid it works!')
+print(r.get('status'))
 
 def now():
     return datetime.now(timezone.utc).isoformat()
@@ -53,6 +55,8 @@ class WorkingMemory:
         key = f"wm:{user_id}:{session_id}"
         r.delete(key)
 
+    # ─── Cart Operations ─────────────────────────────────────────────────────────
+
     def add_item_to_order(self, item: CartItem, session_id: str, user_id: str):
         self.memory = self.loadWorkingMemory(session_id, user_id)
         if not self.memory:
@@ -90,8 +94,66 @@ class WorkingMemory:
         self.save_working_memory(session_id, user_id)
         return self.memory
 
-    
     def clear_order(self):
         self.memory["cart"] = []
         self.memory["flags"]["awaiting_confirmation"] = False
         return self.memory
+    
+
+    # ─── Conversation History ────────────────────────────────────────────────────
+
+    def add_message(self, session_id: str, user_id: str, role: str, content: str):
+        """Append a single message to the conversation history list in Redis."""
+        key = f"history:{user_id}:{session_id}"
+        message = json.dumps({"role": role, "content": content, "ts": now()})
+        r.rpush(key, message)
+        r.expire(key, 60 * 60 * 24)  # TTL: 24 hours
+
+    def load_history(self, session_id: str, user_id: str, last_n: int = 10) -> List[Dict]:
+        """Load the last N messages from conversation history."""
+        key = f"history:{user_id}:{session_id}"
+        raw = r.lrange(key, -last_n, -1)
+        return [json.loads(m) for m in raw]
+
+    def load_full_history(self, session_id: str, user_id: str) -> List[Dict]:
+        """Load the entire conversation history."""
+        key = f"history:{user_id}:{session_id}"
+        raw = r.lrange(key, 0, -1)
+        return [json.loads(m) for m in raw]
+
+    def get_history_length(self, session_id: str, user_id: str) -> int:
+        """Return the total number of messages stored in history."""
+        key = f"history:{user_id}:{session_id}"
+        return r.llen(key)
+
+    def trim_history(self, session_id: str, user_id: str, keep_last_n: int = 4):
+        """
+        Trim the history list to only the last N messages.
+        Called after summarization to keep Redis lean.
+        """
+        key = f"history:{user_id}:{session_id}"
+        all_messages = self.load_full_history(session_id, user_id)
+        recent = all_messages[-keep_last_n:]
+
+        # Clear and rewrite only the recent messages
+        r.delete(key)
+        for msg in recent:
+            r.rpush(key, json.dumps(msg))
+        r.expire(key, 60 * 60 * 24)
+
+    # ─── Mid-term Summary ────────────────────────────────────────────────────────
+
+    def save_summary(self, session_id: str, user_id: str, summary: str):
+        """Persist a compressed mid-term summary of the conversation."""
+        key = f"summary:{user_id}:{session_id}"
+        r.set(key, summary, ex=60 * 60 * 24)  # TTL: 24 hours
+
+    def load_summary(self, session_id: str, user_id: str) -> Optional[str]:
+        """Load the mid-term summary if one exists."""
+        key = f"summary:{user_id}:{session_id}"
+        return r.get(key)
+
+    def clear_summary(self, session_id: str, user_id: str):
+        """Delete the summary (e.g. when a session fully resets)."""
+        key = f"summary:{user_id}:{session_id}"
+        r.delete(key)

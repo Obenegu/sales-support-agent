@@ -36,6 +36,8 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
     )
 # ←←← END OF FIX ←←←
 
-app.get("/")
+@app.get("/")
+async def health_check():
+    return {"status": "ok", "service": "Sales & Support AI Agent"}
 
 app.include_router(router)

@@ -1,82 +1,80 @@
 # scripts/test_memory.py
 import asyncio
 import os
+import asyncpg
 from dotenv import load_dotenv
+from openai import BaseModel
 from services.memory.mem0_memory import Mem0MemoryManager
-from services.memory.working_memory import WorkingMemory
+# from services.memory.working_memory import WorkingMemory
 from services.classify_intent import classify_intent
-import redis
+
+from config.settings import db, async_db
+from services.memory.db_memory import MemoryService
+from typing import Any, Dict, List, Optional
+from services.RAG.rag_query import rag_query
 
 load_dotenv()
 
-working_mem = WorkingMemory()  
+# working_mem = WorkingMemory()  
+
+memory = MemoryService(db_url="postgresql+asyncpg://tabot:hello@localhost:5432/agent_memory")
+
+mem0_memory = Mem0MemoryManager()
+
+class RAGQueryRequest(BaseModel):
+    businessId: int
+    userId: str
+    question: str
+
+# async def init_services():
+#     await memory.init_vector_db()
+
+
+# services/memory/mem0_memory.py
+
+# def add_conversation_turn(self, user_id: str, user_msg: str, agent_response: str, metadata: Optional[Dict[str, str]] = None):
+#     if not self.mem0:
+#         return None
+    
+#     # We create a conversation payload
+#     messages = [
+#         {"role": "user", "content": user_msg},
+#         {"role": "assistant", "content": agent_response}
+#     ]
+    
+#     try:
+#         # metadata is great for your analytics requirement!
+#         return self.mem0.add(
+#             messages, 
+#             user_id=user_id,
+#             metadata={
+#                 "type": "conversation_turn",
+#                 "agent_id": "sales-support-v1"
+#             }
+#         )
+#     except Exception as e:
+#         print(f"Error adding to Mem0: {e}")
+#         return None
+
+
 
 async def main():
-    db = os.environ.get("DATABASE_URL")
-    # print(f"Memo Api key: {os.environ.get('MEM0_API_KEY')}")
-    mem = Mem0MemoryManager()
-    # await mem.init_db()
-
-    # res = mem.mem0_add(
-    # "user123",
-    # "business",
-    # messages=[{"role": "user", "content": "my favorite sport is football"}]
+    # result = mem0_memory.add_conversation_turn(
+    #     user_id="user007",
+    #     user_msg="Hello, who is the best footballer?",
+    #     agent_response="Hi! LIonel Messi is often considered the best footballer in the world due to his incredible skill, vision, and goal-scoring ability. However, opinions on this can vary, and some may argue that players like Cristiano Ronaldo also deserve the title."
     # )
 
-    #result = mem.mem0_delete(user_id="simnon")
-
-    #print(result)
-
-    # r = redis.Redis(host="localhost", port=6379)
-    # print(r.ping())
-
-    # working_memory = working_mem.createWorkingMemory(user_id="user124", session_id="sess456")
-    # print("Created Working Memory:", working_memory)
-
-    # add_to_cart = working_mem.add_item_to_order( session_id="sess456", user_id="user123",
-    #     item={"name": "Widget", "quantity": "2", "price": 19.99, "color": "red"}
+    # result = await memory.write(
+    #     user_id="user007",
+    #     key="test_key_124",
+    #     value={"user_query": "I am starting a new project. I need tool recommendations.", "retrieved_info": "tools: Next js, React, Vue, VsCode, Xampp, Docker", "final_answer": "i recommend using tools like Next js for frontend, VsCode for development, and Docker for containerization."}
     # )
 
-    # print("After adding item to order:", add_to_cart)
+    # result = await memory.search(user_id="user007", query="what is vs code used for?")
+    result = await rag_query(payload=RAGQueryRequest(businessId=1, userId="user007", question="What happens if i am unable to complete payment of a good????"))
 
-    # working_mem.clear_working_memory(session_id="sess456", user_id="user123")
-
-    # print("write result:", res)
-
-    # test mem0 add/search if mem0 configured
-    # result = mem.mem0_search(user_id="user123", query="which sport do i like most", limit=5)
-    # print("mem0 save result:", result)
-
-    # 1️⃣ Create memory FIRST
-    # working_mem.createWorkingMemory(
-    #     user_id="user123",
-    #     session_id="sess456"
-    # )
-
-    # 2️⃣ Then add items
-    # add_to_cart = working_mem.add_item_to_order( user_id="user123", session_id="sess456",
-    #     item={
-    #         "Name": "ruler",
-    #         "Quantity": "2",
-    #         "Price": 0.5,
-    #         "Color": "blue"
-    #     }
-    # )
-
-    # print("After adding item to order:", add_to_cart)
-
-    # memory = mem.mem0_get_user("junior")
-    # # print("Mem0 get user memories:", memory)
-
-    # intent = classify_intent("what is my name", memory)
-    # print("Intent:", intent)
-
-    memory = working_mem.loadWorkingMemory( session_id="sess456", user_id="user123" )
-    print("Loaded Working Memory:", memory)
-
-    # removed_items = working_mem.remove_item_from_order(session_id="sess456", user_id="user123", item_name="ruler")
-    # print("Current Items in Cart", removed_items)
-
+    print("result:", result)
 
 
 asyncio.run(main())
