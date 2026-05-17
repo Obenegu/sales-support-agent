@@ -82,18 +82,12 @@ def clean_row(row: Row) -> Dict[str, Any]:
 
 class MemoryService:
     def __init__(self, db_url: Optional[str] = None, echo: bool = False):
+        if not db_url:
+            raise ValueError("DATABASE_URL (or ASYNC_DATABASE_URL) is not set. Please check your .env file.")
         self.db_url = db_url
-        # self.engine: AsyncEngine = create_async_engine(self.db_url, echo=echo, future=True)
         self.asyncpg_url = db_url.replace("postgresql+asyncpg://", "postgresql://")
-        self.engine = None  # created after extension is ensured
+        self.engine = None
         self.async_session = None
-
-         # ✅ Register vector type on every new connection from the pool
-        # @event.listens_for(self.engine.sync_engine, "connect")
-        # def on_connect(dbapi_conn, connection_record):
-        #     dbapi_conn.run_async(register_vector)
-
-        # self.async_session = sessionmaker(self.engine, expire_on_commit=False, class_=AsyncSession)
 
     async def init_db(self):
         async with self.engine.begin() as conn:
