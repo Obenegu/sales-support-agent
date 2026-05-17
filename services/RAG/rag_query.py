@@ -271,24 +271,23 @@ Now give a CLEAR and HUMAN-FRIENDLY and Respond with ONLY the JSON object. Nothi
 async def get_info_from_pdf(query: str, business_id: int, top_k: int = 5) -> dict:
     query_vec = model.encode([query], normalize_embeddings=True)[0]
     
-    # Convert to postgres vector literal — bypasses codec entirely
+    # Convert to postgres vector literal — embed directly in SQL (safe, generated locally)
     vec_str = "[" + ",".join(str(x) for x in query_vec.tolist()) + "]"
 
     async with memory.async_session() as session:
-        stmt = text("""
+        stmt = text(f"""
             SELECT 
                 text,
-                1 - (embedding <=> CAST(:query_vec AS vector)) AS similarity
+                1 - (embedding <=> '{vec_str}'::vector) AS similarity
             FROM document_chunks
             WHERE business_id = :business_id
-            ORDER BY embedding <=> CAST(:query_vec AS vector)
+            ORDER BY embedding <=> '{vec_str}'::vector
             LIMIT :top_k
         """)
 
         result = await session.execute(
             stmt,
             {
-                "query_vec": vec_str,   # plain string, postgres casts it
                 "business_id": business_id,
                 "top_k": top_k
             }
