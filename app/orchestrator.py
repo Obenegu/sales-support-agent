@@ -1,5 +1,3 @@
-import mem0
-
 from config.settings import db, async_db, get_pg_pool, sales_tool, client, memory
 from app.safety import sanitize_text, validate_input, logger
 from services.memory.working_memory import WorkingMemory
@@ -163,8 +161,8 @@ async def orchestrate(user_id: str, session_id: str) -> dict:
     preferences = None
     try:
         mem0_result = mem0_memory.mem0_search(
+            user_id=user_id,
             query="customer preferences purchase history support issues",
-            filters={"AND": [{"user_id": user_id}]},
             limit=5
         )
         if mem0_result:
