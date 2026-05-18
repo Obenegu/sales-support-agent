@@ -1,4 +1,6 @@
 import json
+import asyncio
+import socket
 from pydantic import BaseModel
 from services.classify_intent import classify_intent, is_task_complete
 from google.genai import types
@@ -83,6 +85,86 @@ mem0_memory = Mem0MemoryManager()
 working_mem = WorkingMemory()
 
 observation_content = "No observations"
+
+# ─── Retry Logic ─────────────────────────────────────────────────────────────
+
+RETRYABLE_HTTP_CODES = {429, 502, 503, 504}
+NON_RETRYABLE_HTTP_CODES = {400, 401, 403, 404}
+MAX_RETRIES = 3
+BACKOFF_BASE_SECONDS = 2
+
+
+def _is_retryable_error(exc: Exception) -> bool:
+    """
+    Classify an exception as retryable or non-retryable.
+    Retryable: transient network/server issues.
+    Non-retryable: bad requests, auth failures, client errors.
+    """
+    # DNS resolution errors (Errno -5, gaierror)
+    if isinstance(exc, socket.gaierror):
+        return True
+    if isinstance(exc, (ConnectionError, TimeoutError, OSError)):
+        # OSError with errno -5 is DNS failure
+        if hasattr(exc, 'errno') and exc.errno == -5:
+            return True
+        return True
+
+    # Check for HTTP status codes in the exception message
+    exc_str = str(exc)
+    # Extract status code from common error formats
+    for code in RETRYABLE_HTTP_CODES:
+        if str(code) in exc_str:
+            return True
+    for code in NON_RETRYABLE_HTTP_CODES:
+        if str(code) in exc_str:
+            return False
+
+    # Default: retry unknown errors (safer for network blips)
+    return True
+
+
+async def _call_llm_with_retry(
+    model: str,
+    contents,
+    config,
+    max_retries: int = MAX_RETRIES,
+    base_delay: float = BACKOFF_BASE_SECONDS
+):
+    """
+    Call Gemini LLM with exponential backoff retry.
+    Only retries transient errors (5xx, timeouts, DNS failures).
+    Immediately fails on client errors (4xx).
+    """
+    last_exc = None
+
+    for attempt in range(1, max_retries + 1):
+        try:
+            log_info(f"LLM call attempt {attempt}/{max_retries}")
+            return client.models.generate_content(
+                model=model,
+                contents=contents,
+                config=config
+            )
+        except Exception as e:
+            last_exc = e
+            is_retryable = _is_retryable_error(e)
+
+            if not is_retryable:
+                log_error(f"Non-retryable error on attempt {attempt}: {e}")
+                raise  # Don't retry 4xx errors
+
+            if attempt >= max_retries:
+                log_error(f"All {max_retries} retries exhausted. Last error: {e}")
+                raise
+
+            # Exponential backoff: 2s, 4s, 8s
+            delay = base_delay * (2 ** (attempt - 1))
+            log_info(f"Retryable error on attempt {attempt}: {e}. Retrying in {delay}s...")
+            await asyncio.sleep(delay)
+
+    # Should never reach here, but satisfy type checker
+    raise last_exc
+
 
 async def ai_chat(user_message, user_id, session_id):
 
@@ -208,14 +290,16 @@ async def ai_chat(user_message, user_id, session_id):
     # First LLM call
     # ----------------------------
         try:
-            response = client.models.generate_content(
-                model="gemini-2.5-flash", # gemini-1.5-pro for stronger reasoning
+            response = await _call_llm_with_retry(
+                model="gemini-2.5-flash",
                 contents=contents,
-                config=config
+                config=config,
+                max_retries=MAX_RETRIES,
+                base_delay=BACKOFF_BASE_SECONDS
             )
         except Exception as e:
-            log_error(f"LLM request failed: {e}")
-            return normalize_output("Sorry, something went wrong.", "none", intent)
+            log_error(f"LLM request failed after retries: {e}")
+            return normalize_output("Sorry, something went wrong. Please try again in a moment.", "none", intent)
 
         candidate = response.candidates[0]
         parts = candidate.content.parts if candidate.content else []
