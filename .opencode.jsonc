@@ -1,0 +1,31 @@
+# Per-Project Coding Assistant Configuration
+# Place this file in each project's root directory as .opencode.jsonc
+# and customize settings per workspace
+
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "moonshotai/kimi-k2.6",
+  "provider": {
+    "moonshotai": {
+      "options": {
+        "apiKey": "${GEMINI_API_KEY}",
+        "baseURL": "https://ai-tools.genuka.com/v1"
+      }
+    }
+  },
+  "workspace": {
+    "root": ".",
+    "exclude": [
+      "node_modules",
+      "__pycache__",
+      ".venv",
+      "*.pyc",
+      ".git"
+    ]
+  },
+  "git": {
+    "enabled": true,
+    "autoCommit": false,
+    "requireApproval": true
+  }
+}

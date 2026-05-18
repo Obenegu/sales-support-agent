@@ -159,9 +159,10 @@ async def orchestrate(user_id: str, session_id: str) -> dict:
     # Long-term — customer preferences and history from mem0
     preferences = None
     try:
-        mem0_result = mem0.mem0_search(
-            user_id=user_id,
-            query="customer preferences purchase history support issues"
+        mem0_result = mem0.search(
+            query="customer preferences purchase history support issues",
+            filters={"AND": [{"user_id": user_id}]},
+            limit=5
         )
         if mem0_result:
             preferences = str(mem0_result)

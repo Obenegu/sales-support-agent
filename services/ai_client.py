@@ -149,9 +149,13 @@ async def ai_chat(user_message, user_id, session_id):
     history_to_inject = recent[:-1] if recent else []
 
     for msg in history_to_inject:
+        # Gemini only accepts "user" and "model" roles — map "assistant" → "model"
+        role = msg["role"]
+        if role == "assistant":
+            role = "model"
         contents.append(
             types.Content(
-                role=msg["role"],
+                role=role,
                 parts=[types.Part(text=msg["content"])]
             )
         )

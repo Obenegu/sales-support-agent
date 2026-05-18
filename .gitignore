@@ -1,12 +1,21 @@
-.vscode/
-bin/
-obj/
-*.user
-*.suo
-*.pyc
-__pycache__/
-.orchestrator_env/
+# Environment
 .env
-.secrets/
-pgvector/
-.vs/
+.env.local
+
+# Credentials
+.git-credentials
+
+# IDE
+.vscode/
+.idea/
+
+# Dependencies
+node_modules/
+__pycache__/
+.venv/
+*.pyc
+
+# Build outputs
+build/
+dist/
+*.egg-info/
