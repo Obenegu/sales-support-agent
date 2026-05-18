@@ -1,11 +1,14 @@
-from config.settings import db, async_db, get_pg_pool, sales_tool, client, mem0, memory
+import mem0
+
+from config.settings import db, async_db, get_pg_pool, sales_tool, client, memory
 from app.safety import sanitize_text, validate_input, logger
 from services.memory.working_memory import WorkingMemory
 from app.logs.logging_helper import log_error, log_info
 from google.genai import types
-
+from services.memory.mem0_memory import Mem0MemoryManager
 
 working_mem = WorkingMemory()
+mem0_memory = Mem0MemoryManager()
 
 
 async def init_services():
@@ -159,7 +162,7 @@ async def orchestrate(user_id: str, session_id: str) -> dict:
     # Long-term — customer preferences and history from mem0
     preferences = None
     try:
-        mem0_result = mem0.search(
+        mem0_result = mem0_memory.mem0_search(
             query="customer preferences purchase history support issues",
             filters={"AND": [{"user_id": user_id}]},
             limit=5
