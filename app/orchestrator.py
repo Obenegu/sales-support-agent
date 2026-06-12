@@ -4,9 +4,12 @@ from services.memory.working_memory import WorkingMemory
 from app.logs.logging_helper import log_error, log_info
 from google.genai import types
 from services.memory.mem0_memory import Mem0MemoryManager
+from services.memory.db_memory import MemoryService
+
 
 working_mem = WorkingMemory()
 mem0_memory = Mem0MemoryManager()
+memory_service = MemoryService(db_url=async_db)
 
 
 async def init_services():

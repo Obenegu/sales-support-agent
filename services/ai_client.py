@@ -456,7 +456,7 @@ async def ai_chat(user_message, user_id, session_id):
         contents.append(types.Content(role="model", parts=parts))
 
         # Check for function calls (can be multiple)
-        function_calls = [p.function_call for p in parts if p.function_call is not None]
+        function_calls = [p.function_call for p in (parts or []) if p.function_call is not None]
 
         if not function_calls:
             log_info("No valid function calls detected this turn.")
