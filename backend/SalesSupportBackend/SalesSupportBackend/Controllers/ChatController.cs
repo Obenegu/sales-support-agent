@@ -19,11 +19,13 @@ namespace SalesSupportBackend.Controllers
 	{
 		private readonly IHttpClientFactory _httpClientFactory;
 		private readonly AppDbContext _context;
+		private readonly string _orchestratorUrl;
 
-		public ChatController(IHttpClientFactory httpClientFactory, AppDbContext context)
+		public ChatController(IHttpClientFactory httpClientFactory, AppDbContext context, IConfiguration configuration)
 		{
 			_httpClientFactory = httpClientFactory;
 			_context = context;
+			_orchestratorUrl = configuration["Orchestrator:BaseUrl"] ?? "http://orchestrator:8000";
 		}
 
 		[HttpPost]
@@ -44,7 +46,7 @@ namespace SalesSupportBackend.Controllers
 
 			// Call Python orchestrator microservice
 			var client = _httpClientFactory.CreateClient();
-			var response = await client.PostAsync("http://127.0.0.1:8000/api/chat", content);
+			var response = await client.PostAsync($"{_orchestratorUrl}/api/chat", content);
 			var responseText = await response.Content.ReadAsStringAsync();
 
 			var chatResponse = JsonSerializer.Deserialize<AgentResponse>(
