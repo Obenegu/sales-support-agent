@@ -20,10 +20,13 @@ from services.memory.working_memory import WorkingMemory
 from app.safety import sanitize_text, validate_input, logger
 
 # Try importing Google API core exceptions for proper type checking
+import importlib
 try:
-    from google.api_core import exceptions as google_exceptions
-    GOOGLE_EXCEPTIONS_AVAILABLE = True
-except ImportError:
+    google_api_core = importlib.import_module("google.api_core")
+    google_exceptions = getattr(google_api_core, "exceptions", None)
+    GOOGLE_EXCEPTIONS_AVAILABLE = bool(google_exceptions)
+except Exception:
+    google_exceptions = None
     GOOGLE_EXCEPTIONS_AVAILABLE = False
 
 class ChatResponse(BaseModel):
@@ -456,7 +459,7 @@ async def ai_chat(user_message, user_id, session_id):
         contents.append(types.Content(role="model", parts=parts))
 
         # Check for function calls (can be multiple)
-        function_calls = [p.function_call for p in parts if p.function_call is not None]
+        function_calls = [p.function_call for p in (parts or []) if p.function_call is not None]
 
         if not function_calls:
             log_info("No valid function calls detected this turn.")
