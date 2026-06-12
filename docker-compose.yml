@@ -44,6 +44,7 @@ services:
       context: ./backend/SalesSupportBackend
       dockerfile: Dockerfile
     environment:
+      - PORT=5132
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=agent_memory;Username=tabot;Password=***
       - ORCHESTRATOR_URL=http://orchestrator:8000

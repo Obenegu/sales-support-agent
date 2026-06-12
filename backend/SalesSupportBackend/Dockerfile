@@ -25,7 +25,7 @@ WORKDIR /app
 COPY --from=publish /app/publish .
 
 # Set environment
-ENV ASPNETCORE_URLS=http://0.0.0.0:5132
+ENV PORT=5132
 
 EXPOSE 5132
 
