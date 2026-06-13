@@ -276,8 +276,9 @@ async def get_info_from_pdf(query: str, business_id: int, top_k: int = 5) -> dic
 
     async with memory.async_session() as session:
         stmt = text(f"""
-            SELECT 
+            SELECT
                 text,
+                (embedding <=> '{vec_str}'::vector) AS distance,
                 1 - (embedding <=> '{vec_str}'::vector) AS similarity
             FROM document_chunks
             WHERE business_id = :business_id

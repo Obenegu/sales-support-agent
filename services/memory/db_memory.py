@@ -94,6 +94,14 @@ class MemoryService:
             # In production use migrations (alembic). This is convenient for dev.
             await conn.run_sync(metadata.create_all)
 
+            # Create cosine index for fast vector search
+            await conn.execute(text("""
+                CREATE INDEX IF NOT EXISTS idx_document_chunks_embedding_cosine
+                ON document_chunks
+                USING ivfflat (embedding vector_cosine_ops)
+                WITH (lists = 100);
+            """))
+
     # async def init_vector_db(self):
     #     # 1. First, ensure the extension exists
     #     async with self.engine.begin() as conn:
@@ -283,10 +291,10 @@ class MemoryService:
                     filename,
                     chunk_index,
                     text,
-                    embedding <-> :query_embedding AS distance
+                    embedding <=> :query_embedding AS distance
                 FROM document_chunks
                 WHERE business_id = :business_id
-                ORDER BY embedding <-> :query_embedding
+                ORDER BY embedding <=> :query_embedding
                 LIMIT :limit
             """)
 
