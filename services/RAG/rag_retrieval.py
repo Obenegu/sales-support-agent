@@ -20,10 +20,10 @@ async def search_chunks(query: str, business_id: int, limit: int = 5):
         rows = await conn.fetch(
             """
             SELECT id, text, embedding,
-                   (embedding <-> $1::vector) AS distance
+                   (embedding <=> $1::vector) AS distance
             FROM document_chunks
             WHERE business_id = $2
-            ORDER BY embedding <-> $1::vector
+            ORDER BY embedding <=> $1::vector
             LIMIT $3;
             """,
             query_vec,
