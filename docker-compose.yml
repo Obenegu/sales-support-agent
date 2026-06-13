@@ -5,7 +5,7 @@ services:
       - "5432:5432"
     environment:
       - POSTGRES_USER=tabot
-      - POSTGRES_PASSWORD=***
+      - POSTGRES_PASSWORD=hello
       - POSTGRES_DB=agent_memory
     volumes:
       - pgdata:/var/lib/postgresql/data
@@ -46,7 +46,7 @@ services:
     environment:
       - PORT=5132
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=agent_memory;Username=tabot;Password=***
+      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=agent_memory;Username=tabot;Password=hello
       - ORCHESTRATOR_URL=http://orchestrator:8000
     ports:
       - "5132:5132"
