@@ -53,13 +53,6 @@ async def execute_tools(function_calls, user_id, orchestrated_message):
                     user_id=args.get("user_id")
                 )
 
-            elif fn_name == "generate_quote":
-                output = sales_tool.generate_quote(
-                    customer_name=args.get("customer_name"),
-                    product=args.get("product"),
-                    quantity=args.get("quantity", 1),
-                )
-
             elif fn_name == "suggest_upsells":
                 output = sales_tool.suggest_upsells(product=args.get("product"))
 
