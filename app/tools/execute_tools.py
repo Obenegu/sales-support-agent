@@ -42,15 +42,15 @@ async def execute_tools(function_calls, user_id, orchestrated_message):
             elif fn_name == "add_item_to_order":
                 # print("Adding item to order with args:", args)
                 output = working_mem.add_item_to_order(
-                    user_id=args.get("user_id"),
+                    item=args.get("item"),
                     session_id=args.get("session_id"),
-                    item=args.get("item")
+                    user_id=args.get("user_id")
                 )
             elif fn_name == "remove_item_from_order":
                 output = working_mem.remove_item_from_order(
-                    user_id=args.get("user_id"),
+                    item_name=args.get("item_name"),
                     session_id=args.get("session_id"),
-                    item_name=args.get("item_name")
+                    user_id=args.get("user_id")
                 )
 
             elif fn_name == "generate_quote":

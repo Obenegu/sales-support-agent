@@ -1,8 +1,8 @@
 import axios from "axios";
 
-// const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "/api";        
-const API_URL = "https://localhost:7106/api";
-// const API_URL = "/api";     
+// Use relative path — Next.js rewrites proxy server-side to backend:5132
+// This avoids CORS: browser → Next.js → backend (all server-to-server)
+const API_URL = "/api";
 
 const api = axios.create({
   baseURL: API_URL,
@@ -31,27 +31,54 @@ api.interceptors.response.use(
   }
 );
 
-// Chat API
+// ── Chat API ──────────────────────────────────────────────
+
 export const sendMessage = async (payload: {
   message: string;
   userId: string;
   sessionId: string;
-  role: number; // 0 for assistant, 1 for user
+  role: string;
 }) => {
-  const res = await api.post("/chat", payload);
+  const res = await api.post("/Chat", payload);
   return res.data;
 };
 
-export const getChatHistory = async (sessionId: string) => {
-  const res = await api.get(`/chat/${sessionId}`);
-  return res.data;
-};
-export const getChatSessions = async (userId: string) => {
-  const res = await api.get(`/chat/sessions/${userId}`);
+export const getChatHistory = async (sessionId: string, userId: string) => {
+  const res = await api.get(`/Chat/${sessionId}?userId=${encodeURIComponent(userId)}`);
   return res.data;
 };
 
-// Health check
+// ── Session API ───────────────────────────────────────────
+
+export interface SessionDto {
+  id: string;
+  userId: string;
+  title: string;
+  createdAt: string;
+  messageCount: number;
+}
+
+export const getSessions = async (userId: string): Promise<SessionDto[]> => {
+  const res = await api.get(`/Session?userId=${encodeURIComponent(userId)}`);
+  return res.data;
+};
+
+export const createSession = async (userId: string, title?: string): Promise<SessionDto> => {
+  const res = await api.post("/Session", { userId, title });
+  return res.data;
+};
+
+export const updateSession = async (id: string, title: string): Promise<SessionDto> => {
+  const res = await api.put(`/Session/${id}`, { title });
+  return res.data;
+};
+
+export const deleteSession = async (id: string): Promise<void> => {
+  await api.delete(`/Session/${id}`);
+};
+
+// ── Health check ──────────────────────────────────────────
+
 export const healthCheck = async () => {
   const res = await axios.get("/");
   return res.data;
