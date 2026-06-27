@@ -89,6 +89,10 @@ namespace SalesSupportBackend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("OrderId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<decimal>("Price")
                         .HasColumnType("numeric");
 
@@ -135,6 +139,8 @@ namespace SalesSupportBackend.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("BusinessId", "CreatedAt");
+
+                    b.HasIndex("SessionId", "CreatedAt");
 
                     b.ToTable("ChatLogs");
                 });
@@ -253,6 +259,29 @@ namespace SalesSupportBackend.Migrations
                     b.ToTable("Products");
                 });
 
+            modelBuilder.Entity("SalesSupportBackend.Models.Session", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Sessions");
+                });
+
             modelBuilder.Entity("SalesSupportBackend.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -305,7 +334,15 @@ namespace SalesSupportBackend.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("SalesSupportBackend.Models.Session", "Session")
+                        .WithMany("ChatLogs")
+                        .HasForeignKey("SessionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Business");
+
+                    b.Navigation("Session");
                 });
 
             modelBuilder.Entity("SalesSupportBackend.Models.Document", b =>
@@ -330,6 +367,18 @@ namespace SalesSupportBackend.Migrations
                     b.Navigation("Business");
                 });
 
+            modelBuilder.Entity("SalesSupportBackend.Models.Session", b =>
+                {
+                    b.HasOne("SalesSupportBackend.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .HasPrincipalKey("Email")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("SalesSupportBackend.Models.Business", b =>
                 {
                     b.Navigation("ChatLogs");
@@ -340,6 +389,11 @@ namespace SalesSupportBackend.Migrations
             modelBuilder.Entity("SalesSupportBackend.Models.Cart", b =>
                 {
                     b.Navigation("items");
+                });
+
+            modelBuilder.Entity("SalesSupportBackend.Models.Session", b =>
+                {
+                    b.Navigation("ChatLogs");
                 });
 
             modelBuilder.Entity("SalesSupportBackend.Models.User", b =>

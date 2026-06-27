@@ -2,10 +2,11 @@ import axios from "axios";
 
 // Use relative path — Next.js rewrites proxy server-side to backend:5132
 // This avoids CORS: browser → Next.js → backend (all server-to-server)
+// const API_URL = "https://localhost:7106/api";
 const API_URL = "/api";
 
 const api = axios.create({
-  baseURL: API_URL,
+  baseURL: "https://localhost:7106/api",
   headers: {
     "Content-Type": "application/json",
   },
@@ -37,7 +38,7 @@ export const sendMessage = async (payload: {
   message: string;
   userId: string;
   sessionId: string;
-  role: string;
+  role: number;
 }) => {
   const res = await api.post("/Chat", payload);
   return res.data;
