@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef, Suspense } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import Sidebar from "./components/Sidebar";
 import ChatArea from "./components/ChatArea";
 import TopNav from "./components/TopNav";
@@ -32,13 +33,45 @@ export interface Chat {
 
 const userId = "junior";
 
-export default function Home() {
+function HomeInner() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [currentChatId, setCurrentChatId] = useState<string | null>(null);
   const [chats, setChats] = useState<Chat[]>([]);
   const [isMobile, setIsMobile] = useState(false);
   const [sessionsLoaded, setSessionsLoaded] = useState(false);
   const initialized = useRef(false);
+  const urlSynced = useRef(false);
+
+  // ── Sync URL ← currentChatId ───────────────────────────
+  useEffect(() => {
+    if (!currentChatId) return;
+    if (urlSynced.current) return;
+    const currentParams = new URLSearchParams(searchParams.toString());
+    if (currentParams.get("session") === currentChatId) {
+      urlSynced.current = true;
+      return;
+    }
+    urlSynced.current = true;
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("session", currentChatId);
+    router.replace(`/?${params.toString()}`, { scroll: false });
+  }, [currentChatId]);
+
+  const syncUrl = useCallback(
+    (sessionId: string | null) => {
+      const params = new URLSearchParams(searchParams.toString());
+      if (sessionId) {
+        params.set("session", sessionId);
+      } else {
+        params.delete("session");
+      }
+      router.replace(`/?${params.toString()}`, { scroll: false });
+    },
+    [router, searchParams]
+  );
 
   // ── Load sessions from backend ──────────────────────────
   const loadSessions = useCallback(async () => {
@@ -52,8 +85,15 @@ export default function Home() {
         messages: [],
       }));
       setChats(mapped);
-      if (mapped.length > 0) {
+
+      // Honor URL param on first load
+      const urlSession = searchParams.get("session");
+      if (urlSession && mapped.some((c) => c.id === urlSession)) {
+        setCurrentChatId(urlSession);
+        syncUrl(urlSession);
+      } else if (mapped.length > 0) {
         setCurrentChatId(mapped[0].id);
+        syncUrl(mapped[0].id);
       }
     } catch (err) {
       console.error("Failed to load sessions:", err);
@@ -61,11 +101,12 @@ export default function Home() {
     } finally {
       setSessionsLoaded(true);
     }
-  }, []);
+  }, [searchParams, syncUrl]);
 
   useEffect(() => {
     loadSessions();
-  }, [loadSessions]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // ── Mobile detection ────────────────────────────────────
   useEffect(() => {
@@ -83,6 +124,7 @@ export default function Home() {
       initialized.current = true;
       handleNewChat();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sessionsLoaded]);
 
   // ── CRUD (API-backed) ───────────────────────────────────
@@ -98,28 +140,53 @@ export default function Home() {
       };
       setChats((prev) => [newChat, ...prev]);
       setCurrentChatId(newChat.id);
+      syncUrl(newChat.id);
       setSidebarOpen(false);
     } catch (err) {
       console.error("Failed to create session:", err);
-      // Fallback: client-side only
       const fallbackId = uuidv4();
       setChats((prev) => [
-        { id: fallbackId, title: "New Chat", timestamp: Date.now(), messageCount: 0, messages: [] },
+        {
+          id: fallbackId,
+          title: "New Chat",
+          timestamp: Date.now(),
+          messageCount: 0,
+          messages: [],
+        },
         ...prev,
       ]);
       setCurrentChatId(fallbackId);
+      syncUrl(fallbackId);
     }
-  }, []);
+  }, [syncUrl]);
 
-  const handleDeleteChat = useCallback(async (id: string) => {
-    try {
-      await deleteSession(id);
-    } catch (err) {
-      console.error("Failed to delete session:", err);
-    }
-    setChats((prev) => prev.filter((c) => c.id !== id));
-    setCurrentChatId((prev) => (prev === id ? null : prev));
-  }, []);
+  const handleSelectChat = useCallback(
+    (id: string) => {
+      setCurrentChatId(id);
+      syncUrl(id);
+      setSidebarOpen(false);
+    },
+    [syncUrl]
+  );
+
+  const handleDeleteChat = useCallback(
+    async (id: string) => {
+      try {
+        await deleteSession(id);
+      } catch (err) {
+        console.error("Failed to delete session:", err);
+      }
+      setChats((prev) => prev.filter((c) => c.id !== id));
+      setCurrentChatId((prev) => {
+        if (prev === id) {
+          syncUrl(null);
+          return null;
+        }
+        return prev;
+      });
+    },
+    [syncUrl]
+  );
 
   const handleRenameChat = useCallback(async (id: string, newTitle: string) => {
     setChats((prev) =>
@@ -148,19 +215,22 @@ export default function Home() {
     );
   }, []);
 
-  const updateMessages = useCallback((chatId: string, messages: ChatMessage[]) => {
-    setChats((prev) =>
-      prev.map((c) => {
-        if (c.id !== chatId) return c;
-        const firstUserMsg = messages.find((m) => m.role === 1);
-        const title = firstUserMsg
-          ? firstUserMsg.content.slice(0, 40) +
-            (firstUserMsg.content.length > 40 ? "..." : "")
-          : c.title;
-        return { ...c, messages, title, timestamp: Date.now() };
-      })
-    );
-  }, []);
+  const updateMessages = useCallback(
+    (chatId: string, messages: ChatMessage[]) => {
+      setChats((prev) =>
+        prev.map((c) => {
+          if (c.id !== chatId) return c;
+          const firstUserMsg = messages.find((m) => m.role === 1);
+          const title = firstUserMsg
+            ? firstUserMsg.content.slice(0, 40) +
+              (firstUserMsg.content.length > 40 ? "..." : "")
+            : c.title;
+          return { ...c, messages, title, timestamp: Date.now() };
+        })
+      );
+    },
+    []
+  );
 
   const currentChat = chats.find((c) => c.id === currentChatId) || null;
   const messages = currentChat?.messages || [];
@@ -178,10 +248,7 @@ export default function Home() {
         chats={chats}
         loading={!sessionsLoaded}
         currentChat={currentChatId}
-        onSelectChat={(id) => {
-          setCurrentChatId(id);
-          setSidebarOpen(false);
-        }}
+        onSelectChat={handleSelectChat}
         onNewChat={handleNewChat}
         onDeleteChat={handleDeleteChat}
         onRenameChat={handleRenameChat}
@@ -205,4 +272,21 @@ export default function Home() {
       </div>
     </div>
   );
+}
+
+export default function Home() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex h-screen w-screen items-center justify-center bg-[var(--bg-primary)]">
+          <div className="flex items-center gap-2 text-[var(--text-muted)]">
+            <div className="w-4 h-4 rounded-full border-2 border-[var(--accent)] border-t-transparent animate-spin" />
+            <span className="text-sm">Loading…</span>
+          </div>
+        </div>
+      )
+    }
+  >
+    <HomeInner />
+  </Suspense>
 }
