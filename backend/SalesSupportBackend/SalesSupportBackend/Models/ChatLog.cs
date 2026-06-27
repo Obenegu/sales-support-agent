@@ -18,5 +18,8 @@ namespace SalesSupportBackend.Models
 		public MessageRole Role { get; set; }
 		public string Content { get; set; }
 		public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+	// Navigation
+	public Session Session { get; set; } = default!;
 	}
 }

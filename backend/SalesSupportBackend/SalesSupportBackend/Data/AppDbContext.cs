@@ -12,6 +12,7 @@ namespace SalesSupportBackend.Data
 		public DbSet<Business> Businesses { get; set; }
 		public DbSet<Lead> Leads { get; set; }
 		public DbSet<ChatLog> ChatLogs { get; set; }
+		public DbSet<Session> Sessions { get; set; }
 		public DbSet<Document> Documents { get; set; }
 		public DbSet<Payment> Payments { get; set; }
 		public DbSet<Cart> Order { get; set; }
@@ -20,7 +21,8 @@ namespace SalesSupportBackend.Data
 		protected override void OnModelCreating(ModelBuilder builder)
 		{
 			builder.Entity<ChatLog>().HasIndex(m => new { m.BusinessId, m.CreatedAt });
-		
+			builder.Entity<ChatLog>().HasIndex(m => new { m.SessionId, m.CreatedAt });
+
 			base.OnModelCreating(builder);
 
 			builder.Entity<Business>()
@@ -42,6 +44,18 @@ namespace SalesSupportBackend.Data
 				.HasOne(c => c.Business)
 				.WithMany(b => b.ChatLogs)
 				.HasForeignKey(c => c.BusinessId);
+
+			builder.Entity<ChatLog>()
+				.HasOne(c => c.Session)
+				.WithMany(s => s.ChatLogs)
+				.HasForeignKey(c => c.SessionId)
+				.HasPrincipalKey(s => s.Id);
+
+			builder.Entity<Session>()
+				.HasOne(s => s.User)
+				.WithMany()
+				.HasForeignKey(s => s.UserId)
+				.HasPrincipalKey(u => u.Email);
 		}
 
 	}
