@@ -181,8 +181,39 @@ export default function ChatArea({
       >
         <div className="max-w-3xl mx-auto px-4 py-6 md:px-6 lg:px-8">
           {loadingHistory ? (
-            <div className="flex items-center justify-center min-h-[60vh]">
-              <Loader2 size={32} className="animate-spin text-[var(--accent)]" />
+            <div className="flex flex-col items-center min-h-[60vh] pt-12 px-4">
+              {/* Skeleton messages */}
+              <div className="w-full max-w-3xl space-y-6">
+                {/* User message skeleton */}
+                <div className="flex gap-3 justify-end">
+                  <div className="flex-1 max-w-[50%]">
+                    <div className="skeleton h-4 w-16 mb-2 ml-auto" />
+                    <div className="skeleton h-16 w-full" />
+                  </div>
+                  <div className="skeleton w-8 h-8 rounded-full flex-shrink-0" />
+                </div>
+                {/* Bot message skeleton */}
+                <div className="flex gap-3">
+                  <div className="skeleton w-8 h-8 rounded-full flex-shrink-0" />
+                  <div className="flex-1 max-w-[70%]">
+                    <div className="skeleton h-4 w-20 mb-2" />
+                    <div className="skeleton h-20 w-full" />
+                    <div className="skeleton h-4 w-16 mt-2" />
+                  </div>
+                </div>
+                {/* Another user message */}
+                <div className="flex gap-3 justify-end">
+                  <div className="flex-1 max-w-[40%]">
+                    <div className="skeleton h-4 w-12 mb-2 ml-auto" />
+                    <div className="skeleton h-10 w-full" />
+                  </div>
+                  <div className="skeleton w-8 h-8 rounded-full flex-shrink-0" />
+                </div>
+              </div>
+              <div className="flex items-center gap-2 mt-8 text-[var(--text-muted)] text-xs">
+                <Loader2 size={14} className="animate-spin" />
+                <span>Loading conversation…</span>
+              </div>
             </div>
           ) : messages.length === 0 ? (
             <div className="flex flex-col items-center justify-center min-h-[60vh] animate-fade-in">

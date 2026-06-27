@@ -176,6 +176,7 @@ export default function Home() {
 
       <Sidebar
         chats={chats}
+        loading={!sessionsLoaded}
         currentChat={currentChatId}
         onSelectChat={(id) => {
           setCurrentChatId(id);

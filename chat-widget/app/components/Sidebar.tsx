@@ -14,6 +14,7 @@ import type { Chat } from "../page";
 
 interface SidebarProps {
   chats: Chat[];
+  loading?: boolean;
   currentChat: string | null;
   onSelectChat: (id: string) => void;
   onNewChat: () => void;
@@ -25,6 +26,7 @@ interface SidebarProps {
 
 export default function Sidebar({
   chats,
+  loading,
   currentChat,
   onSelectChat,
   onNewChat,
@@ -98,7 +100,17 @@ export default function Sidebar({
 
         {/* Chat List */}
         <div className="flex-1 overflow-y-auto px-2 pb-4 min-h-0">
-          {chats.length === 0 ? (
+          {loading ? (
+            <div className="px-1 pt-2 space-y-1">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <div
+                  key={i}
+                  className="skeleton skeleton-sidebar"
+                  style={{ animationDelay: `${i * 0.1}s`, width: `${70 + Math.random() * 25}%` }}
+                />
+              ))}
+            </div>
+          ) : chats.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-12 px-4 text-center">
               <MessageSquare
                 size={28}
