@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import {
   MessageSquarePlus,
   MessageSquare,
@@ -9,15 +9,8 @@ import {
   Check,
   X,
   Sparkles,
-  User,
 } from "lucide-react";
-
-interface Chat {
-  id: string;
-  title: string;
-  timestamp: number;
-  messages: { role: string; content: string }[];
-}
+import type { Chat } from "../page";
 
 interface SidebarProps {
   chats: Chat[];
@@ -27,7 +20,6 @@ interface SidebarProps {
   onDeleteChat: (id: string) => void;
   onRenameChat: (id: string, title: string) => void;
   isOpen: boolean;
-  isMobile: boolean;
   onClose: () => void;
 }
 
@@ -39,7 +31,6 @@ export default function Sidebar({
   onDeleteChat,
   onRenameChat,
   isOpen,
-  isMobile,
   onClose,
 }: SidebarProps) {
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -52,223 +43,174 @@ export default function Sidebar({
   };
 
   const saveRename = (id: string) => {
-    if (editTitle.trim()) onRenameChat(id, editTitle.trim());
+    const trimmed = editTitle.trim();
+    if (trimmed) onRenameChat(id, trimmed);
     setEditingId(null);
   };
 
-  const sidebarWidth = isMobile
-    ? isOpen
-      ? "280px"
-      : "0px"
-    : isOpen
-    ? "280px"
-    : "0px";
-
   // Group chats by date
-  const today = new Date().toDateString();
-  const yesterday = new Date(Date.now() - 86400000).toDateString();
+  const groupedChats = useMemo(() => {
+    const today = new Date().toDateString();
+    const yesterday = new Date(Date.now() - 86400000).toDateString();
+    const lastWeek = Date.now() - 7 * 86400000;
 
-  const groupedChats = chats.reduce<Record<string, Chat[]>>((acc, chat) => {
-    const chatDate = new Date(chat.timestamp).toDateString();
-    let label: string;
-    if (chatDate === today) label = "Today";
-    else if (chatDate === yesterday) label = "Yesterday";
-    else
-      label = new Date(chat.timestamp).toLocaleDateString("en-US", {
-        month: "long",
-        year: "numeric",
-      });
+    return chats.reduce<Record<string, Chat[]>>((acc, chat) => {
+      const chatDate = new Date(chat.timestamp).toDateString();
+      let label: string;
+      if (chatDate === today) label = "Today";
+      else if (chatDate === yesterday) label = "Yesterday";
+      else if (chat.timestamp > lastWeek) label = "Previous 7 Days";
+      else label = "Older";
 
-    if (!acc[label]) acc[label] = [];
-    acc[label].push(chat);
-    return acc;
-  }, {});
+      if (!acc[label]) acc[label] = [];
+      acc[label].push(chat);
+      return acc;
+    }, {});
+  }, [chats]);
 
   return (
-    <aside
-      className="sidebar-transition flex flex-col h-full relative z-40"
-      style={{
-        width: sidebarWidth,
-        minWidth: sidebarWidth,
-        background: "var(--bg-sidebar)",
-        borderRight: "1px solid var(--border-color)",
-      }}
-    >
-      {/* Logo / Brand */}
-      <div
-        className="flex items-center gap-3 px-5 py-4"
-        style={{
-          height: "var(--header-height)",
-          borderBottom: "1px solid var(--border-color)",
-        }}
+    <>
+      <aside
+        className={`fixed inset-y-0 left-0 z-50 w-[260px] md:w-[280px] flex flex-col bg-[var(--bg-sidebar)] border-r border-[var(--border-color)] transform transition-transform duration-300 ease-out ${
+          isOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
       >
-        <div
-          className="w-9 h-9 rounded-xl flex items-center justify-center"
-          style={{ background: "var(--user-msg-bg)" }}
-        >
-          <Sparkles size={18} className="text-white" />
+        {/* Header */}
+        <div className="flex items-center justify-between h-14 px-3 border-b border-[var(--border-color)] shrink-0">
+          <div className="flex items-center gap-2">
+            <div className="w-7 h-7 rounded-lg flex items-center justify-center bg-gradient-to-br from-indigo-600 to-indigo-500">
+              <Sparkles size={14} className="text-white" />
+            </div>
+            <span className="text-sm font-semibold text-white">Genuka AI</span>
+          </div>
         </div>
-        <div className="flex-1 min-w-0">
-          <h1 className="text-sm font-semibold text-white truncate">Genuka AI</h1>
-          <p className="text-xs" style={{ color: "var(--text-muted)" }}>
-            Sales & Support
-          </p>
+
+        {/* New Chat Button */}
+        <div className="p-2 shrink-0">
+          <button
+            onClick={onNewChat}
+            className="w-full flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-medium text-white transition-all duration-200 hover:bg-white/5 border border-[var(--border-color)] hover:border-[var(--accent)]/50"
+          >
+            <MessageSquarePlus size={16} />
+            <span>New chat</span>
+          </button>
         </div>
-      </div>
 
-      {/* New Chat Button */}
-      <div className="px-3 py-3">
-        <button
-          onClick={onNewChat}
-          className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-medium text-white transition-all duration-200 hover:opacity-90 active:scale-[0.98]"
-          style={{ background: "var(--user-msg-bg)" }}
-        >
-          <MessageSquarePlus size={18} />
-          <span>New Chat</span>
-        </button>
-      </div>
-
-      {/* Chat List */}
-      <div className="flex-1 overflow-y-auto px-2 pb-4">
-        {Object.entries(groupedChats).map(([label, groupChats]) => (
-          <div key={label} className="mb-3">
-            <p
-              className="px-3 py-2 text-xs font-medium uppercase tracking-wider"
-              style={{ color: "var(--text-muted)" }}
-            >
-              {label}
-            </p>
-            {groupChats.map((chat) => (
-              <div
-                key={chat.id}
-                className="relative group"
-                onMouseEnter={() => setHoveredId(chat.id)}
-                onMouseLeave={() => setHoveredId(null)}
-              >
-                {editingId === chat.id ? (
+        {/* Chat List */}
+        <div className="flex-1 overflow-y-auto px-2 pb-4 min-h-0">
+          {chats.length === 0 ? (
+            <div className="flex flex-col items-center justify-center py-12 px-4 text-center">
+              <MessageSquare
+                size={28}
+                className="text-[var(--text-muted)] mb-2 opacity-30"
+              />
+              <p className="text-xs text-[var(--text-muted)]">No chats yet</p>
+            </div>
+          ) : (
+            Object.entries(groupedChats).map(([label, groupChats]) => (
+              <div key={label} className="mb-4">
+                <p className="px-2 py-1.5 text-[11px] font-semibold text-[var(--text-muted)]">
+                  {label}
+                </p>
+                {groupChats.map((chat) => (
                   <div
-                    className="flex items-center gap-1 px-2 py-1.5 mx-1 rounded-lg"
-                    style={{ background: "var(--bg-tertiary)" }}
+                    key={chat.id}
+                    className="relative group"
+                    onMouseEnter={() => setHoveredId(chat.id)}
+                    onMouseLeave={() => setHoveredId(null)}
                   >
-                    <input
-                      autoFocus
-                      value={editTitle}
-                      onChange={(e) => setEditTitle(e.target.value)}
-                      onKeyDown={(e) =>
-                        e.key === "Enter" && saveRename(chat.id)
-                      }
-                      className="flex-1 bg-transparent text-sm text-white outline-none px-1"
-                    />
-                    <button
-                      onClick={() => saveRename(chat.id)}
-                      className="p-1 rounded hover:bg-white/10"
-                      style={{ color: "var(--success)" }}
-                    >
-                      <Check size={14} />
-                    </button>
-                    <button
-                      onClick={() => setEditingId(null)}
-                      className="p-1 rounded hover:bg-white/10"
-                      style={{ color: "var(--error)" }}
-                    >
-                      <X size={14} />
-                    </button>
-                  </div>
-                ) : (
-                  <button
-                    onClick={() => {
-                      onSelectChat(chat.id);
-                      if (isMobile) onClose();
-                    }}
-                    className="w-full flex items-center gap-3 px-3 py-2.5 mx-1 rounded-xl text-left transition-all duration-200"
-                    style={{
-                      background:
-                        currentChat === chat.id
-                          ? "var(--bg-tertiary)"
-                          : "transparent",
-                      color:
-                        currentChat === chat.id
-                          ? "var(--text-primary)"
-                          : "var(--text-secondary)",
-                      border:
-                        currentChat === chat.id
-                          ? "1px solid rgba(99,102,241,0.2)"
-                          : "1px solid transparent",
-                    }}
-                  >
-                    <MessageSquare
-                      size={16}
-                      style={{
-                        color:
-                          currentChat === chat.id
-                            ? "var(--accent)"
-                            : "var(--text-muted)",
-                      }}
-                      className="flex-shrink-0"
-                    />
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm truncate font-medium">
-                        {chat.title || "New Chat"}
-                      </p>
-                      <p
-                        className="text-xs truncate"
-                        style={{ color: "var(--text-muted)" }}
-                      >
-                        {chat.messages?.length
-                          ? `${chat.messages.length} messages`
-                          : "No messages"}
-                      </p>
-                    </div>
-                    {hoveredId === chat.id && (
-                      <div className="flex items-center gap-0.5 animate-fade-in">
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            startRename(chat);
+                    {editingId === chat.id ? (
+                      <div className="flex items-center gap-1 px-2 py-1.5 mx-1 rounded-lg bg-[var(--bg-tertiary)]">
+                        <input
+                          autoFocus
+                          value={editTitle}
+                          onChange={(e) => setEditTitle(e.target.value)}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter") saveRename(chat.id);
+                            if (e.key === "Escape") setEditingId(null);
                           }}
-                          className="p-1.5 rounded-lg hover:bg-white/10 transition-colors"
-                          style={{ color: "var(--text-muted)" }}
+                          className="flex-1 bg-transparent text-xs text-white outline-none px-1 min-w-0"
+                        />
+                        <button
+                          onClick={() => saveRename(chat.id)}
+                          className="p-1 rounded hover:bg-white/10 text-green-400 shrink-0"
                         >
-                          <Edit2 size={13} />
+                          <Check size={12} />
                         </button>
                         <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            onDeleteChat(chat.id);
-                          }}
-                          className="p-1.5 rounded-lg hover:bg-red-500/20 transition-colors"
-                          style={{ color: "var(--error)" }}
+                          onClick={() => setEditingId(null)}
+                          className="p-1 rounded hover:bg-white/10 text-red-400 shrink-0"
                         >
-                          <Trash2 size={13} />
+                          <X size={12} />
                         </button>
                       </div>
+                    ) : (
+                      <button
+                        onClick={() => {
+                          onSelectChat(chat.id);
+                          onClose();
+                        }}
+                        className={`w-full flex items-center gap-2 px-2 py-2 mx-1 rounded-lg text-left transition-all duration-150 group/item relative ${
+                          currentChat === chat.id
+                            ? "bg-[var(--bg-tertiary)] text-[var(--text-primary)]"
+                            : "text-[var(--text-secondary)] hover:bg-white/5"
+                        }`}
+                      >
+                        <MessageSquare
+                          size={14}
+                          className={`flex-shrink-0 ${
+                            currentChat === chat.id
+                              ? "text-[var(--accent)]"
+                              : "text-[var(--text-muted)]"
+                          }`}
+                        />
+                        <span className="flex-1 text-xs truncate font-medium">
+                          {chat.title || "New Chat"}
+                        </span>
+                        {hoveredId === chat.id && (
+                          <div className="flex items-center gap-0.5 shrink-0">
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                startRename(chat);
+                              }}
+                              className="p-1 rounded hover:bg-white/10 text-[var(--text-muted)] hover:text-white"
+                            >
+                              <Edit2 size={12} />
+                            </button>
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                onDeleteChat(chat.id);
+                              }}
+                              className="p-1 rounded hover:bg-white/10 text-[var(--text-muted)] hover:text-red-400"
+                            >
+                              <Trash2 size={12} />
+                            </button>
+                          </div>
+                        )}
+                      </button>
                     )}
-                  </button>
-                )}
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-        ))}
-      </div>
+            ))
+          )}
+        </div>
 
-      {/* Footer */}
-      <div
-        className="px-4 py-3 flex items-center gap-3"
-        style={{ borderTop: "1px solid var(--border-color)" }}
-      >
-        <div
-          className="w-8 h-8 rounded-full flex items-center justify-center"
-          style={{ background: "var(--accent-light)" }}
-        >
-          <User size={14} style={{ color: "var(--accent)" }} />
+        {/* Footer */}
+        <div className="px-3 py-3 border-t border-[var(--border-color)] shrink-0">
+          <div className="flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-white/5 transition-colors">
+            <div className="w-7 h-7 rounded-full flex items-center justify-center bg-[var(--accent-light)] shrink-0 text-[var(--accent)] text-xs font-bold">
+              J
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-xs font-medium text-white truncate">Junior</p>
+              <p className="text-[10px] text-[var(--text-muted)]">Admin</p>
+            </div>
+          </div>
         </div>
-        <div className="flex-1 min-w-0">
-          <p className="text-sm font-medium text-white truncate">Junior</p>
-          <p className="text-xs" style={{ color: "var(--text-muted)" }}>
-            Admin
-          </p>
-        </div>
-      </div>
-    </aside>
+      </aside>
+    </>
   );
 }

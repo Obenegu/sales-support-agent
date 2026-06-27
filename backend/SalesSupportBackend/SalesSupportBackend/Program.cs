@@ -13,7 +13,8 @@ AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 var builder = WebApplication.CreateBuilder(args);
 var port = Environment.GetEnvironmentVariable("PORT") ?? "5132";
-builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
+//builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
+builder.WebHost.UseUrls($"https://localhost:7106");
 
 // Add services to the container.
 
@@ -128,7 +129,7 @@ builder.Services.AddCors(options =>
 		builder =>
 		{
 			builder
-				.WithOrigins("http://localhost:5173", "http://localhost:3000", "http://127.0.0.1:8000", "http://host.docker.internal", "http://frontend")
+				.WithOrigins("http://localhost:5173", "http://localhost:3000", "http://127.0.0.1:8000", "http://host.docker.internal", "http://frontend", "http://localhost:3000", "http://10.212.74.53:3000")
                 .AllowAnyHeader()
 				.AllowAnyMethod()
 				.AllowCredentials(); // If using cookies or authorization headers

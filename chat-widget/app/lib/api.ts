@@ -1,6 +1,8 @@
 import axios from "axios";
 
-const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "/api";
+// const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "/api";        
+const API_URL = "https://localhost:7106/api";
+// const API_URL = "/api";     
 
 const api = axios.create({
   baseURL: API_URL,
@@ -34,14 +36,18 @@ export const sendMessage = async (payload: {
   message: string;
   userId: string;
   sessionId: string;
-  role: string;
+  role: number; // 0 for assistant, 1 for user
 }) => {
-  const res = await api.post("/Chat", payload);
+  const res = await api.post("/chat", payload);
   return res.data;
 };
 
 export const getChatHistory = async (sessionId: string) => {
-  const res = await api.get(`/Chat/${sessionId}`);
+  const res = await api.get(`/chat/${sessionId}`);
+  return res.data;
+};
+export const getChatSessions = async (userId: string) => {
+  const res = await api.get(`/chat/sessions/${userId}`);
   return res.data;
 };
 

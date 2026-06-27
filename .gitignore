@@ -21,3 +21,5 @@ dist/
 *.egg-info/
 backend/
 pgvector/
+.next/
+next-env.d.ts

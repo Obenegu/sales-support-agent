@@ -33,29 +33,38 @@ namespace SalesSupportBackend.Controllers
 		{
 			//var userId = User.Claims.FirstOrDefault(c => c.Type == "id")?.Value ?? "unknown_user";
 			var userId = request.userId;
+			Console.WriteLine($"Received message from user: {userId}");
 
 			var payload = new
 			{
 				userId = userId,
 				message = request.Message,
 				role = "user",
-                sessionId =	request.SessionId
+				sessionId = request.SessionId
+			};
+
+            //var content = new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, "application/json");
+
+            //// Call Python orchestrator microservice
+            //var client = _httpClientFactory.CreateClient();
+            //var response = await client.PostAsync($"{_orchestratorUrl}/api/chat", content);
+            //var responseText = await response.Content.ReadAsStringAsync();
+
+            //var chatResponse = JsonSerializer.Deserialize<AgentResponse>(
+            //	responseText,
+            //	new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
+            //);
+
+
+            ////return Ok(chatResponse);
+            ///
+            var newResponse = new ChatResponse
+            {
+                Response = "We are sorry, we are under maintenance at the moment",
+                Intent = "general",
+                ToolUsed = "",
+                role = MessageRole.assistant
             };
-
-			var content = new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, "application/json");
-
-			// Call Python orchestrator microservice
-			var client = _httpClientFactory.CreateClient();
-			var response = await client.PostAsync($"{_orchestratorUrl}/api/chat", content);
-			var responseText = await response.Content.ReadAsStringAsync();
-
-			var chatResponse = JsonSerializer.Deserialize<AgentResponse>(
-				responseText,
-				new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
-			);
-
-
-			//return Ok(chatResponse);
 
 			var UserChat = new ChatLog
 			{
@@ -69,20 +78,20 @@ namespace SalesSupportBackend.Controllers
 
 			_context.ChatLogs.Add(UserChat);
 
-			var newResponse = new ChatResponse
-			{
-				Response = chatResponse!.Response,
-				Intent = chatResponse.Intent,
-				ToolUsed = chatResponse.ToolUsed,
-				role = MessageRole.assistant
-			};
+			//var newResponse = new ChatResponse
+			//{
+			//	Response = chatResponse!.Response,
+			//	Intent = chatResponse.Intent,
+			//	ToolUsed = chatResponse.ToolUsed,
+			//	role = MessageRole.assistant
+			//};
 
 			var AgentChat = new ChatLog
 			{
 				BusinessId = 1, // For simplicity, assuming BusinessId is 1
 				SessionId = request.SessionId,
 				Role = MessageRole.assistant,
-				Content = chatResponse!.Response,
+				Content = "This was just a test",
 				userId = userId,
 				CreatedAt = DateTime.UtcNow
 			};
@@ -110,6 +119,25 @@ namespace SalesSupportBackend.Controllers
 				.ToListAsync();
 
 			return Ok(chatLogs);
+		}
+
+        [HttpGet("sessions/{userId}")]
+		public async Task<IActionResult> GetSessions(string userId)
+		{
+			// Return one record per SessionId for the given userId. For each session return the SessionId,
+			// the timestamp of the last message and the last message content. Order sessions by most recent.
+			var sessions = await _context.ChatLogs
+				.Where(c => c.userId == userId)
+				.GroupBy(c => c.SessionId)
+				.Select(g => new
+				{
+					SessionId = g.Key,
+					LastMessageAt = g.Max(x => x.CreatedAt)
+				})
+				.OrderByDescending(s => s.LastMessageAt)
+				.ToListAsync();
+
+			return Ok(sessions);
 		}
 	}
 
