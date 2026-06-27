@@ -1,20 +1,14 @@
-﻿
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using SalesSupportBackend.Data;
+using SalesSupportBackend.Models;
+using System.Text;
+using System.Text.Json;
+
 namespace SalesSupportBackend.Controllers
 {
-	using Microsoft.AspNetCore.Authorization;
-	using Microsoft.AspNetCore.Mvc;
-	using Microsoft.AspNetCore.SignalR;
-	using Microsoft.EntityFrameworkCore;
-	using SalesSupportBackend.Data;
-	using SalesSupportBackend.Models;
-	using System.Net;
-	using System.Net.Http;
-	using System.Text;
-	using System.Text.Json;
-
 	[ApiController]
 	[Route("api/[controller]")]
-	//[Authorize]
 	public class ChatController : ControllerBase
 	{
 		private readonly IHttpClientFactory _httpClientFactory;
@@ -31,113 +25,93 @@ namespace SalesSupportBackend.Controllers
 		[HttpPost]
 		public async Task<IActionResult> PostChat([FromBody] ChatRequest request)
 		{
-			//var userId = User.Claims.FirstOrDefault(c => c.Type == "id")?.Value ?? "unknown_user";
 			var userId = request.userId;
-			Console.WriteLine($"Received message from user: {userId}");
 
-			var payload = new
+			// Ensure session exists — create if new
+			var session = await _context.Sessions.FindAsync(request.SessionId);
+			if (session == null)
 			{
-				userId = userId,
-				message = request.Message,
-				role = "user",
-				sessionId = request.SessionId
+				session = new Session
+				{
+					Id = request.SessionId,
+					UserId = userId,
+					Title = "New Chat",
+					CreatedAt = DateTime.UtcNow
+				};
+				_context.Sessions.Add(session);
+			}
+
+			// Auto-title from first user message (only if still default)
+			if (session.Title == "New Chat")
+			{
+				session.Title = request.Message.Length > 40
+					? request.Message[..40] + "..."
+					: request.Message;
+			}
+
+			// --- Orchestrator call (disabled in maintenance) ---
+			// var payload = new { userId, message = request.Message, role = "user", sessionId = request.SessionId };
+			// var content = new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, "application/json");
+			// var client = _httpClientFactory.CreateClient();
+			// var response = await client.PostAsync($"{_orchestratorUrl}/api/chat", content);
+			// var responseText = await response.Content.ReadAsStringAsync();
+			// var chatResponse = JsonSerializer.Deserialize<AgentResponse>(responseText, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+			var newResponse = new ChatResponse
+			{
+				Response = "We are sorry, we are under maintenance at the moment",
+				Intent = "general",
+				ToolUsed = "",
+				role = MessageRole.assistant
 			};
 
-            //var content = new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, "application/json");
-
-            //// Call Python orchestrator microservice
-            //var client = _httpClientFactory.CreateClient();
-            //var response = await client.PostAsync($"{_orchestratorUrl}/api/chat", content);
-            //var responseText = await response.Content.ReadAsStringAsync();
-
-            //var chatResponse = JsonSerializer.Deserialize<AgentResponse>(
-            //	responseText,
-            //	new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
-            //);
-
-
-            ////return Ok(chatResponse);
-            ///
-            var newResponse = new ChatResponse
-            {
-                Response = "We are sorry, we are under maintenance at the moment",
-                Intent = "general",
-                ToolUsed = "",
-                role = MessageRole.assistant
-            };
-
-			var UserChat = new ChatLog
+			// Save user message
+			_context.ChatLogs.Add(new ChatLog
 			{
-				BusinessId = 1, // For simplicity, assuming BusinessId is 1
+				BusinessId = 1,
 				SessionId = request.SessionId,
 				Role = MessageRole.user,
 				Content = request.Message,
 				userId = userId,
 				CreatedAt = DateTime.UtcNow
-			};
+			});
 
-			_context.ChatLogs.Add(UserChat);
-
-			//var newResponse = new ChatResponse
-			//{
-			//	Response = chatResponse!.Response,
-			//	Intent = chatResponse.Intent,
-			//	ToolUsed = chatResponse.ToolUsed,
-			//	role = MessageRole.assistant
-			//};
-
-			var AgentChat = new ChatLog
+			// Save assistant response
+			_context.ChatLogs.Add(new ChatLog
 			{
-				BusinessId = 1, // For simplicity, assuming BusinessId is 1
+				BusinessId = 1,
 				SessionId = request.SessionId,
 				Role = MessageRole.assistant,
-				Content = "This was just a test",
+				Content = newResponse.Response,
 				userId = userId,
 				CreatedAt = DateTime.UtcNow
-			};
-
-			_context.ChatLogs.Add(AgentChat);
+			});
 
 			await _context.SaveChangesAsync();
-
 
 			return Ok(newResponse);
 		}
 
 		[HttpGet("{sessionId}")]
-		public async Task<IActionResult> GetChatHistory(string sessionId)
+		public async Task<IActionResult> GetChatHistory(string sessionId, [FromQuery] string userId)
 		{
-			// Fetch chat history for the user from the database
-			// For simplicity, assuming userId maps directly to BusinessId
-
-			var userId = "junior";
+			if (string.IsNullOrWhiteSpace(userId))
+				return BadRequest("userId query param is required");
 
 			var chatLogs = await _context.ChatLogs
-				.Where(c => c.userId == userId)
-				.Where(c => c.SessionId == sessionId)
+				.Where(c => c.SessionId == sessionId && c.userId == userId)
 				.OrderBy(c => c.CreatedAt)
+				.Select(c => new ChatLogDto
+				{
+					Id = c.Id,
+					SessionId = c.SessionId,
+					Role = c.Role.ToString(),
+					Content = c.Content,
+					CreatedAt = c.CreatedAt
+				})
 				.ToListAsync();
 
 			return Ok(chatLogs);
-		}
-
-        [HttpGet("sessions/{userId}")]
-		public async Task<IActionResult> GetSessions(string userId)
-		{
-			// Return one record per SessionId for the given userId. For each session return the SessionId,
-			// the timestamp of the last message and the last message content. Order sessions by most recent.
-			var sessions = await _context.ChatLogs
-				.Where(c => c.userId == userId)
-				.GroupBy(c => c.SessionId)
-				.Select(g => new
-				{
-					SessionId = g.Key,
-					LastMessageAt = g.Max(x => x.CreatedAt)
-				})
-				.OrderByDescending(s => s.LastMessageAt)
-				.ToListAsync();
-
-			return Ok(sessions);
 		}
 	}
 
@@ -147,7 +121,7 @@ namespace SalesSupportBackend.Controllers
 		public string userId { get; set; } = string.Empty;
 		public string SessionId { get; set; } = string.Empty;
 		public MessageRole role { get; set; } = MessageRole.user;
-	}													  
+	}
 
 	public class AgentResponse
 	{
@@ -156,6 +130,7 @@ namespace SalesSupportBackend.Controllers
 		public string ToolUsed { get; set; } = string.Empty;
 		public string role { get; set; } = string.Empty;
 	}
+
 	public class ChatResponse
 	{
 		public string Response { get; set; } = string.Empty;
@@ -164,5 +139,12 @@ namespace SalesSupportBackend.Controllers
 		public MessageRole role { get; set; } = MessageRole.assistant;
 	}
 
-
+	public class ChatLogDto
+	{
+		public int Id { get; set; }
+		public string SessionId { get; set; } = string.Empty;
+		public string Role { get; set; } = string.Empty;
+		public string Content { get; set; } = string.Empty;
+		public DateTime CreatedAt { get; set; }
+	}
 }

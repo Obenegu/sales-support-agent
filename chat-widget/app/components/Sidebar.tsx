@@ -164,9 +164,16 @@ export default function Sidebar({
                               : "text-[var(--text-muted)]"
                           }`}
                         />
-                        <span className="flex-1 text-xs truncate font-medium">
-                          {chat.title || "New Chat"}
-                        </span>
+                        <div className="flex-1 min-w-0">
+                          <span className="text-xs truncate font-medium block">
+                            {chat.title || "New Chat"}
+                          </span>
+                          <span className="text-[10px] text-[var(--text-muted)] block">
+                            {chat.messageCount ?? chat.messages?.length
+                              ? `${chat.messageCount ?? chat.messages.length} messages`
+                              : "No messages"}
+                          </span>
+                        </div>
                         {hoveredId === chat.id && (
                           <div className="flex items-center gap-0.5 shrink-0">
                             <button

@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import { Send, Bot, User, Loader2, Sparkles, ArrowDown } from "lucide-react";
-import { sendMessage } from "../lib/api";
+import { sendMessage, getChatHistory } from "../lib/api";
 import type { ChatMessage } from "../page";
 
 interface ChatAreaProps {
@@ -29,6 +29,32 @@ export default function ChatArea({
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const userId = "junior";
+  const [loadingHistory, setLoadingHistory] = useState(false);
+
+  // ── Load chat history from API when session changes ─────
+  useEffect(() => {
+    if (!chatId || messages.length > 0) return;
+
+    const load = async () => {
+      setLoadingHistory(true);
+      try {
+        const logs = await getChatHistory(chatId, userId);
+        const mapped: ChatMessage[] = logs.map((log: any) => ({
+          id: log.id,
+          content: log.content,
+          role: log.role === "assistant" || log.role === 0 ? 0 : 1,
+          timestamp: new Date(log.createdAt).getTime(),
+        }));
+        onUpdateMessages(chatId, mapped);
+      } catch (err) {
+        console.error("Failed to load chat history:", err);
+      } finally {
+        setLoadingHistory(false);
+      }
+    };
+
+    load();
+  }, [chatId]);
 
   // Auto-scroll to bottom
   const scrollToBottom = useCallback((behavior: ScrollBehavior = "smooth") => {
@@ -154,7 +180,11 @@ export default function ChatArea({
         className="flex-1 overflow-y-auto"
       >
         <div className="max-w-3xl mx-auto px-4 py-6 md:px-6 lg:px-8">
-          {messages.length === 0 ? (
+          {loadingHistory ? (
+            <div className="flex items-center justify-center min-h-[60vh]">
+              <Loader2 size={32} className="animate-spin text-[var(--accent)]" />
+            </div>
+          ) : messages.length === 0 ? (
             <div className="flex flex-col items-center justify-center min-h-[60vh] animate-fade-in">
               <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl flex items-center justify-center mb-6 bg-[var(--accent-light)]">
                 <Sparkles size={32} className="text-[var(--accent)]" />
