@@ -284,9 +284,9 @@ export default function Home() {
             <span className="text-sm">Loading…</span>
           </div>
         </div>
-      )
-    }
+      }
   >
     <HomeInner />
   </Suspense>
+  )
 }
