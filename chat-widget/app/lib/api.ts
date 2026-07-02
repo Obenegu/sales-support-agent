@@ -1,12 +1,11 @@
 import axios from "axios";
 
-// Use relative path — Next.js rewrites proxy server-side to backend:5132
-// This avoids CORS: browser → Next.js → backend (all server-to-server)
-// const API_URL = "https://localhost:7106/api";
+// Relative path — requests go through Next.js rewrites → backend
+// Browser → Next.js → backend (all via tunnel when forwarded)
 const API_URL = "/api";
 
 const api = axios.create({
-  baseURL: "https://localhost:7106/api",
+  baseURL: API_URL,
   headers: {
     "Content-Type": "application/json",
   },

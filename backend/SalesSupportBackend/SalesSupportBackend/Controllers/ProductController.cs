@@ -47,16 +47,72 @@ namespace SalesSupportBackend.Controllers
 				return BadRequest("Search term cannot be empty.");
 			}
 
+			var term = name.ToLower().Trim();
+
+			// ── Step 1: Direct substring match ────────────────────────────
 			var results = await _context.Products
-				.Where(p => p.Name.ToLower().Contains(name.ToLower()))
+				.Where(p => p.Name.ToLower().Contains(term))
 				.ToListAsync();
 
-			if (!results.Any())
+			if (results.Any())
+				return Ok(results);
+
+			// ── Step 2: Try each word individually (for "ballpoint pen") ──
+			var words = term.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+			if (words.Length > 1)
 			{
-				return NotFound("No products found.");
+				results = await _context.Products.ToListAsync();
+				results = results
+					.Where(p => words.Any(w => p.Name.ToLower().Contains(w)))
+					.ToList();
+
+				if (results.Any())
+					return Ok(results);
 			}
 
-			return Ok(results);
+			// ── Step 3: Singularize plural (pens→pen, shoes→shoe, etc.) ──
+			var singularTerm = TrySingularize(term);
+			if (singularTerm != term)
+			{
+				results = await _context.Products
+					.Where(p => p.Name.ToLower().Contains(singularTerm))
+					.ToListAsync();
+
+				if (results.Any())
+					return Ok(results);
+			}
+
+			// ── Step 4: Return empty list (NOT 404) so the AI agent can retry ──
+			return Ok(new List<Product>());
+		}
+
+		/// <summary>
+		/// Simple English plural→singular conversion.
+		/// Covers the most common patterns; not exhaustive but catches "pens", "phones", etc.
+		/// </summary>
+		private static string TrySingularize(string word)
+		{
+			if (string.IsNullOrEmpty(word))
+				return word;
+
+			// -ies → -y  (ladies→lady, companies→company)
+			if (word.EndsWith("ies") && word.Length > 4)
+				return word[..^3] + "y";
+
+			// -ves → -f / -fe (knives→knife)
+			if (word.EndsWith("ves") && word.Length > 4)
+				return word[..^3] + "f";
+
+			// -es → remove es (boxes→box, watches→watch, classes→class)
+			if (word.EndsWith("ses") || word.EndsWith("xes") || word.EndsWith("zes") ||
+			    word.EndsWith("ches") || word.EndsWith("shes"))
+				return word[..^2];
+
+			// -s → remove s (pens→pen, phones→phone)
+			if (word.EndsWith("s") && !word.EndsWith("ss") && word.Length > 2)
+				return word[..^1];
+
+			return word;
 		}
 
 		[HttpGet("{id}")]

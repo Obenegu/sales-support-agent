@@ -12,6 +12,7 @@ class ChatRequest(BaseModel):
     message: str
     role: str
     sessionId: str
+    businessId: int
 
 # class IngestRequest(BaseModel):
 #     file: UploadFile = File(...),
@@ -31,7 +32,7 @@ class RAGQueryRequest(BaseModel):
 
 @router.post("/chat", response_model=ChatResponse)
 async def chat_endpoint(request: ChatRequest):
-    return await ai_chat(request.message, request.userId, request.sessionId)
+    return await ai_chat(request.message, request.userId, request.sessionId, request.businessId)
 
 @router.post("/ingest")
 async def ingest_endpoint(

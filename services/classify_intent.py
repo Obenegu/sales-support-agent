@@ -17,7 +17,7 @@ def classify_intent(message: str, past_messages) -> Literal["sales", "support", 
     ),
     types.Content(
         role="model",
-        parts=[types.Part(text="Understood. I am ready to assist\n" + f"Thesae are the user past messages in right order:\n {past_messages}")]
+        parts=[types.Part(text="Understood. I am ready to assist\n" + f"These are the user past messages in right order:\n {past_messages}")]
     ),
     types.Content(
         role="user",
@@ -34,15 +34,24 @@ def classify_intent(message: str, past_messages) -> Literal["sales", "support", 
 
     try:
             response = client.models.generate_content(
-                model="gemini-2.5-flash-lite", # gemini-1.5-pro for stronger reasoning
+                model="gemini-2.5-flash", # Upgraded from flash-lite for better intent reasoning
                 contents=contents,
                 config=config
             )
     except Exception as e:
         log_error(f"LLM Intent request failed: {e}")
-        return "Sorry, something went wrong."
+        return "general"  # safe fallback — won't break the ReAct loop
 
-    intent = response.candidates[0].content.parts[0].text.strip().lower()
+    try:
+        parts = response.candidates[0].content.parts if response.candidates and response.candidates[0].content else []
+        raw_text = parts[0].text if parts and parts[0].text else "general"
+    except (AttributeError, IndexError) as e:
+        log_error(f"Failed to parse intent response: {e}")
+        return "general"
+
+    intent = raw_text.strip().lower()
+    # Sanitize: remove any stray punctuation, whitespace, or markdown the model might add
+    intent = intent.strip().rstrip('.,;:!?"\'`*#').strip()
 
     if intent == "sales":
         return "sales"
@@ -53,6 +62,10 @@ def classify_intent(message: str, past_messages) -> Literal["sales", "support", 
     
 
 def is_task_complete(response_text: str, outputs) -> bool:
+    log_info(
+        f"is_task_complete: checking — response_text='{response_text[:150]}...', "
+        f"outputs_preview='{str(outputs)[:150]}...'"
+    )
 
     contents = [
     types.Content(
@@ -78,22 +91,28 @@ def is_task_complete(response_text: str, outputs) -> bool:
 
     try:
             response = client.models.generate_content(
-                model="gemini-2.5-flash-lite", # gemini-1.5-pro for stronger reasoning
+                model="gemini-2.5-flash-lite",
                 contents=contents,
                 config=config
             )
     except Exception as e:
-        log_error(f"LLM is_task_complete request failed: {e}")
+        log_error(f"is_task_complete: LLM request FAILED — {e}. Defaulting to True (complete) to avoid infinite loop.")
         return True
 
-    # is_complete = response.candidates[0].content.parts[0].text.strip().lower()
     raw_text = response.candidates[0].content.parts[0].text.strip()
+    log_info(f"is_task_complete: raw judge response = '{raw_text}'")
 
     try:
         data = json.loads(raw_text)
-        return bool(data.get("task_complete", False))
+        is_complete = bool(data.get("task_complete", False))
+        reason = data.get("reason", "no reason provided")
+        log_info(f"is_task_complete: result = {is_complete}, reason = '{reason}'")
+        return is_complete
     except Exception as e:
-        log_error(f"Failed to parse task judge output: {raw_text} | {e}")
+        log_error(
+            f"is_task_complete: Failed to parse judge JSON. "
+            f"raw='{raw_text}', error={e}. Defaulting to True (complete) to avoid infinite loop."
+        )
         # fail-safe: assume complete to avoid infinite loops
         return True
     
@@ -160,8 +179,8 @@ You are an intent classification model.
 Your ONLY task is to analyze the user's message and determine their primary intent.
 
 Possible intents:
-- sales → The user is asking about prices, plans, packages, upgrades, availability, purchasing, subscriptions, or comparisons before buying.
-- support → The user is experiencing a problem, error, failure, bug, or is asking for help using or fixing something they already have.
+- sales → The user is asking about product prices, availability, purchasing, subscriptions, product comparisons, order status, payment status, or anything related to buying products or tracking a purchase.
+- support → The user is asking about delivery, shipping, refunds, returns, exchanges, product defects, complaints, troubleshooting, account issues, warranty, or any post-purchase issue that is NOT about the order/payment itself.
 - general → The user is asking for general information, explanations, definitions, advice, or conversation not related to buying or fixing a product.
 
 Rules:
@@ -172,6 +191,37 @@ Rules:
 - Assume previous chat messages may be provided and should be used to infer intent.
 - Ignore greetings unless they include a clear intent.
 - Never ask questions.
+
+Examples:
+User: how much does the samsung phone cost?
+→ sales
+
+User: my order hasn't arrived yet, where is it?
+→ sales
+
+User: i want to check my payment status
+→ sales
+
+User: what's your delivery policy?
+→ support
+
+User: how much do i have to pay before i am eligible for delivery?
+→ support
+
+User: can i return an item i bought last week?
+→ support
+
+User: the product i received is damaged, what should i do?
+→ support
+
+User: how do i reset my password?
+→ support
+
+User: hello
+→ general
+
+User: what time do you open?
+→ general
 
 Output format:
 sales

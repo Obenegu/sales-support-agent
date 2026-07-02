@@ -1,5 +1,6 @@
 from fastapi import FastAPI, Request
 from app.routes import router
+from services.RAG.rag_query import router as rag_router
 from contextlib import asynccontextmanager
 from app.orchestrator import init_services
 from fastapi.responses import JSONResponse
@@ -41,3 +42,4 @@ async def health_check():
     return {"status": "ok", "service": "Sales & Support AI Agent"}
 
 app.include_router(router)
+app.include_router(rag_router)

@@ -25,7 +25,7 @@ async def run_test():
 
     print(f"Sending message: {test_message}")
 
-    result = await ai_chat(test_message, test_user_id)
+    result = await ai_chat(test_message, test_user_id, "test_session_123")
     print("Agent response:")
     print(result)
 

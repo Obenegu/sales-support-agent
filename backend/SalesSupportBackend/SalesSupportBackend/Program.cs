@@ -13,8 +13,7 @@ AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 var builder = WebApplication.CreateBuilder(args);
 var port = Environment.GetEnvironmentVariable("PORT") ?? "5132";
-//builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
-builder.WebHost.UseUrls($"https://localhost:7106");
+builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
 
 // Add services to the container.
 
@@ -129,7 +128,7 @@ builder.Services.AddCors(options =>
 		builder =>
 		{
 			builder
-				.WithOrigins("http://localhost:5173", "http://localhost:3000", "http://127.0.0.1:8000", "http://host.docker.internal", "http://frontend", "http://localhost:3000", "http://10.212.74.53:3000")
+				.WithOrigins("http://localhost:5173", "http://localhost:3000", "http://127.0.0.1:8000", "http://host.docker.internal", "http://frontend", "http://frontend:3000")
                 .AllowAnyHeader()
 				.AllowAnyMethod()
 				.AllowCredentials(); // If using cookies or authorization headers
@@ -141,6 +140,54 @@ builder.Services.AddCors(options =>
 
 
 var app = builder.Build();
+
+// Auto-apply EF Core migrations and seed default data on startup
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.Migrate();
+
+    // Seed default business (BusinessId=1 used by all controllers)
+    if (!db.Businesses.Any(b => b.Id == 1))
+    {
+        db.Businesses.Add(new SalesSupportBackend.Models.Business
+        {
+            Id = 1,
+            Name = "Default Business",
+            ApiKey = null
+        });
+        db.SaveChanges();
+    }
+
+    // Seed default user (used by frontend as userId="junior")
+    if (!db.Users.Any(u => u.Email == "junior"))
+    {
+        db.Users.Add(new SalesSupportBackend.Models.User
+        {
+            Email = "junior",
+            Name = "Junior",
+            Password = "changeme123",
+            CreatedAt = DateTime.UtcNow
+        });
+        db.SaveChanges();
+    }
+
+    // Seed default products (so search_product tool returns results out of the box)
+    if (!db.Products.Any())
+    {
+        db.Products.AddRange(
+            new SalesSupportBackend.Models.Product { Id = Guid.NewGuid(), Name = "Ballpoint Pen", Description = "Smooth-writing blue ink pen, pack of 10", Price = 500m },
+            new SalesSupportBackend.Models.Product { Id = Guid.NewGuid(), Name = "Notebook A4", Description = "200-page ruled notebook, hard cover", Price = 1500m },
+            new SalesSupportBackend.Models.Product { Id = Guid.NewGuid(), Name = "Desk Lamp LED", Description = "USB rechargeable LED desk lamp with 3 brightness levels", Price = 8000m },
+            new SalesSupportBackend.Models.Product { Id = Guid.NewGuid(), Name = "Wireless Mouse", Description = "2.4GHz wireless mouse, ergonomic design", Price = 5000m },
+            new SalesSupportBackend.Models.Product { Id = Guid.NewGuid(), Name = "USB-C Hub", Description = "7-in-1 USB-C hub with HDMI, SD card, 3x USB 3.0", Price = 12000m },
+            new SalesSupportBackend.Models.Product { Id = Guid.NewGuid(), Name = "Water Bottle 1L", Description = "Stainless steel insulated water bottle, keeps drinks cold 24h", Price = 4500m },
+            new SalesSupportBackend.Models.Product { Id = Guid.NewGuid(), Name = "Backpack", Description = "Water-resistant laptop backpack, 15.6 inch compartment", Price = 18000m },
+            new SalesSupportBackend.Models.Product { Id = Guid.NewGuid(), Name = "Phone Stand", Description = "Adjustable aluminum phone stand for desk", Price = 3000m }
+        );
+        db.SaveChanges();
+    }
+}
 
 // Use Railway's PORT
 //var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";

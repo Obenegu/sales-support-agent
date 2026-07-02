@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import Link from "next/link";
 import {
   MessageSquarePlus,
   MessageSquare,
@@ -9,6 +10,7 @@ import {
   Check,
   X,
   Sparkles,
+  FileUp,
 } from "lucide-react";
 import type { Chat } from "../page";
 
@@ -88,7 +90,7 @@ export default function Sidebar({
         </div>
 
         {/* New Chat Button */}
-        <div className="p-2 shrink-0">
+        <div className="p-2 shrink-0 space-y-1">
           <button
             onClick={onNewChat}
             className="w-full flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-medium text-white transition-all duration-200 hover:bg-white/5 border border-[var(--border-color)] hover:border-[var(--accent)]/50"
@@ -96,6 +98,14 @@ export default function Sidebar({
             <MessageSquarePlus size={16} />
             <span>New chat</span>
           </button>
+          <Link
+            href="/upload"
+            className="w-full flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-medium text-white transition-all duration-200 hover:bg-white/5 border border-[var(--border-color)] hover:border-[var(--accent)]/50"
+            onClick={onClose}
+          >
+            <FileUp size={16} />
+            <span>Upload documents</span>
+          </Link>
         </div>
 
         {/* Chat List */}

@@ -1,77 +1,129 @@
-# app/tools/support_tools.py
-import datetime
-from typing import Dict, Any
+"""
+Support Tools — order status, payment status, session restart, subscription check.
+All data comes from the live ecommerce backend (NOT hardcoded stubs).
+"""
 
-# NOTE: Replace stub logic with real DB/API queries in production.
+import os
+import requests
+from typing import Any, Dict
 
-def check_order_status(order_id: str) -> Dict[str, Any]:
-    """
-    Return a simulated order status. Replace with DB/API call.
-    """
-    # Basic validation
+
+BACKEND_URL = os.getenv("BACKEND_URL", "http://host.docker.internal:5132")
+
+
+def check_order_status(order_id: str, user_id: str = "") -> Dict[str, Any]:
+    """Fetch real order status from the backend."""
     if not order_id:
         return {"error": "order_id required"}
 
-    # Example stubbed results (in production, query your orders DB)
-    fake_db = {
-        "1234": {"status": "shipped", "shipped_at": "2025-11-12T14:23:00Z", "eta": "2025-11-18"},
-        "5678": {"status": "processing", "placed_at": "2025-11-15T09:00:00Z"}
-    }
-
-    order = fake_db.get(order_id)
-    if not order:
+    endpoint = f"{BACKEND_URL}/api/order/{order_id}"
+    try:
+        resp = requests.get(endpoint, params={"userId": user_id}, timeout=5)
+        if resp.status_code == 404:
+            return {"error": f"Order {order_id} not found."}
+        resp.raise_for_status()
+        data = resp.json()
+        if isinstance(data, list) and data:
+            order = data[0]
+            return {
+                "order_id": order_id,
+                "status": order.get("status", "unknown"),
+                "created_at": order.get("createdAt", ""),
+                "items": order.get("items", []),
+            }
         return {"error": f"Order {order_id} not found."}
+    except requests.exceptions.RequestException as e:
+        return {"error": f"Could not reach order service.", "details": str(e)}
 
-    return {"order_id": order_id, "order": order}
 
-def check_payment_status(order_id: str) -> Dict[str, Any]:
-    """
-    Return a simulated payment status for an order.
-    """
+def check_payment_status(order_id: str, user_id: str = "") -> Dict[str, Any]:
+    """Fetch payment status from the backend's order record."""
     if not order_id:
         return {"error": "order_id required"}
 
-    fake_payments = {
-        "1234": {"paid": True, "method": "card", "paid_at": "2025-11-12T14:20:00Z"},
-        "5678": {"paid": False, "method": None}
+    order = check_order_status(order_id, user_id)
+    if "error" in order:
+        return order
+
+    status = order.get("status", "")
+    paid = status.lower() == "paid"
+    return {
+        "order_id": order_id,
+        "paid": paid,
+        "status": status,
+        "message": "Order has been paid." if paid else "Order has not been paid yet."
     }
 
-    payment = fake_payments.get(order_id)
-    if not payment:
-        return {"error": f"No payment record for order {order_id}."}
-
-    return {"order_id": order_id, "payment": payment}
 
 def restart_user_session(user_id: str) -> Dict[str, Any]:
-    """
-    Attempt to restart a user session. Real implementation: clear session tokens etc.
-    """
+    """Clear backend sessions for this user to force a fresh start."""
     if not user_id:
         return {"error": "user_id required"}
 
-    # stub: pretend we restarted the session
-    return {
-        "user_id": user_id,
-        "result": "session_restarted",
-        "timestamp": datetime.datetime.utcnow().isoformat() + "Z"
-    }
+    # GET all sessions for user, then DELETE each
+    endpoint = f"{BACKEND_URL}/api/session"
+    try:
+        # List sessions
+        resp = requests.get(endpoint, params={"userId": user_id}, timeout=5)
+        resp.raise_for_status()
+        sessions = resp.json()
+
+        if not sessions:
+            return {"user_id": user_id, "result": "no_sessions_found"}
+
+        # Delete each session
+        deleted = 0
+        for s in sessions:
+            sid = s.get("id", "")
+            if sid:
+                try:
+                    d = requests.delete(f"{endpoint}/{sid}", timeout=5)
+                    if d.status_code == 200:
+                        deleted += 1
+                except requests.exceptions.RequestException:
+                    pass
+
+        return {
+            "user_id": user_id,
+            "result": "session_restarted",
+            "sessions_cleared": deleted,
+            "message": "Your session has been refreshed."
+        }
+    except requests.exceptions.RequestException as e:
+        return {"error": "Unable to restart session.", "details": str(e)}
+
 
 def check_subscription(user_id: str) -> Dict[str, Any]:
-    """
-    Return subscription status (simulated).
-    """
+    """Check if user has active orders (inferred subscription from order history)."""
     if not user_id:
         return {"error": "user_id required"}
-    
-    print(f"User Id: {user_id}")
-    
-    fake_subs = {
-        "user_1": {"status": "active", "plan": "pro", "renewal": "2026-01-01"},
-        "user_2": {"status": "canceled", "plan": "free"}
-    }
 
-    sub = fake_subs.get(user_id)
-    if not sub:
-        return {"user_id": user_id, "status": "none"}
+    endpoint = f"{BACKEND_URL}/api/order"
+    try:
+        resp = requests.get(endpoint, timeout=5)
+        resp.raise_for_status()
+        all_orders = resp.json()
 
-    return {"user_id": user_id, "subscription": sub}
+        user_orders = [
+            o for o in all_orders
+            if o.get("userId") == user_id
+        ]
+
+        if not user_orders:
+            return {
+                "user_id": user_id,
+                "has_orders": False,
+                "order_count": 0,
+                "message": "No orders found for this account."
+            }
+
+        paid = [o for o in user_orders if o.get("status", "").lower() == "paid"]
+        return {
+            "user_id": user_id,
+            "has_orders": True,
+            "order_count": len(user_orders),
+            "paid_orders": len(paid),
+            "message": f"{len(user_orders)} order(s), {len(paid)} paid."
+        }
+    except requests.exceptions.RequestException as e:
+        return {"error": "Unable to check subscription.", "details": str(e)}

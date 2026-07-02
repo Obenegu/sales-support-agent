@@ -104,6 +104,10 @@ body {
   animation: slideUp 0.3s ease-out forwards;
 }
 
+.animate-shimmer {
+  animation: shimmer 1.6s ease-in-out infinite;
+}
+
 /* Skeleton shimmer */
 .skeleton {
   background: linear-gradient(

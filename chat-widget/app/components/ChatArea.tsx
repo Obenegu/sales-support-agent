@@ -177,7 +177,7 @@ export default function ChatArea({
       <div
         ref={chatContainerRef}
         onScroll={handleScroll}
-        className="flex-1 overflow-y-auto"
+        className="flex-1 overflow-y-auto mt-10"
       >
         <div className="max-w-3xl mx-auto px-4 py-6 md:px-6 lg:px-8">
           {loadingHistory ? (

@@ -14,7 +14,8 @@ from app.logs.logging_helper import log_error, log_info
 from app.schema.support_schema import support_schema
 from app.schema.memory_schema import memory_schema
 import time
-from services.RAG.rag_query import get_info_from_pdf
+from services.RAG.rag_query import rag_query, RAGQueryRequest
+from services.support.support_engine import diagnose_support_issue
 from app.tools.execute_tools import execute_tools
 from services.memory.working_memory import WorkingMemory
 from app.safety import sanitize_text, validate_input, logger
@@ -92,8 +93,6 @@ def build_model_preamble(memory: dict) -> str:
 mem0_memory = Mem0MemoryManager()
 
 working_mem = WorkingMemory()
-
-observation_content = "No observations"
 
 # ─── Production Retry Logic ─────────────────────────────────────────────────
 
@@ -313,7 +312,9 @@ async def _call_llm_with_retry(
     raise last_exc
 
 
-async def ai_chat(user_message, user_id, session_id):
+async def ai_chat(user_message, user_id, session_id, business_id: int = 1):
+    print(f"INFO: ai_client called business_id: {business_id}")
+    print(f"INFO: ai_client user_id: {user_id}")
 
     # Sanitize the user message
     raw = sanitize_text(user_message)
@@ -335,6 +336,80 @@ async def ai_chat(user_message, user_id, session_id):
     # ── Intent classification ─────────────────────────────────────────────────
     recent_for_intent = working_mem.load_history(session_id, user_id, last_n=6)
     intent = classify_intent(user_message, recent_for_intent)
+    log_info(f"Intent classified as: '{intent}' for message: '{user_message[:100]}'")
+
+    # ── Support intent → delegate to RAG pipeline (skip ReAct agent loop) ────
+    if intent == "support":
+        log_info("Support intent detected — routing to RAG pipeline")
+        rag_request = RAGQueryRequest(
+            businessId=business_id,
+            userId=user_id,
+            question=user_message
+        )
+        rag_result = await rag_query(rag_request)
+
+        # ── Extract the human-readable text from the RAG result ─────────────
+        # rag_query returns {"answer": {"short_answer": "...", ...}, "similarity": X}
+        # The inner answer is a dict from generate_strict_answer → unwrap it
+        if isinstance(rag_result, dict):
+            inner = rag_result.get("answer", rag_result)
+            if isinstance(inner, dict):
+                raw_answer = inner.get("short_answer", inner.get("answer", str(inner)))
+            else:
+                raw_answer = str(inner)
+        else:
+            raw_answer = str(rag_result)
+
+        # Fallback: if RAG has no info, try the support diagnosis engine
+        if not raw_answer or "don't have information" in str(raw_answer).lower():
+            diagnosis = diagnose_support_issue(user_message)
+            if diagnosis:
+                final_reply = str(diagnosis)
+                log_info(f"SUPPORT DIAGNOSIS FALLBACK: {final_reply[:200]}")
+            else:
+                final_reply = raw_answer or "I don't have information about that."
+        else:
+            final_reply = raw_answer
+
+        log_info(f"RAG SUPPORT REPLY: {final_reply[:200]}")
+
+        # ── Persist to all three memory layers ──────────────────────────────
+        # Redis (hot cache)
+        working_mem.add_message(session_id, user_id, "assistant", final_reply)
+
+        # PostgreSQL (durable) — use same key format as sales/general path
+        try:
+            all_messages = working_mem.load_full_history(session_id, user_id)
+            current_summary = working_mem.load_summary(session_id, user_id)
+            await memory.write(
+                user_id=user_id,
+                key=f"session:{session_id}:history",
+                value={"messages": all_messages},
+                summary=current_summary
+            )
+            log_info(f"Support session persisted to PostgreSQL for user {user_id}")
+        except Exception as e:
+            log_error(f"Failed to persist support session: {e}")
+
+        # mem0 (long-term)
+        try:
+            mem0_memory.mem0_add(
+                user_id=user_id,
+                namespace="business",
+                messages=[{"role": "user", "content": user_message},
+                          {"role": "assistant", "content": final_reply}],
+                metadata={"ts": time.time()}
+            )
+        except Exception as e:
+            log_error(f"Failed to save support reply to mem0: {e}")
+
+        # Summarization check
+        await maybe_summarize(session_id, user_id)
+
+        return normalize_output(final_reply, tool_used="rag_query", intent="support")
+
+    # ── Sales / General intent — continue with full ReAct agent loop ──────────
+    log_info(f"Entering ReAct agent loop — intent='{intent}', user_message='{user_message[:100]}'")
 
     # Save user message to mem0 (long-term preferences)
     try:
@@ -404,11 +479,17 @@ async def ai_chat(user_message, user_id, session_id):
 
     tools = types.Tool(function_declarations=combined_schema)
 
+    # ── Log the tool schema for debugging ─────────────────────────────────
+    tool_names_debug = [t.get("name", "?") for t in combined_schema]
+    log_info(f"Registered {len(tool_names_debug)} tools: {tool_names_debug}")
+
     config = types.GenerateContentConfig(
         tools=[tools],
         temperature=0.6,
         max_output_tokens=2096
     )
+
+    log_info(f"LLM config: temperature={config.temperature}, max_output_tokens={config.max_output_tokens}, tools={len(tool_names_debug)}")
 
 
 #     contents = [
@@ -428,7 +509,8 @@ async def ai_chat(user_message, user_id, session_id):
 
     all_tools_used = []
     max_itrs = 20
-    observation_texts= []
+    observation_texts = []
+    observation_content = "No observations"
     
     for i in range(max_itrs):
 
@@ -451,15 +533,41 @@ async def ai_chat(user_message, user_id, session_id):
         candidate = response.candidates[0]
         parts = candidate.content.parts if candidate.content else []
 
+        # ── Detailed logging of raw Gemini response ──────────────────────
+        finish_reason = getattr(candidate, 'finish_reason', 'UNKNOWN')
+        safety_ratings = getattr(candidate, 'safety_ratings', None)
+        if safety_ratings:
+            log_info(f"Safety ratings: {safety_ratings}")
 
-        # Append model's raw output to history
-        contents.append(types.Content(role="model", parts=parts))
+        parts_summary = []
+        for p_idx, p in enumerate(parts or []):
+            if p.function_call is not None:
+                parts_summary.append(f"[{p_idx}] function_call: {p.function_call.name}({p.function_call.args})")
+            elif p.text:
+                text_preview = p.text[:200] if p.text else "None"
+                parts_summary.append(f"[{p_idx}] text: {text_preview}")
+            else:
+                parts_summary.append(f"[{p_idx}] empty part (no text, no function_call)")
+
+        if not parts:
+            log_info(f"Step {i+1}: parts=EMPTY, finish_reason={finish_reason}, response.text={repr(response.text)}")
+        else:
+            log_info(f"Step {i+1}: {len(parts)} parts, finish_reason={finish_reason} | {'; '.join(parts_summary)}")
+
+        # Append model's raw output to history (skip if empty to avoid polluting context)
+        if parts:
+            contents.append(types.Content(role="model", parts=parts))
 
         # Check for function calls (can be multiple)
         function_calls = [p.function_call for p in (parts or []) if p.function_call is not None]
 
         if not function_calls:
-            log_info("No valid function calls detected this turn.")
+            log_info(
+                f"Step {i+1}: No valid function calls detected. "
+                f"response.text present: {response.text is not None}. "
+                f"finish_reason: {finish_reason}. "
+                f"Model returned text instead of calling a tool — possible prompt confusion or tool schema issue."
+            )
         else:
             log_info(f"Detected {len(function_calls)} function call(s): {[fc.name for fc in function_calls]}")
 
@@ -468,7 +576,7 @@ async def ai_chat(user_message, user_id, session_id):
         # ----------------------------------------
         if function_calls:
 
-            tool_names, tool_outputs = await execute_tools(function_calls, user_id, user_message)
+            tool_names, tool_outputs = await execute_tools(function_calls, user_id, user_message, business_id)
             all_tools_used.extend(tool_names)
 
             log_info(f"All Tool used: {all_tools_used}")
@@ -481,25 +589,53 @@ async def ai_chat(user_message, user_id, session_id):
 
             observation_content = "\n\n".join(observation_texts)
 
-            log_info(f"Observations per tool call: {observation_content}")
+            log_info(f"Observations per tool call: {observation_content[:500]}")
 
+            # ── Feed tool results back ──────────────────────────────────
+            # Append observations as a user-turn so Gemini sees the results
+            # in the next iteration of the ReAct loop.
             contents.append(
                 types.Content(
-                    role="model",
+                    role="user",
                     parts=[types.Part(text=observation_content)]
                 )
             )
+            log_info(f"Appended tool observations as role='user': {observation_content[:200]}...")
             # Continue the loop
             continue
 
         # No function calls → this should be the final response
-        final_reply = response.text.strip()
+        # Guard: response.text can be None if Gemini safety-filtered the output or returned empty
+        if response.text is None:
+            log_error(
+                f"Gemini returned empty text at step {i+1}. "
+                f"finish_reason={finish_reason}, "
+                f"parts_count={len(parts) if parts else 0}, "
+                f"parts_detail={'; '.join(parts_summary) if parts_summary else 'none'}"
+            )
+            # Try to extract any text from parts as fallback
+            text_parts = [p.text for p in (parts or []) if p.text]
+            if text_parts:
+                final_reply = "\n".join(text_parts).strip()
+                log_info(f"Fallback: extracted text from parts → {final_reply[:200]}")
+            else:
+                log_error(
+                    f"COMPLETE FAILURE at step {i+1}: No function calls, no text in parts, "
+                    f"response.text is None. finish_reason={finish_reason}. "
+                    f"Returning fallback response."
+                )
+                return normalize_output(
+                    "I'm here! How can I help you today?",
+                    ",".join(all_tools_used) if all_tools_used else "none",
+                    intent
+                )
+        else:
+            final_reply = response.text.strip()
 
         if not observation_texts:
-            observation_content = "No Observations"
+            observation_content = "No observations"
 
-        print(observation_content)
-
+        log_info(f"Task completion check — observation_content: {observation_content[:300] if observation_content else '(empty)'}")
 
         if not is_task_complete(final_reply, observation_content):
             log_error("Model stopped before completing task — forcing continuation")

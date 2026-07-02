@@ -13,62 +13,28 @@ sales_schema = [
     }, 
     {
         "name": "process_payment",
-        "description": "Process a customer payment by sending the order to the payment service.",
+        "description": "Process a customer payment by sending the cart to the payment service. Returns a checkout link.",
         "parameters": {
             "type": "object",
             "properties": {
+                "session_id": {
+                    "type": "string",
+                    "description": "Current session ID (used to load the real cart)"
+                },
+                "user_id": {
+                    "type": "string",
+                    "description": "ID of the user placing the order"
+                },
+                "order_id": {
+                    "type": "string",
+                    "description": "Unique order reference"
+                },
                 "amount": {
                     "type": "number",
                     "description": "Total amount to charge"
-                },
-                "order": {
-                    "type": "object",
-                    "description": "Order information",
-                    "properties": {
-                        "userId": {
-                            "type": "string",
-                            "description": "ID of the user placing the order"
-                        },
-                        "OrderId": {
-                            "type": "string",
-                            "description": "Unique order reference"
-                        },
-                        "status": {
-                            "type": "string",
-                            "description": "Delivery status",
-                            "default": "Not Delivered"
-                        },
-                        "items": {
-                            "type": "array",
-                            "description": "List of items in the cart",
-                            "items": {
-                                "type": "object",
-                                "properties": {
-                                    "Name": {
-                                        "type": "string",
-                                        "description": "Product name"
-                                    },
-                                    "Quantity": {
-                                        "type": "string",
-                                        "description": "Quantity ordered"
-                                    },
-                                    "Price": {
-                                        "type": "number",
-                                        "description": "Unit price"
-                                    },
-                                    "Color": {
-                                        "type": "string",
-                                        "description": "Product color"
-                                    }
-                                },
-                                "required": ["Name", "Quantity", "Price", "Color"]
-                            }
-                        }
-                    },
-                    "required": ["userId", "OrderId", "items"]
                 }
             },
-            "required": ["order", "amount"]
+            "required": ["session_id", "user_id", "order_id", "amount"]
         }
     },
     {
@@ -79,7 +45,7 @@ sales_schema = [
             "properties": {
                 "name": {
                     "type": "string",
-                    "description": "Exact or partial product name(must be a single word).",
+                    "description": "The product name to search for. Pass the best keyword (e.g. 'pen', 'samsung'). The search handles plurals and partial matches automatically.",
                 }
             },
             "required": ["name"]

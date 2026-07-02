@@ -256,7 +256,7 @@ function HomeInner() {
         onClose={() => setSidebarOpen(false)}
       />
 
-      <div className="flex flex-col flex-1 min-w-0 relative">
+      <div className="flex flex-col flex-1 min-w-0 relative pt-14">
         <TopNav
           onMenuClick={() => setSidebarOpen(true)}
           onNewChat={handleNewChat}

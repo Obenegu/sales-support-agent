@@ -29,6 +29,12 @@ services:
       context: .
       dockerfile: ./orchestrator/Dockerfile
     env_file: .env
+    environment:
+      - BACKEND_URL=http://backend:5132
+      - FRONTEND_URL=http://frontend:3000
+      - DATABASE_URL=postgresql://tabot:hello@db:5432/agent_memory
+      - ASYNC_DATABASE_URL=postgresql+asyncpg://tabot:hello@db:5432/agent_memory
+      - REDIS_URL=redis://redis:6379/0
     depends_on:
       db:
         condition: service_healthy
@@ -47,7 +53,7 @@ services:
       - PORT=5132
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=agent_memory;Username=tabot;Password=hello
-      - ORCHESTRATOR_URL=http://orchestrator:8000
+      - ORCHESTRATOR_URL=http://orchestrator:8000/api/ingest
     ports:
       - "5132:5132"
     depends_on:
@@ -62,6 +68,8 @@ services:
     build:
       context: ./chat-widget
       dockerfile: Dockerfile
+      args:
+        - NEXT_PUBLIC_BACKEND_URL=http://backend:5132
     environment:
       - NEXT_PUBLIC_BACKEND_URL=http://backend:5132
     ports:

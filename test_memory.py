@@ -3,7 +3,7 @@ import asyncio
 import os
 import asyncpg
 from dotenv import load_dotenv
-from openai import BaseModel
+from pydantic import BaseModel
 from services.memory.mem0_memory import Mem0MemoryManager
 # from services.memory.working_memory import WorkingMemory
 from services.classify_intent import classify_intent

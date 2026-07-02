@@ -49,21 +49,44 @@ namespace SalesSupportBackend.Controllers
 					: request.Message;
 			}
 
-			// --- Orchestrator call (disabled in maintenance) ---
-			// var payload = new { userId, message = request.Message, role = "user", sessionId = request.SessionId };
-			// var content = new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, "application/json");
-			// var client = _httpClientFactory.CreateClient();
-			// var response = await client.PostAsync($"{_orchestratorUrl}/api/chat", content);
-			// var responseText = await response.Content.ReadAsStringAsync();
-			// var chatResponse = JsonSerializer.Deserialize<AgentResponse>(responseText, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-
-			var newResponse = new ChatResponse
+			// --- Orchestrator call ---
+			ChatResponse newResponse;
+			try
 			{
-				Response = "We are sorry, we are under maintenance at the moment",
-				Intent = "general",
-				ToolUsed = "",
-				role = MessageRole.assistant
-			};
+				var payload = new { userId, message = request.Message, role = "user", sessionId = request.SessionId, businessId = 1 };
+				var content = new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, "application/json");
+				var client = _httpClientFactory.CreateClient();
+				var response = await client.PostAsync($"{_orchestratorUrl}/api/chat", content);
+				var responseText = await response.Content.ReadAsStringAsync();
+				var chatResponse = JsonSerializer.Deserialize<AgentResponse>(responseText, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+				newResponse = new ChatResponse
+				{
+					Response = chatResponse!.Response,
+					Intent = chatResponse.Intent,
+					ToolUsed = chatResponse.ToolUsed,
+					role = Enum.TryParse<MessageRole>(chatResponse.role, ignoreCase: true, out var parsedRole) ? parsedRole : MessageRole.assistant
+				};
+			}
+			catch (Exception ex)
+			{
+				// Fallback if orchestrator is unreachable
+				// (old hardcoded maintenance response kept below for reference)
+				// var newResponse = new ChatResponse
+				// {
+				// 	Response = "We are sorry, we are under maintenance at the moment",
+				// 	Intent = "general",
+				// 	ToolUsed = "",
+				// 	role = MessageRole.assistant
+				// };
+				newResponse = new ChatResponse
+				{
+					Response = "We are sorry, we are under maintenance at the moment",
+					Intent = "general",
+					ToolUsed = "",
+					role = MessageRole.assistant
+				};
+			}
 
 			// Save user message
 			_context.ChatLogs.Add(new ChatLog

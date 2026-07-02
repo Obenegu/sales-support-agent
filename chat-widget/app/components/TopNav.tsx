@@ -10,7 +10,7 @@ interface TopNavProps {
 
 export default function TopNav({ onMenuClick, onNewChat, currentTitle }: TopNavProps) {
   return (
-    <header className="sticky top-0 z-30 flex items-center justify-between h-14 px-3 md:px-4 border-b border-[var(--border-color)] bg-[var(--bg-primary)] backdrop-blur-xl">
+    <header className="fixed top-0 left-0 right-0 z-30 flex items-center justify-between h-14 px-3 md:px-4 border-b border-[var(--border-color)] bg-[var(--bg-primary)] backdrop-blur-xl">
       <div className="flex items-center gap-2">
         <button
           onClick={onMenuClick}

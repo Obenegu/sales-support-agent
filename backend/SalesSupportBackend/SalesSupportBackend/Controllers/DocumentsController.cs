@@ -1,7 +1,5 @@
-﻿
 namespace SalesSupportBackend.Controllers
 {
-	using Microsoft.AspNetCore.Authorization;
 	using Microsoft.AspNetCore.Mvc;
 	using System.IO;
 
@@ -21,7 +19,6 @@ namespace SalesSupportBackend.Controllers
 		}
 
 		[HttpPost("upload")]
-		//[Authorize] // require JWT
 		public async Task<IActionResult> Upload([FromForm] IFormFile file, [FromForm] int businessId)
 		{
 			if (file == null || file.Length == 0) return BadRequest("No file uploaded.");
@@ -31,54 +28,57 @@ namespace SalesSupportBackend.Controllers
 			var ext = Path.GetExtension(file.FileName).ToLowerInvariant();
 			if (!allowed.Contains(ext)) return BadRequest("Unsupported file type.");
 
-			// Save locally (or upload to blob storage here)
-			// for now (test) save locally but in prod use Blob storage (S3/Azure Blob)
+			// Save locally
 			var uploads = Path.Combine(_env.ContentRootPath, "uploads");
 			Directory.CreateDirectory(uploads);
 			var fileName = $"{Guid.NewGuid()}{ext}";
 			var filePath = Path.Combine(uploads, fileName);
 
-			using (var stream = System.IO.File.Create(filePath))
+			await using (var stream = System.IO.File.Create(filePath))
 			{
 				await file.CopyToAsync(stream);
 			}
 
-			// Call orchestrator ingestion endpoint
+			// Forward to orchestrator for ingestion (chunk → embed → pgvector)
+			var orchestratorUrl = Environment.GetEnvironmentVariable("ORCHESTRATOR_URL")
+				?? "http://host.docker.internal:8000/api/ingest";
+
 			var client = _httpFactory.CreateClient();
-			// Forward Authorization header to orchestrator
-			//if (Request.Headers.TryGetValue("Authorization", out var authHeader))
-			//{
-			//	client.DefaultRequestHeaders.Add("Authorization", (string)authHeader);
-			//}
+			string errorBody = "";
 
-			//var orchestratorUrl = Environment.GetEnvironmentVariable("ORCHESTRATOR_URL") ?? "http://127.0.0.1:8000/api/ingest";
-			//using var ms = new MemoryStream();
-			//using (var fs = System.IO.File.OpenRead(filePath))
-			//{
-			//	await fs.CopyToAsync(ms);
-			//}
-			//ms.Seek(0, SeekOrigin.Begin);
+			try
+			{
+				await using var ms = new MemoryStream();
+				await using (var fs = System.IO.File.OpenRead(filePath))
+				{
+					await fs.CopyToAsync(ms);
+				}
+				ms.Seek(0, SeekOrigin.Begin);
 
-			//var content = new MultipartFormDataContent();
-			//content.Add(new StreamContent(ms), "file", fileName);
-			//content.Add(new StringContent(businessId.ToString()), "businessId");
+				var content = new MultipartFormDataContent();
+				content.Add(new StreamContent(ms), "file", file.FileName);
+				content.Add(new StringContent(businessId.ToString()), "businessId");
 
-			//var res = await client.PostAsync(orchestratorUrl, content);
-			//if (!res.IsSuccessStatusCode)
-			//{
-			//	_logger.LogError("Orchestrator ingest failed: {Status} {Body}", res.StatusCode, await res.Content.ReadAsStringAsync());
-			//	return StatusCode(500, "Ingestion failed.");
-			//}
+				var res = await client.PostAsync(orchestratorUrl, content);
+				if (!res.IsSuccessStatusCode)
+				{
+					errorBody = await res.Content.ReadAsStringAsync();
+					_logger.LogError("Orchestrator ingest failed ({Status}): {Body}", res.StatusCode, errorBody);
+					return StatusCode(500, new { error = "File saved but ingestion failed.", details = errorBody });
+				}
+			}
+			catch (HttpRequestException ex)
+			{
+				_logger.LogError(ex, "Orchestrator unreachable at {Url}", orchestratorUrl);
+				return StatusCode(500, new { error = "File saved but orchestrator is unreachable — ingestion skipped.", details = ex.Message });
+			}
 
-			return Ok(new { message = "Uploaded and queued for ingestion." });
+			return Ok(new
+			{
+				message = "Uploaded and ingested successfully.",
+				fileName = file.FileName,
+				savedAs = fileName
+			});
 		}
 	}
-
-
-	public class DocumentUploadRequest
-	{
-		public IFormFile File { get; set; } = default!;
-		public int BusinessId { get; set; }
-	}
-
 }

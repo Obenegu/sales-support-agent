@@ -8,9 +8,22 @@ from datetime import datetime, timezone
 from models.cart_item import CartItem  
 
 
-r = redis.Redis(host="redis", port=6379, decode_responses=True)
-r.set('status', 'redid it works!')
-print(r.get('status'))
+import os
+from urllib.parse import urlparse
+
+# r = redis.Redis(host="redis", port=6379, decode_responses=True)
+# r.set('status', 'redid it works!')
+# print(r.get('status'))
+
+_redis_url = os.getenv("REDIS_URL", "redis://localhost:6379/0")
+_parsed = urlparse(_redis_url)
+r = redis.Redis(
+    host=_parsed.hostname or "localhost",
+    port=_parsed.port or 6379,
+    db=int(_parsed.path.lstrip("/") or 0),
+    password=_parsed.password or None,
+    decode_responses=True,
+)
 
 def now():
     return datetime.now(timezone.utc).isoformat()

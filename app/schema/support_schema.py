@@ -2,24 +2,26 @@
 support_schema = [
     {
         "name": "check_order_status",
-        "description": "Check the status of an order by order_id.",
+        "description": "Check the status of an order by order_id and user_id.",
         "parameters": {
             "type": "object",
             "properties": {
-                "order_id": {"type": "string"}
+                "order_id": {"type": "string"},
+                "user_id": {"type": "string"}
             },
-            "required": ["order_id"]
+            "required": ["order_id", "user_id"]
         }
     },
     {
         "name": "check_payment_status",
-        "description": "Check payment status for a given order_id.",
+        "description": "Check payment status for a given order_id and user_id.",
         "parameters": {
             "type": "object",
             "properties": {
-                "order_id": {"type": "string"}
+                "order_id": {"type": "string"},
+                "user_id": {"type": "string"}
             },
-            "required": ["order_id"]
+            "required": ["order_id", "user_id"]
         }
     },
     {
